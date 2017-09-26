@@ -1,6 +1,7 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
+import org.apache.bcel.generic.RETURN;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import java.util.Date;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.WebDriverRunner.*;
-
+import static com.rfqDemoOltatravel.NewQuotationPage.showAllPricesButton;
 
 
 public class BaseScenario1 {
@@ -86,40 +87,68 @@ public class BaseScenario1 {
         $(By.id("qbtn-create")).click();
         driver.switchTo().alert().sendKeys("PTestQuotation1");
         driver.switchTo().alert().accept();
-
         driver.switchTo().alert().sendKeys("PTestClient1");
         driver.switchTo().alert().accept();
 
+        NewQuotationPage newQuotationPage = new NewQuotationPage();
+        //Ждём пока страница прогрузится
+        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+        //Меняем колличество ночей на 3
+        $(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]")).click();
+        $(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]")).setValue("3");
+        $(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]")).pressEnter();
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
 
         //Добавляем новую дату, дата берётся "сегодня"
-        $(By.cssSelector("table[id=\"table-dates\"] a[class=\"qbtn qbtn-add\"]")).click();
-        $(By.cssSelector("table[id=\"table-dates\"] input[class=\"input-date hasDatepicker\"]")).click();
+        //Кликаем на кнопку Add
+        $(By.cssSelector(newQuotationPage.datesPeriodsAddButton)).click();
+        //Кликаем на поле для ввода даты
+        $(By.cssSelector(newQuotationPage.datesPeriodsInputField)).click();
+        //Получаем текущую дату
         Date nowDate = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
         System.out.println("Текущая дата " + formatForDateNow.format(nowDate));
-        $(By.cssSelector("table[id=\"table-dates\"] input[class=\"input-date hasDatepicker\"]")).setValue(formatForDateNow.format(nowDate));
-        $(By.cssSelector("table[id=\"table-dates\"] a[class=\"qbtn qbtn-save\"]")).click();
+        //Вводим дату в поле
+        $(By.cssSelector(newQuotationPage.datesPeriodsInputField)).setValue(formatForDateNow.format(nowDate));
+        //Кликаем кнопку сохранить
+        $(By.cssSelector(newQuotationPage.datesPeriodsSaveButton)).click();
 
         //$$(By.cssSelector("table[id=\"table-groups\"]"));
 
         //Добавляем новый Город
-        $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-add\"]")).click();
+        //Кликаем Add
+        $(By.cssSelector(newQuotationPage.cityAddButton)).click();
+        //Ждём появления меню
         $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
-        $(By.cssSelector("div[id=\"modal-cityselector\"] button[class=\"btn btn-default\"]")).isDisplayed();
-        $(By.cssSelector("div[id=\"modal-cityselector\"] button[class=\"btn btn-default\"]")).shouldHave(text("MSK")).click();
+        //Ждём появления кнопки MSK
+        $(By.cssSelector(newQuotationPage.cityNameButton)).isDisplayed();
+        //Кликаем по кнопке с MSK
+        $(By.cssSelector(newQuotationPage.cityNameButton)).shouldHave(text("MSK")).click();
+        //Ждём пока страница прогрузится
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
 
 
         //Считаем суммы для проверки
-        $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-showallprices\"]")).click();
-        String priceSGL = "";
-        priceSGL = $(By.cssSelector("table[id=\"table-accommodations\"] td[class=\"editable editable-accommodation-date-price-sgl priceSgl\"]")).getText();
-        System.out.println(priceSGL);
-
+        //Кликаем на кнопку Show All Prices
+        $(By.cssSelector(newQuotationPage.showAllPricesButton)).click();
+       
+        //Кликаем на кнопку prices
+        $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-prices\"]")).click();
+        //Ждём появления модального окна с ценами отеля
+        $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
+        //Сохраняем сумму дабл в переменную
         String priceDBL = "";
-        priceDBL = $(By.cssSelector("table[id=\"table-accommodations\"] td[class=\"editable editable-accommodation-date-price-dbl priceDbl\"]")).getText();
+        priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
         System.out.println(priceDBL);
+        Double priceDBLD = Double.valueOf(priceDBL);
+        System.out.println(priceDBLD);
+        //Закрываем модальное окно
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+
+
+
+        //
 
         //$();
 

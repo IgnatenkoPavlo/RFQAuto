@@ -1,57 +1,22 @@
 package com.rfqDemoOltatravel;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 public class NewQuotationPage {
 
-    private WebDriver webDriver;
-    private WebDriverWait wait;
 
-    @FindBy(css = "div[id=\"quotation\"] button[id=\"qbtn-duplicate\"]")
-    WebElement quotationDuplicateButton;
+    public static final String quotationDuplicateButton = "";
 
-    @FindBy(css = "table[id=\"table-dates\"] a[class=\"qbtn qbtn-add\"]")
-    WebElement datesPeriodsAddButton;
+    //Таблица Dates
+    public static final String datesPeriodsAddButton = "table[id=\"table-dates\"] a[class=\"qbtn qbtn-add\"]";
+    public static final String datesPeriodsInputField = "table[id=\"table-dates\"] input[class=\"input-date hasDatepicker\"]";
+    public static final String datesPeriodsSaveButton = "table[id=\"table-dates\"] a[class=\"qbtn qbtn-save\"]";
 
-    @FindBy(css = "table[id=\"table-dates\"] input[class=\"input-date hasDatepicker\"]")
-    WebElement datesPeriodsInputField;
 
-    @FindBy(css = "table[id=\"table-dates\"] a[class=\"qbtn qbtn-save\"]")
-    WebElement datesPeriodsSaveButton;
+    //Taблица Accommodations
+    public static final String cityAddButton = "table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-add\"]";
+    public static final String showAllPricesButton = "table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-showallprices\"]";
 
-    public NewQuotationPage(WebDriver driver){
 
-        webDriver = driver;
-        wait = new WebDriverWait(webDriver, 30);
-
-        PageFactory.initElements(webDriver, this);
-
-    }
-
-    public void SetAddNewDates(String dateForQuotation) {
-
-        wait.until(ExpectedConditions.visibilityOf(datesPeriodsAddButton));
-        wait.until(ExpectedConditions.elementToBeClickable(datesPeriodsAddButton));
-
-        datesPeriodsAddButton.click();
-
-        wait.until(ExpectedConditions.visibilityOf(datesPeriodsInputField));
-        wait.until(ExpectedConditions.elementToBeClickable(datesPeriodsInputField));
-
-        datesPeriodsInputField.click();
-        datesPeriodsInputField.clear();
-        datesPeriodsInputField.sendKeys(dateForQuotation);
-        datesPeriodsInputField.click();
-
-        datesPeriodsSaveButton.click();
-
-    }
+    //Попап добавления городов
+    public static final String cityNameButton = "div[id=\"modal-cityselector\"] button[class=\"btn btn-default\"]";
 }
