@@ -148,8 +148,77 @@ public class BaseScenario1 {
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
 
 
-        $(By.xpath("//div[@id=\"program\"]//div[@class=\"days\"]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
-        Double programFor15, programFor20, programFor25 = 0.0;
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+        Double programFor15 = 0.0;
+        Double programFor20 = 0.0;
+        Double programFor25 = 0.0;
+        //$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][3]//tr[@class=\"service\"][2]"));
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[1]//span[@class=\"sum\"]")).getText());
+        programFor15 = programFor15 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[1]//span[@class=\"sum\"]")).getText());
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[2]//span[@class=\"sum\"]")).getText());
+        programFor20 = programFor20 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[2]//span[@class=\"sum\"]")).getText());
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[3]//span[@class=\"sum\"]")).getText());
+        programFor25 = programFor25 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[3]//span[@class=\"sum\"]")).getText());
+        System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
+
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[1]//span[@class=\"sum\"]")).getText());
+        programFor15 = programFor15 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][2]//td[@class=\"featureds\"]//tbody//tr[1]//span[@class=\"sum\"]")).getText());
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[2]//span[@class=\"sum\"]")).getText());
+        programFor20 = programFor20 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][2]//td[@class=\"featureds\"]//tbody//tr[2]//span[@class=\"sum\"]")).getText());
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[3]//span[@class=\"sum\"]")).getText());
+        programFor25 = programFor25 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][2]//td[@class=\"featureds\"]//tbody//tr[3]//span[@class=\"sum\"]")).getText());
+        System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
+
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[1]//span[@class=\"sum\"]")).getText());
+        programFor15 = programFor15 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][3]//td[@class=\"featureds\"]//tbody//tr[1]//span[@class=\"sum\"]")).getText());
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[2]//span[@class=\"sum\"]")).getText());
+        programFor20 = programFor20 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][3]//td[@class=\"featureds\"]//tbody//tr[2]//span[@class=\"sum\"]")).getText());
+
+        //System.out.println($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][1]//td[@class=\"featureds\"]//tbody//tr[3]//span[@class=\"sum\"]")).getText());
+        programFor25 = programFor25 +
+                Double.valueOf($(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tr[@class=\"service\"][3]//td[@class=\"featureds\"]//tbody//tr[3]//span[@class=\"sum\"]")).getText());
+        System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
+
+
+
+
+        /*$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][2]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][2]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][2]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][2]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
+
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][3]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][3]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][3]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][3]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][4]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][4]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][4]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo();
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][4]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();*/
 
 
 
