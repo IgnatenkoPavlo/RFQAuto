@@ -15,7 +15,7 @@ import java.util.Date;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.WebDriverRunner.*;
-import static com.rfqDemoOltatravel.NewQuotationPage.showAllPricesButton;
+import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
 
 public class BaseScenario1 {
@@ -91,6 +91,7 @@ public class BaseScenario1 {
         driver.switchTo().alert().accept();
 
         NewQuotationPage newQuotationPage = new NewQuotationPage();
+
         //Ждём пока страница прогрузится
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
 
@@ -102,23 +103,23 @@ public class BaseScenario1 {
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Кликаем на кнопку Add
-        $(By.cssSelector(newQuotationPage.datesPeriodsAddButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.addButton)).click();
         //Кликаем на поле для ввода даты
-        $(By.cssSelector(newQuotationPage.datesPeriodsInputField)).click();
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).click();
         //Получаем текущую дату
         Date nowDate = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
         System.out.println("Текущая дата " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
-        $(By.cssSelector(newQuotationPage.datesPeriodsInputField)).setValue(formatForDateNow.format(nowDate));
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(newQuotationPage.datesPeriodsSaveButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.saveButton)).click();
 
         //$$(By.cssSelector("table[id=\"table-groups\"]"));
 
         //Добавляем новый Город
         //Кликаем Add
-        $(By.cssSelector(newQuotationPage.cityAddButton)).click();
+        $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
         $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
         //Ждём появления кнопки MSK
@@ -131,7 +132,7 @@ public class BaseScenario1 {
 
         //Считаем суммы для проверки
         //Кликаем на кнопку Show All Prices
-        $(By.cssSelector(newQuotationPage.showAllPricesButton)).click();
+        $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
        
         //Кликаем на кнопку prices
         $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-prices\"]")).click();
@@ -145,6 +146,10 @@ public class BaseScenario1 {
         System.out.println(priceDBLD);
         //Закрываем модальное окно
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+
+
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"days\"]//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+        Double programFor15, programFor20, programFor25 = 0.0;
 
 
 

@@ -7,14 +7,25 @@ public class NewQuotationPage {
     public static final String quotationDuplicateButton = "";
 
     //Таблица Dates
-    public static final String datesPeriodsAddButton = "table[id=\"table-dates\"] a[class=\"qbtn qbtn-add\"]";
-    public static final String datesPeriodsInputField = "table[id=\"table-dates\"] input[class=\"input-date hasDatepicker\"]";
-    public static final String datesPeriodsSaveButton = "table[id=\"table-dates\"] a[class=\"qbtn qbtn-save\"]";
+    public static class DatesPeriodsTable {
+
+        public static final String datesPeriodsTable = "table[id=\"table-dates\"] ";
+
+        public static final String addButton = datesPeriodsTable + "a[class=\"qbtn qbtn-add\"]";
+        public static final String newDateInputField = datesPeriodsTable + "input[class=\"input-date hasDatepicker\"]";
+        public static final String saveButton = datesPeriodsTable + "a[class=\"qbtn qbtn-save\"]";
+    }
 
 
     //Taблица Accommodations
-    public static final String cityAddButton = "table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-add\"]";
-    public static final String showAllPricesButton = "table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-showallprices\"]";
+    public static class AccomodationsTable{
+
+        public static final String accomodationsTable = "table[id=\"table-accommodations\"] ";
+
+        public static final String addButton = accomodationsTable + "a[class=\"qbtn qbtn-add\"]";
+        public static final String showAllPricesButton = accomodationsTable + "a[class=\"qbtn qbtn-showallprices\"]";
+
+    }
 
 
     //Попап добавления городов
