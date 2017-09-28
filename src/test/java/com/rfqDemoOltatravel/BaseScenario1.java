@@ -97,11 +97,11 @@ public class BaseScenario1 {
 
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"rub_usd_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]")).getText());
-        System.out.println(rubUsd);
+        //System.out.println(rubUsd);
 
         Double generalMarge = 0.0;
         generalMarge = Double.valueOf(($(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"general_marge\"] td[class=\"value editable editable-quotatoin-option-value\"]")).getText()).replace(',', '.'));
-        System.out.println(generalMarge);
+        //System.out.println(generalMarge);
 
 
         //Меняем колличество ночей на 3
@@ -118,7 +118,7 @@ public class BaseScenario1 {
         //Получаем текущую дату
         Date nowDate = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
+        //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
@@ -153,7 +153,7 @@ public class BaseScenario1 {
         //System.out.println(priceDBL);
         Double priceDBLD = Double.valueOf(priceDBL);
         priceDBLD = priceDBLD / 2;
-        System.out.println(priceDBLD);
+        //System.out.println(priceDBLD);
         //Закрываем модальное окно
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
 
@@ -202,43 +202,69 @@ public class BaseScenario1 {
 
         String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
         hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
-        System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
+        //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
         String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println("Таблица Hotels (WE) w/o margin содержит верные значения");
+            System.out.println("Таблица Hotels (WE) w/o margin содержит верные значения +");
         }
         else System.out.println("Таблица Hotels (WE) w/o margin содержит неверные значения: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + "+");
+                + priceDBLDS + " не равен " + hotelsWE15womS + "-");
 
 
-        Double hotelsWE15wom = 0.0;
+        /*Double hotelsWE15wom = 0.0;
         hotelsWE15wom = priceDBLD;
-        System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));*/
 
 
-
-        Double hotelsWE15 = 0.0;
-        hotelsWE15 = priceDBLD;
-        hotelsWE15 = hotelsWE15 / rubUsd;
-        hotelsWE15 = hotelsWE15 / generalMarge;
-        System.out.println("Hotels WE 15: " + (new BigDecimal(hotelsWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        Double hotelsWE = 0.0;
+        hotelsWE = priceDBLD;
+        hotelsWE = hotelsWE / rubUsd;
+        hotelsWE = hotelsWE / generalMarge;
+        String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        String hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        hotelsWER = hotelsWER.substring(1, hotelsWER.length());
+        if(hotelsWES.equals(hotelsWER)) {
+            System.out.println("Таблица Hotels (WE) содержит верные значения +");
+        }
+        else System.out.println("Таблица Hotels (WE) содержит неверные значения: "
+                + hotelsWES + " не равен " + hotelsWER + "-");
 
 
         Double services15 = 0.0;
         services15 = programFor15;
         services15 = services15 / rubUsd;
         services15 = services15 / generalMarge;
-        System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        //System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        String services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        services15S = services15S.substring(1, services15S.length());
+        if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println("Таблица Services содержит верные значения +");
+        }
+        else System.out.println("Таблица Services содержит неверные значения: "
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+
 
 
         Double totalWE15 = 0.0;
         totalWE15 = priceDBLD + programFor15;
         totalWE15 = totalWE15 / rubUsd;
         totalWE15 = totalWE15 / generalMarge;
-        System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        String totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        totalWE15S = totalWE15S.substring(1, totalWE15S.length());
+        if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println("Таблица Totals (WE) содержит верные значения +");
+        }
+        else System.out.println("Таблица Totals (WE) содержит неверные значения: "
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
 
-        Double totalWE20 = 0.0;
+
+        /*Double totalWE20 = 0.0;
         totalWE20 = priceDBLD + programFor20;
         totalWE20 = totalWE20 / rubUsd;
         totalWE20 = totalWE20 / generalMarge;
@@ -248,7 +274,7 @@ public class BaseScenario1 {
         totalWE25 = priceDBLD + programFor20;
         totalWE25 = totalWE25 / rubUsd;
         totalWE25 = totalWE25 / generalMarge;
-        System.out.println("Total WE 35: " + new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue());
+        System.out.println("Total WE 35: " + new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue());*/
 
 
     }
