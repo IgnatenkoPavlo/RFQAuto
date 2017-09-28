@@ -209,7 +209,7 @@ public class BaseScenario1 {
             System.out.println("Таблица Hotels (WE) w/o margin содержит верные значения");
         }
         else System.out.println("Таблица Hotels (WE) w/o margin содержит неверные значения: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + "-");
+                + priceDBLDS + " не равен " + hotelsWE15womS + "+");
 
 
         Double hotelsWE15wom = 0.0;
