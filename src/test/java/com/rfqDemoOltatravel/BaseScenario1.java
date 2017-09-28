@@ -73,9 +73,6 @@ public class BaseScenario1 {
         waitForPageToLoad();
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
 
-       /* //Открываем Quotation приложение
-        $(By.cssSelector("a[href=\"/application/olta.quotation\"]")).click();*/
-
 
         //Открываем Quotation приложение
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
@@ -121,7 +118,7 @@ public class BaseScenario1 {
         //Получаем текущую дату
         Date nowDate = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println("Текущая дата " + formatForDateNow.format(nowDate));
+        System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
@@ -153,7 +150,7 @@ public class BaseScenario1 {
         //Сохраняем сумму дабл в переменную
         String priceDBL = "";
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
-        System.out.println(priceDBL);
+        //System.out.println(priceDBL);
         Double priceDBLD = Double.valueOf(priceDBL);
         priceDBLD = priceDBLD / 2;
         System.out.println(priceDBLD);
@@ -190,7 +187,7 @@ public class BaseScenario1 {
 
             $(By.xpath(ProgrammSection.GetADay(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
         }
-        System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
+        //System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
 
 
         //Запускаем Расчёт
@@ -203,14 +200,22 @@ public class BaseScenario1 {
                 );*/
         $(By.id("table-result-hotels-wo-margin-we")).scrollTo();
 
-        //System.out.println(Double.valueOf($(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td[1]")).getValue()));
-        //System.out.println(new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
+        String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
+        hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
+        System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
+        String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
+        if(priceDBLDS.equals(hotelsWE15womS)) {
+            System.out.println("Таблица Hotels (WE) w/o margin содержит верные значения");
+        }
+        else System.out.println("Таблица Hotels (WE) w/o margin содержит неверные значения: "
+                + priceDBLDS + " не равен " + hotelsWE15womS + "-");
+
 
         Double hotelsWE15wom = 0.0;
         hotelsWE15wom = priceDBLD;
-        //hotelsWE15wom = hotelsWE15wom / rubUsd;
-       // hotelsWE15wom = hotelsWE15wom / generalMarge;
         System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));
+
 
 
         Double hotelsWE15 = 0.0;
