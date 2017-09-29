@@ -265,7 +265,7 @@ public class BaseScenario1 {
 
 
         /*Double totalWE20 = 0.0;
-        totalWE20 = priceDBLD + programFor20;
+        totalWE20 = priceDBLD + programFor20;jhjh
         totalWE20 = totalWE20 / rubUsd;
         totalWE20 = totalWE20 / generalMarge;
         System.out.println("Total WE 20: " + new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue());
