@@ -61,31 +61,37 @@ public class BaseScenario1 {
     @Test
     public void scenario1() {
         WebDriverRunner.setWebDriver(driver);
+        System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         waitForPageToLoad();
+        System.out.println(" - Готово");
 
         //Вводим логин с паролем и кликаем Логин
-        System.out.println("[-] Вводим логин с паролем и кликаем Логин");
+        System.out.print("[-] Вводим логин с паролем и кликаем Логин");
         $(By.id("username")).setValue("pavel.sales");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
+        System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         waitForPageToLoad();
-        System.out.println("[-] Ждём прогрузку...");
+        System.out.print("[-] Ждём прогрузку...");
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
 
 
         //Открываем Quotation приложение
-        System.out.println("[-] Открываем Quotation приложение");
+        System.out.print("[-] Открываем Quotation приложение");
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         waitForPageToLoad();
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
 
         //Ждём доступности "Create New Quotation"
-        System.out.println("[-] Ждём доступности кнопки Create New Quotation");
+        System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).isDisplayed();
+        System.out.println(" - Готово");
 
         //Создаём новый Quotation
         System.out.println("[-] Создаём новый Quotation:");
@@ -100,8 +106,9 @@ public class BaseScenario1 {
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
-        System.out.println("[-] Ждём прогрузку...");
+        System.out.print("[-] Ждём прогрузку...");
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
 
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"rub_usd_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]")).getText());
@@ -113,19 +120,21 @@ public class BaseScenario1 {
 
 
         //Меняем колличество ночей на 3
-        System.out.println("[-] Меняем количество ночей на 3");
+        System.out.print("[-] Меняем количество ночей на 3");
         $(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]")).click();
         $(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]")).setValue("3");
         $(By.cssSelector("table[id=\"table-options\"] tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]")).pressEnter();
+        System.out.println(" - Готово");
 
+        System.out.print("[-] Ждём прогрузку...");
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println("[-] Ждём прогрузку...");
+        System.out.println(" - Готово");
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
         Date nowDate = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println("[-] Добавляем новую дату: " + formatForDateNow.format(nowDate));
+        System.out.print("[-] Добавляем новую дату: " + formatForDateNow.format(nowDate));
         //Кликаем на кнопку Add
         $(By.cssSelector(DatesPeriodsTable.addButton)).click();
         //Кликаем на поле для ввода даты
@@ -136,11 +145,12 @@ public class BaseScenario1 {
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(DatesPeriodsTable.saveButton)).click();
+        System.out.println(" - Готово");
 
         //$$(By.cssSelector("table[id=\"table-groups\"]"));
 
         //Добавляем новый Город
-        System.out.println("[-] Добавляем город: MSK");
+        System.out.print("[-] Добавляем город: MSK");
         //Кликаем Add
         $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
@@ -149,14 +159,16 @@ public class BaseScenario1 {
         $(By.cssSelector(newQuotationPage.cityNameButton)).isDisplayed();
         //Кликаем по кнопке с MSK
         $(By.cssSelector(newQuotationPage.cityNameButton)).shouldHave(text("MSK")).click();
+        System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
-        System.out.println("[-] Ждём прогрузку...");
+        System.out.print("[-] Ждём прогрузку...");
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
 
 
         //Считаем суммы для проверки
-        System.out.println("[-] Считаваем поле Sum в столбце Price DBL");
+        System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
         //Кликаем на кнопку Show All Prices
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
        
@@ -173,6 +185,7 @@ public class BaseScenario1 {
         //System.out.println(priceDBLD);
         //Закрываем модальное окно
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        System.out.println(" - Готово");
 
 
         Double programFor15 = 0.0;
@@ -180,7 +193,7 @@ public class BaseScenario1 {
         Double programFor25 = 0.0;
 
         //Считаем суммы для 3-х групп: 15, 20, 25
-        System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
+        System.out.print("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         for (int dayCounter = 1; dayCounter <= 4; dayCounter++) {
 
             $(By.xpath(ProgrammSection.GetADay(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
@@ -206,14 +219,17 @@ public class BaseScenario1 {
             $(By.xpath(ProgrammSection.GetADay(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
         }
         //System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
+        System.out.println(" - Готово");
 
 
         //Запускаем Расчёт
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo();
         $(By.id("qbtn-execute")).click();
+        System.out.print("    Ждём прогрузку...");
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println("[-] Ждём прогрузку...");
+        System.out.println(" - Готово");
+
 
         //Сравниваем цену за номер
         /*Assert.assertEquals(new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue(),
