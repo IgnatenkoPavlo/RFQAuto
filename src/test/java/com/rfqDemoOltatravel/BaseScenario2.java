@@ -1,7 +1,9 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
+import org.apache.bcel.generic.RETURN;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -18,10 +20,8 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.WebDriverRunner.*;
 import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
-
-public class BaseScenario1 {
-
-   public ChromeDriver driver;
+public class BaseScenario2 {
+    public ChromeDriver driver;
 
     public void waitForPageToLoad() {
         JavascriptExecutor js = driver;
@@ -57,7 +57,7 @@ public class BaseScenario1 {
     }
 
     @Test
-    public void scenario1() {
+    public void scenario2() {
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
@@ -128,6 +128,11 @@ public class BaseScenario1 {
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(" - Готово");
 
+        Double registrationFeeForSPB = 0.0;
+        String t = "";
+        t=$(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText();
+
+
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
         Date nowDate = new Date();
@@ -147,16 +152,35 @@ public class BaseScenario1 {
 
         //$$(By.cssSelector("table[id=\"table-groups\"]"));
 
-        //Добавляем новый Город
+        //Добавляем новый Город MSK
         System.out.print("[-] Добавляем город: MSK");
         //Кликаем Add
         $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.cssSelector("div[id=\"modal-cityselector\"] div[class=\"modal-dialog\"]")).isDisplayed();
-        //Ждём появления кнопки MSK
         $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldHave(text("MSK")).click();
+        System.out.println(" - Готово");
+
+        //Изменяем количество дней в MSK на 2
+        $(By.cssSelector(AccomodationsTable.accomodationsTable)).scrollTo();
+        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
+        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2");
+        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).pressEnter();
+        driver.switchTo().alert().accept();
+
+        System.out.print("[-] Ждём прогрузку...");
+        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
+
+        //Добавляем новый Город SPB
+        System.out.print("[-] Добавляем город: SPB");
+        //Кликаем Add
+        $(By.cssSelector(AccomodationsTable.addButton)).click();
+        //Ждём появления меню
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        //Ждём появления кнопки SPB
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
         System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
@@ -166,10 +190,10 @@ public class BaseScenario1 {
 
 
         //Считаем суммы для проверки
-        System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
+        /*System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
         //Кликаем на кнопку Show All Prices
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
-       
+
         //Кликаем на кнопку prices
         $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-prices\"]")).click();
         //Ждём появления модального окна с ценами отеля
@@ -232,7 +256,7 @@ public class BaseScenario1 {
         //Сравниваем цену за номер
         /*Assert.assertEquals(new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue(),
                 );*/
-        System.out.println("[-] Проверяем результаты расчёта:");
+        /*System.out.println("[-] Проверяем результаты расчёта:");
         $(By.id("table-result-hotels-wo-margin-we")).scrollTo();
 
         String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
@@ -244,7 +268,7 @@ public class BaseScenario1 {
             System.out.println("    Таблица Hotels (WE) w/o margin содержит верные значения +");
         }
         else System.out.println("    Таблица Hotels (WE) w/o margin содержит неверные значения: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + "-");
+                + priceDBLDS + " не равен " + hotelsWE15womS + "-");*/
 
 
         /*Double hotelsWE15wom = 0.0;
@@ -252,7 +276,7 @@ public class BaseScenario1 {
         System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));*/
 
 
-        Double hotelsWE = 0.0;
+        /*Double hotelsWE = 0.0;
         hotelsWE = priceDBLD;
         hotelsWE = hotelsWE / rubUsd;
         hotelsWE = hotelsWE / generalMarge;
@@ -265,10 +289,10 @@ public class BaseScenario1 {
             System.out.println("    Таблица Hotels (WE) содержит верные значения +");
         }
         else System.out.println("    Таблица Hotels (WE) содержит неверные значения: "
-                + hotelsWES + " не равен " + hotelsWER + "-");
+                + hotelsWES + " не равен " + hotelsWER + "-");*/
 
 
-        Double services15 = 0.0;
+        /*Double services15 = 0.0;
         services15 = programFor15;
         services15 = services15 / rubUsd;
         services15 = services15 / generalMarge;
@@ -280,11 +304,11 @@ public class BaseScenario1 {
             System.out.println("    Таблица Services содержит верные значения +");
         }
         else System.out.println("    Таблица Services содержит неверные значения: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");*/
 
 
 
-        Double totalWE15 = 0.0;
+        /*Double totalWE15 = 0.0;
         totalWE15 = priceDBLD + programFor15;
         totalWE15 = totalWE15 / rubUsd;
         totalWE15 = totalWE15 / generalMarge;
@@ -296,7 +320,7 @@ public class BaseScenario1 {
             System.out.println("    Таблица Totals (WE) содержит верные значения +");
         }
         else System.out.println("    Таблица Totals (WE) содержит неверные значения: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");*/
 
 
         /*Double totalWE20 = 0.0;
@@ -314,10 +338,10 @@ public class BaseScenario1 {
 
     }
 
-   @After
+    @After
     public void close() {
 
-       driver.quit();
+        driver.quit();
     }
 
 }
