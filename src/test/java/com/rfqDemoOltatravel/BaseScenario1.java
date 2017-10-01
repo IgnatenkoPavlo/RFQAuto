@@ -191,36 +191,53 @@ public class BaseScenario1 {
         Double programFor25 = 0.0;
 
         //Считаем суммы для 3-х групп: 15, 20, 25
-        System.out.print("[-] Считаем суммы для 3-х групп: 15, 20, 25");
-        for (int dayCounter = 1; dayCounter <= 4; dayCounter++) {
+        System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
+        int dayCounterMax = 3 + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - считаем для дня номер "+ dayCounter);
+            //int cityCounterMax = Integer.valueOf($(By.xpath("//div[@class=\"cities\"]//div[@class=\"city\"][last()]")).attr("data-city-id"));
+            int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
 
-            $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
-            $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
 
-            for (int serviceCounter = 1; serviceCounter <= 3; serviceCounter++) {
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(1) + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                        + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
-                programFor15 = programFor15 +
-                        Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(1)
-                                + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                                + ProgrammSection.GetSumForUnitREG(1))).getText());
+                int serviceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
 
-                programFor20 = programFor20 +
-                        Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(1)
-                                + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                                + ProgrammSection.GetSumForUnitREG(2))).getText());
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
 
-                programFor25 = programFor25 +
-                        Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(1)
-                                + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                                + ProgrammSection.GetSumForUnitREG(3))).getText());
+                    programFor15 = programFor15 +
+                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(1))).getText());
 
+                    programFor20 = programFor20 +
+                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(2))).getText());
+
+                    programFor25 = programFor25 +
+                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(3))).getText());
+                }
+
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
             }
+            System.out.println(" - готово");
 
-            $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
+
         }
         //System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
-        System.out.println(" - Готово");
+        System.out.println("[-] Суммы за Services посчитаны");
 
 
         //Запускаем Расчёт
@@ -244,9 +261,9 @@ public class BaseScenario1 {
         String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println("    Таблица Hotels (WE) w/o margin содержит верные значения +");
+            System.out.println("      -  Таблица Hotels (WE) w/o margin содержит верные значения +");
         }
-        else System.out.println("    Таблица Hotels (WE) w/o margin содержит неверные значения: "
+        else System.out.println("      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
                 + priceDBLDS + " не равен " + hotelsWE15womS + "-");
 
 
@@ -265,9 +282,9 @@ public class BaseScenario1 {
         String hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWES.equals(hotelsWER)) {
-            System.out.println("    Таблица Hotels (WE) содержит верные значения +");
+            System.out.println("      -  Таблица Hotels (WE) содержит верные значения +");
         }
-        else System.out.println("    Таблица Hotels (WE) содержит неверные значения: "
+        else System.out.println("      -  Таблица Hotels (WE) содержит неверные значения: "
                 + hotelsWES + " не равен " + hotelsWER + "-");
 
 
@@ -280,9 +297,9 @@ public class BaseScenario1 {
         String services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(1, services15S.length());
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println("    Таблица Services содержит верные значения +");
+            System.out.println("      -  Таблица Services содержит верные значения +");
         }
-        else System.out.println("    Таблица Services содержит неверные значения: "
+        else System.out.println("      -  Таблица Services содержит неверные значения: "
                 + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
 
 
@@ -296,9 +313,9 @@ public class BaseScenario1 {
         String totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(1, totalWE15S.length());
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println("    Таблица Totals (WE) содержит верные значения +");
+            System.out.println("      -  Таблица Totals (WE) содержит верные значения +");
         }
-        else System.out.println("    Таблица Totals (WE) содержит неверные значения: "
+        else System.out.println("      -  Таблица Totals (WE) содержит неверные значения: "
                 + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
 
 

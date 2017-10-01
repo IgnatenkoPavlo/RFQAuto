@@ -6,6 +6,7 @@ public class NewQuotationPage {
 
     public static final String quotationDuplicateButton = "";
 
+
     //Таблица Options
     public static class OptionsTable {
 
