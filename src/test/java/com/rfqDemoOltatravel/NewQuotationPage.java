@@ -53,10 +53,23 @@ public class NewQuotationPage {
     //Таблица Programm
     public static class ProgrammSection {
 
-        public static String GetADayREG(int dayCounter) {
+        public static String GetADayByNumberREG(int dayCounter) {
 
-            String result = "";
-            result = "//div[@id=\"program\"]//div[@class=\"day\"][" + String.valueOf(dayCounter) + "]";
+            String result = "//div[@id=\"program\"]//div[@class=\"day\"][" + String.valueOf(dayCounter) + "]";
+
+            return result;
+        }
+
+        public static String GetACityByNumberREG(int cityCounter) {
+
+            String result = "//div[@class=\"cities\"]//div[@class=\"city\"]["+ String.valueOf(cityCounter) +"]";
+
+            return result;
+        }
+
+        public static String GetAServiceByNumberREG(int serviceCounter) {
+
+            String result = "//table//tbody[@class=\"main\"]//tr[" + String.valueOf(serviceCounter) + "]";
 
             return result;
         }

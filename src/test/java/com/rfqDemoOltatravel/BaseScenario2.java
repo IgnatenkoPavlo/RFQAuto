@@ -1,9 +1,7 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
-import org.apache.bcel.generic.RETURN;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -118,9 +116,10 @@ public class BaseScenario2 {
 
 
         //Меняем колличество ночей на 3
-        System.out.print("[-] Меняем количество ночей на 3");
+        final int nightNumber = 3;
+        System.out.print("[-] Меняем количество ночей на " + nightNumber);
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        $(By.cssSelector(OptionsTable.numberOfNights)).setValue("3");
+        $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightNumber));
         $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
         System.out.println(" - Готово");
 
@@ -128,9 +127,8 @@ public class BaseScenario2 {
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(" - Готово");
 
-        Double registrationFeeForSPB = 0.0;
-        String t = "";
-        t=$(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText();
+        //Сохраняем значение комиссии за бронь в SPB
+        Double registrationFeeForSPB = Double.valueOf($(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText());
 
 
         //Добавляем новую дату, дата берётся "сегодня"
@@ -188,25 +186,73 @@ public class BaseScenario2 {
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(" - Готово");
 
+        //Переходим к 3-му дню
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(3))).scrollTo();
+
+        //Удаляем обед в MSK
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
+        driver.switchTo().alert().accept();
+
+        System.out.print("[-] Ждём прогрузку...");
+        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
+
+        //Удаляем ужин в MSK
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
+        driver.switchTo().alert().accept();
+
+        System.out.print("[-] Ждём прогрузку...");
+        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
+
+        //Удаляем завтрак в SPB
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(2) +
+                ProgrammSection.GetAServiceByNumberREG(1) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
+        driver.switchTo().alert().accept();
+
+        System.out.print("[-] Ждём прогрузку...");
+        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
 
         //Считаем суммы для проверки
-        /*System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
+        System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
         //Кликаем на кнопку Show All Prices
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
 
-        //Кликаем на кнопку prices
-        $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-prices\"]")).click();
+        String priceDBL = "";
+        Double priceDBLD = 0.0;
+        //Кликаем на кнопку prices первого отеля
+        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
         //Ждём появления модального окна с ценами отеля
         $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
         //Сохраняем сумму дабл в переменную
-        String priceDBL = "";
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
         //System.out.println(priceDBL);
-        Double priceDBLD = Double.valueOf(priceDBL);
-        priceDBLD = priceDBLD / 2;
-        //System.out.println(priceDBLD);
+        priceDBLD = priceDBLD + Double.valueOf(priceDBL);
+        //System.out.println("priceDBLD = "+priceDBLD);
         //Закрываем модальное окно
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldNotBe(visible);
+
+
+        //Кликаем на кнопку prices вротого отеля
+        //$(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[2]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).isDisplayed();
+        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[2]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
+        //Ждём появления модального окна с ценами отеля
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] div[class=\"modal-dialog\"] div[class=\"modal-content\"]")).shouldBe(visible);
+        //Сохраняем сумму дабл в переменную
+        priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
+        //System.out.println(priceDBL);
+        priceDBLD = priceDBLD + Double.valueOf(priceDBL);
+        priceDBLD = priceDBLD/2 + registrationFeeForSPB;
+        //System.out.println("priceDBLD = "+priceDBLD);
+        //Закрываем модальное окно
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldBe(visible);
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        $(By.cssSelector("div[id=\"modal-dialog\"]")).shouldNotBe(visible);
+
         System.out.println(" - Готово");
 
 
@@ -216,29 +262,48 @@ public class BaseScenario2 {
 
         //Считаем суммы для 3-х групп: 15, 20, 25
         System.out.print("[-] Считаем суммы для 3-х групп: 15, 20, 25");
-        for (int dayCounter = 1; dayCounter <= 4; dayCounter++) {
+        int dayCounterMax = nightNumber + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
 
-            $(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
-            $(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+            //int cityCounterMax = Integer.valueOf($(By.xpath("//div[@class=\"cities\"]//div[@class=\"city\"][last()]")).attr("data-city-id"));
+            int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
 
-            for (int serviceCounter = 1; serviceCounter <= 3; serviceCounter++) {
-                $(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tr[@class=\"service\"][" + String.valueOf(serviceCounter) + "]"
-                        + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
-                programFor15 = programFor15 +
-                        Double.valueOf($(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tr[@class=\"service\"][" + String.valueOf(serviceCounter) + "]"
-                                + ProgrammSection.GetSumForUnitREG(1))).getText());
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
 
-                programFor20 = programFor20 +
-                        Double.valueOf($(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tr[@class=\"service\"][" + String.valueOf(serviceCounter) + "]"
-                                + ProgrammSection.GetSumForUnitREG(2))).getText());
+                int serviceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
 
-                programFor25 = programFor25 +
-                        Double.valueOf($(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tr[@class=\"service\"][" + String.valueOf(serviceCounter) + "]"
-                                + ProgrammSection.GetSumForUnitREG(3))).getText());
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
 
+                    programFor15 = programFor15 +
+                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(1))).getText());
+
+                    programFor20 = programFor20 +
+                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(2))).getText());
+
+                    programFor25 = programFor25 +
+                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(3))).getText());
+                }
+
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
             }
 
-            $(By.xpath(ProgrammSection.GetADayREG(dayCounter) + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
+
         }
         //System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
         System.out.println(" - Готово");
@@ -254,9 +319,7 @@ public class BaseScenario2 {
 
 
         //Сравниваем цену за номер
-        /*Assert.assertEquals(new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue(),
-                );*/
-        /*System.out.println("[-] Проверяем результаты расчёта:");
+        System.out.println("[-] Проверяем результаты расчёта:");
         $(By.id("table-result-hotels-wo-margin-we")).scrollTo();
 
         String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
@@ -268,16 +331,15 @@ public class BaseScenario2 {
             System.out.println("    Таблица Hotels (WE) w/o margin содержит верные значения +");
         }
         else System.out.println("    Таблица Hotels (WE) w/o margin содержит неверные значения: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + "-");*/
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -");
 
 
         /*Double hotelsWE15wom = 0.0;
-        hotelsWE15wom = priceDBLD;
+        hotelsWE15wom = priceDBLD/2;
         System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));*/
 
 
-        /*Double hotelsWE = 0.0;
-        hotelsWE = priceDBLD;
+        Double hotelsWE = priceDBLD;
         hotelsWE = hotelsWE / rubUsd;
         hotelsWE = hotelsWE / generalMarge;
         String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
@@ -289,10 +351,10 @@ public class BaseScenario2 {
             System.out.println("    Таблица Hotels (WE) содержит верные значения +");
         }
         else System.out.println("    Таблица Hotels (WE) содержит неверные значения: "
-                + hotelsWES + " не равен " + hotelsWER + "-");*/
+                + hotelsWES + " не равен " + hotelsWER + "-");
 
 
-        /*Double services15 = 0.0;
+        Double services15 = 0.0;
         services15 = programFor15;
         services15 = services15 / rubUsd;
         services15 = services15 / generalMarge;
@@ -304,11 +366,11 @@ public class BaseScenario2 {
             System.out.println("    Таблица Services содержит верные значения +");
         }
         else System.out.println("    Таблица Services содержит неверные значения: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");*/
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
 
 
 
-        /*Double totalWE15 = 0.0;
+        Double totalWE15 = 0.0;
         totalWE15 = priceDBLD + programFor15;
         totalWE15 = totalWE15 / rubUsd;
         totalWE15 = totalWE15 / generalMarge;
@@ -320,7 +382,7 @@ public class BaseScenario2 {
             System.out.println("    Таблица Totals (WE) содержит верные значения +");
         }
         else System.out.println("    Таблица Totals (WE) содержит неверные значения: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");*/
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
 
 
         /*Double totalWE20 = 0.0;
@@ -334,7 +396,6 @@ public class BaseScenario2 {
         totalWE25 = totalWE25 / rubUsd;
         totalWE25 = totalWE25 / generalMarge;
         System.out.println("Total WE 35: " + new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue());*/
-
 
     }
 
