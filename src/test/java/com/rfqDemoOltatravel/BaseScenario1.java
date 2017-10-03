@@ -13,9 +13,9 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.rfqDemoOltatravel.CommonCode.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.WebDriverRunner.*;
 import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
 
@@ -23,37 +23,7 @@ public class BaseScenario1 {
 
    public ChromeDriver driver;
 
-    public void waitForPageToLoad() {
-        JavascriptExecutor js = driver;
-
-        if(js.executeScript("return document.readyState").toString().equals("compleate")) {
-            System.out.println("[-] страница загружена - URL: " + url());
-            return;
-        }
-
-        int totalTime = 0;
-        int numberOfIterations = 0;
-
-        for (int i=0; i < 120; i++) {
-            try {
-                Thread.sleep(250);
-                totalTime = totalTime + 1;
-                numberOfIterations = numberOfIterations + 1;
-
-            } catch (InterruptedException e) {
-            }
-            if (js.executeScript("return document.readyState").toString().equals("complete")) break;
-        }
-        System.out.println("[-] ждали открытия страницы - URL: " + url() + " - " + totalTime + " сек., кол-во повторений: " + numberOfIterations);
-    }
-
-    public void waitForProgruzka() {
-
-        System.out.print("[-] Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
-    }
-
+    CommonCode commonCode = new CommonCode();
 
 
     @Before
@@ -68,7 +38,7 @@ public class BaseScenario1 {
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
-        waitForPageToLoad();
+        commonCode.waitForPageToLoad(driver);
         System.out.println(" - Готово");
 
         //Вводим логин с паролем и кликаем Логин
@@ -79,16 +49,16 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        waitForPageToLoad();
-        waitForProgruzka();
+        commonCode.waitForPageToLoad(driver);
+        commonCode.waitForProgruzka();
 
 
         //Открываем Quotation приложение
         System.out.println("[-] Открываем Quotation приложение");
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        waitForPageToLoad();
-        waitForProgruzka();
+        commonCode.waitForPageToLoad(driver);
+        commonCode.waitForProgruzka();
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
@@ -108,17 +78,17 @@ public class BaseScenario1 {
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
-        waitForProgruzka();
+        commonCode.waitForProgruzka();
 
         //Выставляем валюту в USD
         System.out.println("[-] Выставляем валюту в USD");
         $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        waitForProgruzka();
+        commonCode.waitForProgruzka();
 
         //Выставляем курс доллара 60
         System.out.println("[-] Выставляем курс доллара 60");
         $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60");
-        waitForProgruzka();
+        commonCode.waitForProgruzka();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);
@@ -133,11 +103,12 @@ public class BaseScenario1 {
         //Меняем колличество ночей на 3
         System.out.print("[-] Меняем количество ночей на 3");
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
+        commonCode.waitForProgruzka();
         $(By.cssSelector(OptionsTable.numberOfNights)).setValue("3");
         $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
         System.out.println(" - Готово");
 
-        waitForProgruzka();
+        commonCode.waitForProgruzka();
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
@@ -171,7 +142,7 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
-        waitForProgruzka();
+        commonCode.waitForProgruzka();
 
 
         //Считаем суммы для проверки
@@ -257,7 +228,7 @@ public class BaseScenario1 {
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo();
         $(By.id("qbtn-execute")).click();
-        waitForProgruzka();
+        commonCode.waitForProgruzka();
 
 
         //Сравниваем цену за номер
