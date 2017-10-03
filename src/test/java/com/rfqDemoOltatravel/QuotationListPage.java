@@ -1,37 +1,17 @@
 package com.rfqDemoOltatravel;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 public class QuotationListPage {
-    private WebDriver webDriver;
-    private WebDriverWait wait;
 
-    @FindBy(id = "qbtn-create")
-    WebElement qoutationCreateButton;
 
-    public QuotationListPage(WebDriver driver) {
-        this.webDriver = driver;
-        wait = new WebDriverWait(webDriver, 30);
+    //Логин попап
+    public static final String newQuotationPopapREG = "//div[@id=\"modal-createquotation\"]//div[@class=\"modal-content\"]";
+    public static final String newQuotationNameREG = newQuotationPopapREG + "//input[@id=\"input-createquotation-name\"]";
+    public static final String newQuotationClientNameREG = newQuotationPopapREG + "//select[@id=\"input-createquotation-clientname\"]";
+    public static final String newQuotationPopapOkButtonREG = "//div[@id=\"modal-createquotation\"]//div[@class=\"modal-footer\"]//button[@class=\"btn btn-primary\"]";
 
-        PageFactory.initElements(webDriver, this);
-    }
+    //div[@id="modal-createquotation"]//div[@class="modal-footer"]//button[@class="btn btn-primary"]
 
-    public void CreateNewQuotation(String quotationName, String clientName) {
 
-        wait.until(ExpectedConditions.visibilityOf(qoutationCreateButton));
-        wait.until(ExpectedConditions.elementToBeClickable(qoutationCreateButton));
-
-        qoutationCreateButton.click();
-
-        webDriver.switchTo().alert().sendKeys(quotationName);
-        webDriver.switchTo().alert().accept();
-
-        webDriver.switchTo().alert().sendKeys(clientName);
-        webDriver.switchTo().alert().accept();
-    }
 }

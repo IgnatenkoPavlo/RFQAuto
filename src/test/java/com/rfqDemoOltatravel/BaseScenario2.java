@@ -51,7 +51,6 @@ public class BaseScenario2 {
         System.out.print("[-] Ждём прогрузку...");
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(" - Готово");
-
     }
 
 
@@ -99,23 +98,30 @@ public class BaseScenario2 {
         //Создаём новый Quotation
         System.out.println("[-] Создаём новый Quotation:");
         $(By.id("qbtn-create")).click();
-        driver.switchTo().alert().sendKeys("PTestQuotation1");
-        driver.switchTo().alert().accept();
+        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
+        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
         System.out.println("      Имя - PTestQuotation1");
-        driver.switchTo().alert().sendKeys("PTestClient1");
-        driver.switchTo().alert().accept();
-        System.out.println("      Клиент - PTestClient1");
+        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
+        System.out.println("      Клиент - Тест компания");
+        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
 
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
         waitForProgruzka();
 
-        System.out.print("[-] Сохраняем курс рубля к доллару");
+        //Выставляем валюту в USD
+        System.out.println("[-] Выставляем валюту в USD");
+        $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
+        waitForProgruzka();
+
+        //Выставляем курс доллара 60
+        System.out.println("[-] Выставляем курс доллара 60");
+        $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60");
+        waitForProgruzka();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);
-        System.out.println(" - Готово");
 
         System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;
@@ -196,6 +202,9 @@ public class BaseScenario2 {
 
         //Удаляем обед в MSK
         System.out.print("[-] Удаляем обед в MSK");
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo();
+
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
         driver.switchTo().alert().accept();

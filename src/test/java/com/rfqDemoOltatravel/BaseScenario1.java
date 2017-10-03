@@ -47,6 +47,13 @@ public class BaseScenario1 {
         System.out.println("[-] ждали открытия страницы - URL: " + url() + " - " + totalTime + " сек., кол-во повторений: " + numberOfIterations);
     }
 
+    public void waitForProgruzka() {
+
+        System.out.print("[-] Ждём прогрузку...");
+        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        System.out.println(" - Готово");
+    }
+
 
 
     @Before
@@ -73,18 +80,15 @@ public class BaseScenario1 {
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         waitForPageToLoad();
-        System.out.print("[-] Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        waitForProgruzka();
 
 
         //Открываем Quotation приложение
-        System.out.print("[-] Открываем Quotation приложение");
+        System.out.println("[-] Открываем Quotation приложение");
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         waitForPageToLoad();
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        waitForProgruzka();
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
@@ -94,27 +98,36 @@ public class BaseScenario1 {
         //Создаём новый Quotation
         System.out.println("[-] Создаём новый Quotation:");
         $(By.id("qbtn-create")).click();
-        driver.switchTo().alert().sendKeys("PTestQuotation1");
-        driver.switchTo().alert().accept();
+        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
+        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
         System.out.println("      Имя - PTestQuotation1");
-        driver.switchTo().alert().sendKeys("PTestClient1");
-        driver.switchTo().alert().accept();
-        System.out.println("      Клиент - PTestClient1");
+        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
+        System.out.println("      Клиент - Тест компания");
+        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
 
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
-        System.out.print("[-] Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        waitForProgruzka();
 
+        //Выставляем валюту в USD
+        System.out.println("[-] Выставляем валюту в USD");
+        $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
+        waitForProgruzka();
+
+        //Выставляем курс доллара 60
+        System.out.println("[-] Выставляем курс доллара 60");
+        $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60");
+        waitForProgruzka();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);
 
+        System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;
         generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
+        System.out.println(" - Готово");
 
 
         //Меняем колличество ночей на 3
@@ -124,9 +137,7 @@ public class BaseScenario1 {
         $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
         System.out.println(" - Готово");
 
-        System.out.print("[-] Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        waitForProgruzka();
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
@@ -160,9 +171,7 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
-        System.out.print("[-] Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        waitForProgruzka();
 
 
         //Считаем суммы для проверки
@@ -175,11 +184,15 @@ public class BaseScenario1 {
         //Ждём появления модального окна с ценами отеля
         $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
         //Сохраняем сумму дабл в переменную
+        String priceSGL = "";
         String priceDBL = "";
+        priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
         //System.out.println(priceDBL);
+        Double priceSGLD = Double.valueOf(priceSGL);
         Double priceDBLD = Double.valueOf(priceDBL);
         priceDBLD = priceDBLD / 2;
+        Double priceSS = priceSGLD - priceDBLD;
         //System.out.println(priceDBLD);
         //Закрываем модальное окно
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
@@ -195,7 +208,7 @@ public class BaseScenario1 {
         int dayCounterMax = 3 + 1;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
             System.out.print("      - считаем для дня номер "+ dayCounter);
-            //int cityCounterMax = Integer.valueOf($(By.xpath("//div[@class=\"cities\"]//div[@class=\"city\"][last()]")).attr("data-city-id"));
+
             int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
 
@@ -244,50 +257,74 @@ public class BaseScenario1 {
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo();
         $(By.id("qbtn-execute")).click();
-        System.out.print("    Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        waitForProgruzka();
 
 
         //Сравниваем цену за номер
-        /*Assert.assertEquals(new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue(),
-                );*/
         System.out.println("[-] Проверяем результаты расчёта:");
         $(By.id("table-result-hotels-wo-margin-we")).scrollTo();
 
-        String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
+        //Проверяем таблицу Hotels (WE) w/o margin
+        System.out.println("    Проверяем таблицу Hotels (WE) w/o margin:");
+        String hotelsWE15womS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[1]")).getText();
+        String hotelsWEwomSSS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[4]")).getText();
         hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
-        //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
+        hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
+        //System.out.println("hotelsWE15 15 w/o marge: " + hotelsWE15womS);
+        String priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
+
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println("      -  Таблица Hotels (WE) w/o margin содержит верные значения +");
+            System.out.println("      -  Значения для группы 15 верное + ");
         }
-        else System.out.println("      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + "-");
+        else System.out.println("      -  Значения для группы 15 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -");
+
+        if(priceSGLDS.equals(hotelsWEwomSSS)) {
+            System.out.println("      -  Значения для SS верное + ");
+        }
+        else System.out.println("      -  Значения SS неверное: "
+                + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
 
 
-        /*Double hotelsWE15wom = 0.0;
-        hotelsWE15wom = priceDBLD;
-        System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));*/
+        //Проверяем таблицу Hotels (WE)
+        System.out.println("    Проверяем таблицу Hotels (WE):");
 
+        Double hotelsWE15 = 0.0;
+        hotelsWE15 = priceDBLD;
+        hotelsWE15 = hotelsWE15 / rubUsd;
+        hotelsWE15 = hotelsWE15 / generalMarge;
 
-        Double hotelsWE = 0.0;
-        hotelsWE = priceDBLD;
-        hotelsWE = hotelsWE / rubUsd;
-        hotelsWE = hotelsWE / generalMarge;
-        String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
+        Double hotelsWESS=0.0;
+        hotelsWESS = priceSS;
+        hotelsWESS = hotelsWESS / rubUsd /generalMarge;
+
+        String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE15).setScale(0, RoundingMode.HALF_UP).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
         $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
         String hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWES.equals(hotelsWER)) {
-            System.out.println("      -  Таблица Hotels (WE) содержит верные значения +");
+            System.out.println("      - Значения для группы 15 верное +");
         }
-        else System.out.println("      -  Таблица Hotels (WE) содержит неверные значения: "
-                + hotelsWES + " не равен " + hotelsWER + "-");
+        else System.out.println("      -  Значения для группы 15 неверное: "
+                + hotelsWES + " не равен " + hotelsWER + " -");
+
+        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
+        hotelsWER = hotelsWER.substring(1, hotelsWER.length());
+        if(hotelsWESSS.equals(hotelsWER)) {
+            System.out.println("      - Значения для группы SS верное +");
+        }
+        else System.out.println("      - Значения для группы SS неверное: "
+                + hotelsWESSS + " не равен " + hotelsWER + " -");
 
 
+        //Проверяем таблицу Services
+        System.out.println("    Проверяем таблицу Services:");
         Double services15 = 0.0;
         services15 = programFor15;
         services15 = services15 / rubUsd;
@@ -297,13 +334,15 @@ public class BaseScenario1 {
         String services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(1, services15S.length());
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println("      -  Таблица Services содержит верные значения +");
+            System.out.println("      -  Значение для группы 15 верное +");
         }
-        else System.out.println("      -  Таблица Services содержит неверные значения: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+        else System.out.println("      -  Значение для группы 15 неверное: "
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + " -");
 
 
 
+        //Проверяем таблицу Totals (WE)
+        System.out.println("    Проверяем таблицу Totals (WE):");
         Double totalWE15 = 0.0;
         totalWE15 = priceDBLD + programFor15;
         totalWE15 = totalWE15 / rubUsd;
@@ -313,10 +352,19 @@ public class BaseScenario1 {
         String totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(1, totalWE15S.length());
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println("      -  Таблица Totals (WE) содержит верные значения +");
+            System.out.println("      -  Значение для группы 15 верное +");
         }
-        else System.out.println("      -  Таблица Totals (WE) содержит неверные значения: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+        else System.out.println("      -  Значение для группы 15 неверное: "
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + " -");
+
+        String totalWESSS = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[4]")).getText();
+        totalWESSS = totalWESSS.substring(1, totalWESSS.length());
+        if(totalWESSS.equals(hotelsWESSS)) {
+            System.out.println("      -  Значение для группы SS верное +");
+        }
+        else System.out.println("      -  Значение для группы SS неверное: "
+                + totalWESSS + " не равен " + hotelsWESSS + " -");
+
 
 
         /*Double totalWE20 = 0.0;

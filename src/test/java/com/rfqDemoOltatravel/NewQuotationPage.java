@@ -6,7 +6,6 @@ public class NewQuotationPage {
 
     public static final String quotationDuplicateButton = "";
 
-
     //Таблица Options
     public static class OptionsTable {
 
@@ -15,6 +14,7 @@ public class NewQuotationPage {
         public static final String rubUsdRate = optionsTable + " tr[data-key=\"rub_usd_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String generalMarge = optionsTable + " tr[data-key=\"general_marge\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String numberOfNights = optionsTable + " tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]";
+        public static final String currency = optionsTable + " tr[data-key=\"currency\"] select[class=\"option\"]";
         public static final String registrationFeeForSPB = optionsTable + " tr[data-key=\"spb_hotel_registration_fee\"] td[class=\"value editable editable-quotatoin-option-value\"]";
     }
 
@@ -86,7 +86,7 @@ public class NewQuotationPage {
         public static String GetSumForUnitREG(int peopleCounter) {
 
             String result = "";
-            result = "//td[@class=\"featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[3]//span[@class=\"editable editable-featured-service-ppu pricePerUnit\"]";
+            result = "//td[@class=\"featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[3]//span[@class=\"editable editable-featured-service-price price\"]";
 
             return result;
         }
