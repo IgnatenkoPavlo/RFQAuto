@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.math.BigDecimal;
@@ -13,7 +12,6 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.rfqDemoOltatravel.CommonCode.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.rfqDemoOltatravel.NewQuotationPage.*;
@@ -38,7 +36,7 @@ public class BaseScenario1 {
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
-        commonCode.waitForPageToLoad(driver);
+        commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
 
         //Вводим логин с паролем и кликаем Логин
@@ -49,16 +47,16 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.waitForPageToLoad(driver);
-        commonCode.waitForProgruzka();
+        commonCode.WaitForPageToLoad(driver);
+        commonCode.WaitForProgruzka();
 
 
         //Открываем Quotation приложение
         System.out.println("[-] Открываем Quotation приложение");
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.waitForPageToLoad(driver);
-        commonCode.waitForProgruzka();
+        commonCode.WaitForPageToLoad(driver);
+        commonCode.WaitForProgruzka();
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
@@ -78,17 +76,17 @@ public class BaseScenario1 {
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Выставляем валюту в USD
         System.out.println("[-] Выставляем валюту в USD");
         $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Выставляем курс доллара 60
         System.out.println("[-] Выставляем курс доллара 60");
         $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60");
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);
@@ -103,12 +101,12 @@ public class BaseScenario1 {
         //Меняем колличество ночей на 3
         System.out.print("[-] Меняем количество ночей на 3");
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
         $(By.cssSelector(OptionsTable.numberOfNights)).setValue("3");
         $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
         System.out.println(" - Готово");
 
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
@@ -142,7 +140,7 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
 
         //Считаем суммы для проверки
@@ -228,7 +226,7 @@ public class BaseScenario1 {
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo();
         $(By.id("qbtn-execute")).click();
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
 
         //Сравниваем цену за номер

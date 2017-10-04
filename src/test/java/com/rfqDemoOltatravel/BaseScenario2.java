@@ -1,12 +1,10 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
-import org.apache.bcel.generic.RETURN;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.math.BigDecimal;
@@ -14,10 +12,8 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.rfqDemoOltatravel.CommonCode.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.WebDriverRunner.*;
 import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
 //Базовый сценарий + добавление SPB
@@ -38,7 +34,7 @@ public class BaseScenario2 {
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
-        commonCode.waitForPageToLoad(driver);
+        commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
 
         //Вводим логин с паролем и кликаем Логин
@@ -49,15 +45,15 @@ public class BaseScenario2 {
         System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.waitForPageToLoad(driver);
-        commonCode.waitForProgruzka();
+        commonCode.WaitForPageToLoad(driver);
+        commonCode.WaitForProgruzka();
 
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.waitForPageToLoad(driver);
+        commonCode.WaitForPageToLoad(driver);
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(" - Готово");
 
@@ -79,17 +75,17 @@ public class BaseScenario2 {
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Выставляем валюту в USD
         System.out.println("[-] Выставляем валюту в USD");
         $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Выставляем курс доллара 60
         System.out.println("[-] Выставляем курс доллара 60");
         $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60");
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);
@@ -105,12 +101,11 @@ public class BaseScenario2 {
         final int nightNumber = 3;
         System.out.print("[-] Меняем количество ночей на " + nightNumber);
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        commonCode.waitForProgruzka();
-        $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightNumber));
-        $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
+        commonCode.WaitForProgruzka();
+        $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightNumber)).pressEnter();
         System.out.println(" - Готово");
 
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Сохраняем значение комиссии за бронь в SPB
         System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");
@@ -150,12 +145,11 @@ public class BaseScenario2 {
         System.out.print("[-] Изменяем количество дней в MSK на 2");
         $(By.cssSelector(AccomodationsTable.accomodationsTable)).scrollTo();
         $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
-        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2");
-        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).pressEnter();
+        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2").pressEnter();
         driver.switchTo().alert().accept();
         System.out.println(" - Готово");
 
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Добавляем новый Город SPB
         System.out.print("[-] Добавляем город: SPB");
@@ -168,7 +162,7 @@ public class BaseScenario2 {
         System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Переходим к 3-му дню
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3))).scrollTo();
@@ -176,14 +170,12 @@ public class BaseScenario2 {
         //Удаляем обед в MSK
         System.out.print("[-] Удаляем обед в MSK");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
-                + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo();
+                + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
 
-        $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
-                + ProgrammSection.GetAServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
         driver.switchTo().alert().accept();
         System.out.println(" - Готово");
 
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Удаляем ужин в MSK
         System.out.print("[-] Удаляем ужин в MSK");
@@ -192,7 +184,7 @@ public class BaseScenario2 {
         driver.switchTo().alert().accept();
         System.out.println(" - Готово");
 
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Удаляем завтрак в SPB
         System.out.print("[-] Удаляем завтрак в SPB");
@@ -202,7 +194,7 @@ public class BaseScenario2 {
         System.out.println(" - Готово");
 
 
-        commonCode.waitForProgruzka();
+        commonCode.WaitForProgruzka();
 
         //Считаем суммы для проверки
         System.out.print("[-] Считаваем полz Sum в столбце Price DBL");
@@ -237,8 +229,7 @@ public class BaseScenario2 {
         priceDBLD = priceDBLD/2 + registrationFeeForSPB;
         //System.out.println("priceDBLD = "+priceDBLD);
         //Закрываем модальное окно
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldBe(visible);
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldBe(visible).click();
         $(By.cssSelector("div[id=\"modal-dialog\"]")).shouldNotBe(visible);
 
         System.out.println(" - Готово");
@@ -257,30 +248,20 @@ public class BaseScenario2 {
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
 
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
-                //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
 
                 int serviceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
                         ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
 
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
-                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-
-
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                             + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).click();
-                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
+
+
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                                     + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(1))).setValue(programFor15.toString());
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).pressEnter();
+                                    + ProgrammSection.GetSumForUnitREG(1))).setValue(programFor15.toString()).pressEnter();
 
                     programFor15 = programFor15 + 5.0;
                     $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
@@ -290,13 +271,10 @@ public class BaseScenario2 {
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                             + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
                             + ProgrammSection.GetSumForUnitREG(2))).click();
-                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                                     + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(2))).setValue(programFor20.toString());
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(2))).pressEnter();
+                                    + ProgrammSection.GetSumForUnitREG(2))).setValue(programFor20.toString()).pressEnter();
 
                     programFor20 = programFor20 + 6.0;
                     $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
@@ -305,30 +283,21 @@ public class BaseScenario2 {
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                             + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
                             + ProgrammSection.GetSumForUnitREG(3))).click();
-                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(3))).setValue(programFor25.toString());
 
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(3))).pressEnter();
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(3))).setValue(programFor25.toString()).pressEnter();
+
 
                     programFor25 = programFor25 + 7.0;
                     $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
                 }
 
-                //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
-                /*$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).hover();*/
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
-                //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-            }
-            System.out.println(" - готово");
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
+                }
+            System.out.println(" - готово");
 
         }
 
@@ -342,7 +311,7 @@ public class BaseScenario2 {
         dayCounterMax = nightNumber + 1;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
             System.out.print("      - считаем для дня номер "+ dayCounter);
-            //int cityCounterMax = Integer.valueOf($(By.xpath("//div[@class=\"cities\"]//div[@class=\"city\"][last()]")).attr("data-city-id"));
+
             int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
 
@@ -355,7 +324,8 @@ public class BaseScenario2 {
                         ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
 
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
                             + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
 
                     programFor15 = programFor15 +
@@ -375,11 +345,9 @@ public class BaseScenario2 {
                 }
 
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
+                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
-            }
+                }
             System.out.println(" - готово");
 
 
@@ -390,9 +358,8 @@ public class BaseScenario2 {
 
         //Запускаем Расчёт
         System.out.println("[-] Запускаем Расчёт");
-        $(By.id("qbtn-execute")).scrollTo();
-        $(By.id("qbtn-execute")).click();
-        commonCode.waitForProgruzka();
+        $(By.id("qbtn-execute")).scrollTo().click();
+        commonCode.WaitForProgruzka();
 
 
         //Сравниваем цену за номер

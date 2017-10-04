@@ -12,6 +12,7 @@ public class NewQuotationPage {
         public static final String optionsTable = "table[id=\"table-options\"]";
 
         public static final String rubUsdRate = optionsTable + " tr[data-key=\"rub_usd_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]";
+        public static final String rubEurRate = optionsTable + " tr[data-key=\"rub_eur_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String generalMarge = optionsTable + " tr[data-key=\"general_marge\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String numberOfNights = optionsTable + " tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String currency = optionsTable + " tr[data-key=\"currency\"] select[class=\"option\"]";
