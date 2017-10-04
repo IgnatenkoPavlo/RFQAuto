@@ -1,6 +1,7 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
+import org.apache.bcel.generic.RETURN;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -141,7 +142,8 @@ public class BaseScenario2 {
         //Ждём появления меню
         $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldHave(text("MSK")).click();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
         System.out.println(" - Готово");
 
         //Изменяем количество дней в MSK на 2
@@ -242,13 +244,102 @@ public class BaseScenario2 {
         System.out.println(" - Готово");
 
 
-        Double programFor15 = 0.0;
-        Double programFor20 = 0.0;
-        Double programFor25 = 0.0;
+        Double programFor15 = 10.0;
+        Double programFor20 = 20.0;
+        Double programFor25 = 25.0;
+
+        //Считаем суммы для 3-х групп: 15, 20, 25
+        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
+        int dayCounterMax = nightNumber + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - для дня номер " + dayCounter);
+            int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
+
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
+                //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+                int serviceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
+                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(1))).click();
+                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(1))).setValue(programFor15.toString());
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(1))).pressEnter();
+
+                    programFor15 = programFor15 + 5.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(2))).click();
+                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(2))).setValue(programFor20.toString());
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(2))).pressEnter();
+
+                    programFor20 = programFor20 + 6.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(3))).click();
+                    //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                                    + ProgrammSection.GetSumForUnitREG(3))).setValue(programFor25.toString());
+
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + ProgrammSection.GetAServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(3))).pressEnter();
+
+                    programFor25 = programFor25 + 7.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                }
+
+                //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
+                /*$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).hover();*/
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
+                //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+            }
+            System.out.println(" - готово");
+
+
+        }
+
+
+        programFor15 = 0.0;
+        programFor20 = 0.0;
+        programFor25 = 0.0;
 
         //Считаем суммы для 3-х групп: 15, 20, 25
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
-        int dayCounterMax = nightNumber + 1;
+        dayCounterMax = nightNumber + 1;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
             System.out.print("      - считаем для дня номер "+ dayCounter);
             //int cityCounterMax = Integer.valueOf($(By.xpath("//div[@class=\"cities\"]//div[@class=\"city\"][last()]")).attr("data-city-id"));
@@ -285,6 +376,7 @@ public class BaseScenario2 {
 
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
+
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
             }
