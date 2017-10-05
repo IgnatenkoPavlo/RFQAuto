@@ -109,7 +109,7 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
         if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - " + CommonCode.ANSI_RESET);
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("7");
             commonCode.WaitForProgruzka();
         } else {
@@ -174,6 +174,20 @@ public class TestOfNightsOption {
 
 
         //Выставляем колество ночей 1 - получаем ошибку
+        System.out.println("[-] Выставляем количество ночей - 1");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).click();
+        commonCode.WaitForProgruzka();
+        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("1").pressEnter();
+        errorText = commonCode.GetJSErrorText(driver);
+        //System.out.println(errorText);
+
+        if (errorText.equals("none")){
+            System.out.println("      Ошибки нет, валидация не отработала - ");
+            commonCode.WaitForProgruzka();
+        } else {
+            System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
+        }
+        commonCode.WaitForProgruzka();
 
         //Проверяем что даты в таблице Dates стоят правильные
 
