@@ -99,15 +99,16 @@ public class TestOfNightsOption {
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
-        softAssertions.assertThat(errorText).as("Проверяем, нельзя установить курс евро как 'test'").isNotEqualTo("none");
-        /*if (errorText.equals("none")){
-            System.err.println("      Ошибки нет, валидация не отработала - ");
+        if (errorText.equals("none")){
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
+            softAssertions.assertThat(errorText)
+                    .as("Check that Rub-Euro rate can`t be 'test'").isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
             commonCode.WaitForProgruzka();
         } else {
-            //System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
-            System.out.println("      Валидация отработала, текст ошибки: " + errorText);
-        }*/
+            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
+            //System.out.println("\033[35m "+"      Валидация отработала, текст ошибки: "+" \033[0m" + errorText);
+        }
 
         //Выставляем колество ночей как "test"
         System.out.println("[-] Пробуем выставить количество ночей как 'test'");
@@ -115,8 +116,10 @@ public class TestOfNightsOption {
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
+        softAssertions.assertThat(errorText)
+                .as("Check that Night can`t be 'test'").isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
         if (errorText.equals("none")){
-            System.err.println("Ошибки нет, валидация не отработала - ");
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("7");
             commonCode.WaitForProgruzka();
         } else {
@@ -171,9 +174,10 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
 
         if (errorText.equals("none")){
-            System.err.println("      Ошибки нет, валидация не отработала - ");
-
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
             commonCode.WaitForProgruzka();
+            softAssertions.assertThat(errorText)
+                    .as("Check that city can`t be added if all night are filled").isEqualTo(String.valueOf("No more nights left."));
         } else {
             System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
         }
@@ -189,7 +193,10 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
 
         if (errorText.equals("none")){
-            System.err.println("      Ошибки нет, валидация не отработала - ");
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
+            softAssertions.assertThat(errorText)
+                    .as("Check that night number can`t be decreased if all already used")
+                    .isEqualTo(String.valueOf("Accommodations total nights number exceeds quotation nights number. Please, descrease nights number or delete some accommodation records first."));
             commonCode.WaitForProgruzka();
         } else {
             System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
