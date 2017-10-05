@@ -99,7 +99,7 @@ public class TestOfNightsOption {
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
-        softAssertions.assertThat(errorText).isNotEqualTo("none");
+        softAssertions.assertThat(errorText).as("Проверяем, нельзя установить курс евро как 'test'").isNotEqualTo("none");
         /*if (errorText.equals("none")){
             System.err.println("      Ошибки нет, валидация не отработала - ");
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
@@ -224,8 +224,8 @@ public class TestOfNightsOption {
 
     @After
     public void close() {
-
-        softAssertions.assertAll();
         driver.quit();
+        softAssertions.assertAll();
+
     }
 }
