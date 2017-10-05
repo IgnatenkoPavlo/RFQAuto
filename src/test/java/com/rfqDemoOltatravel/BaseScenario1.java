@@ -330,6 +330,7 @@ public class BaseScenario1 {
         totalWESSS = totalWESSS.substring(1, totalWESSS.length());
         if(totalWESSS.equals(hotelsWESSS)) {
             System.out.println("      -  Значение для группы SS верное +");
+            System.err.println("Проверка не отработала");
         }
         else System.out.println("      -  Значение для группы SS неверное: "
                 + totalWESSS + " не равен " + hotelsWESSS + " -");

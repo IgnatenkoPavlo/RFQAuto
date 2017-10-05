@@ -11,6 +11,16 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class CommonCode {
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
     public void WaitForProgruzka() {
 
         System.out.print("[-] Ждём прогрузку...");
@@ -46,12 +56,13 @@ public class CommonCode {
         String result;
 
         try {
-            Alert alert = (new WebDriverWait(driver, 10))
+            Alert alert = (new WebDriverWait(driver, 4))
                     .until(ExpectedConditions.alertIsPresent());
             result = driver.switchTo().alert().getText();
-            driver.switchTo().alert().dismiss();
-        } catch (NoAlertPresentException e) {
+            driver.switchTo().alert().accept();
+        } catch (TimeoutException e) {
             result = "none";
+            System.err.println("Проверка не отработала");
         }
 
         return result;

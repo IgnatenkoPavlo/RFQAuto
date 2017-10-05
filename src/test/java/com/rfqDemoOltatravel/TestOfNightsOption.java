@@ -88,44 +88,33 @@ public class TestOfNightsOption {
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
         //Выставляем курс евро как "test" - получаем ошибку
-        /*System.out.println("[-] Пробуем выставить курс евро как 'test'");
+        System.out.println("[-] Пробуем выставить курс евро как 'test'");
         String errorText = "none";
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("test").pressEnter();
-        commonCode.GetJSErrorText(driver, errorText);
+        errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
         if (errorText.equals("none")){
-            System.out.println("      Ошибки нет, валидация не отработала - ");
-            $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70");
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - " + CommonCode.ANSI_RESET);
+            $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
             commonCode.WaitForProgruzka();
         } else {
-            System.out.println("      Валидация отработала, текст ошибки: " + errorText);
-        }*/
+            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
+        }
 
         //Выставляем колество ночей как "test"
-        /*System.out.println("[-] Пробуем выставить количество ночей как 'test'");
-        errorText = "none";
+        System.out.println("[-] Пробуем выставить количество ночей как 'test'");
         $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("test").pressEnter();
-        Alert alert = new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
-        alert.accept();
-        //commonCode.GetJSErrorText(driver, errorText);*/
-        /*try {
-            //new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
-            //errorText = driver.switchTo().alert().getText();
-            errorText = "no valid";
-            driver.switchTo().alert().accept();
-        } catch (NoAlertPresentException e) {
-            // ничего не делаем, алерта итак нет
-        }*/
+        errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
-        /*commonCode.WaitForProgruzka();
+        commonCode.WaitForProgruzka();
         if (errorText.equals("none")){
-            System.out.println("      Ошибки нет, валидация не отработала - ");
+            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("7");
             commonCode.WaitForProgruzka();
         } else {
-            System.out.println("      Валидация отработала, текст ошибки: " + errorText);
-        }*/
+            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
+        }
 
         //Выставляем колество ночей - 2
         System.out.println("[-] Выставляем количество ночей - 2");
@@ -162,8 +151,7 @@ public class TestOfNightsOption {
         System.out.println(" - Готово");
 
         //Добавляем город - получаем ошибку
-        System.out.print("[-] Добавляем город: SPB");
-        String errorText = "none";
+        System.out.println("[-] Добавляем город: SPB");
         //Кликаем Add
         $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
         //Ждём появления меню
@@ -173,14 +161,14 @@ public class TestOfNightsOption {
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).isDisplayed();
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
         errorText = commonCode.GetJSErrorText(driver);
-        System.out.println(errorText);
-
+        //System.out.println(errorText);
 
         if (errorText.equals("none")){
             System.out.println("      Ошибки нет, валидация не отработала - ");
+
             commonCode.WaitForProgruzka();
         } else {
-            System.out.println("      Валидация отработала, текст ошибки: " + errorText);
+            System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
         }
         commonCode.WaitForProgruzka();
 
