@@ -23,6 +23,7 @@ public class TestOfNightsOption {
 
     public ChromeDriver driver;
 
+    private SoftAssertions softAssertions;
     CommonCode commonCode = new CommonCode();
 
     @Before
@@ -31,13 +32,12 @@ public class TestOfNightsOption {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
+        softAssertions = new SoftAssertions();
 
     }
 
     @Test
     public void testOfNightsOption(){
-
-        SoftAssertions softAssertions = new SoftAssertions();
 
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
@@ -94,7 +94,7 @@ public class TestOfNightsOption {
 
         //Выставляем курс евро как "test" - получаем ошибку
         System.out.println("[-] Пробуем выставить курс евро как 'test'");
-        String errorText = "none";
+        String errorText = "";
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("test").pressEnter();
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
@@ -219,11 +219,13 @@ public class TestOfNightsOption {
         //Проверяем колличество дней в Program
 
 
+
     }
 
     @After
     public void close() {
 
+        softAssertions.assertAll();
         driver.quit();
     }
 }
