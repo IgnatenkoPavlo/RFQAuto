@@ -62,7 +62,7 @@ public class CommonCode {
             driver.switchTo().alert().accept();
         } catch (TimeoutException e) {
             result = "none";
-            System.err.println("Проверка не отработала");
+            //System.err.println("Проверка не отработала");
         }
 
         return result;

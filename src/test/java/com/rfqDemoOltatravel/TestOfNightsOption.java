@@ -97,12 +97,12 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
         if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - " + CommonCode.ANSI_RESET);
+            System.err.println("      Ошибки нет, валидация не отработала - ");
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
             commonCode.WaitForProgruzka();
         } else {
             //System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
-            System.err.println("      Валидация отработала, текст ошибки: " + errorText);
+            System.out.println("      Валидация отработала, текст ошибки: " + errorText);
         }
 
         //Выставляем колество ночей как "test"
