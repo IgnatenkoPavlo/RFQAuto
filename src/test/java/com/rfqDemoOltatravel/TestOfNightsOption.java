@@ -11,12 +11,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.PrintStream;
+import org.assertj.core.api.SoftAssertions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
@@ -33,14 +30,12 @@ public class TestOfNightsOption {
         System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+
+        SoftAssertions softAssertions = new SoftAssertions();
     }
 
     @Test
     public void testOfNightsOption(){
-
-        final Logger logger = Logger.getLogger(TestOfNightsOption.class);
-        BasicConfigurator.configure();
-        logger.debug("Hello World!");
 
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
@@ -59,7 +54,6 @@ public class TestOfNightsOption {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         commonCode.WaitForProgruzka();
-        logger.debug("Hello World!");
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
@@ -119,7 +113,7 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
         if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - " + CommonCode.ANSI_RESET);
+            System.err.println("Ошибки нет, валидация не отработала - ");
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("7");
             commonCode.WaitForProgruzka();
         } else {
@@ -174,7 +168,7 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
 
         if (errorText.equals("none")){
-            System.out.println("      Ошибки нет, валидация не отработала - ");
+            System.err.println("      Ошибки нет, валидация не отработала - ");
 
             commonCode.WaitForProgruzka();
         } else {
@@ -192,7 +186,7 @@ public class TestOfNightsOption {
         //System.out.println(errorText);
 
         if (errorText.equals("none")){
-            System.out.println("      Ошибки нет, валидация не отработала - ");
+            System.err.println("      Ошибки нет, валидация не отработала - ");
             commonCode.WaitForProgruzka();
         } else {
             System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
