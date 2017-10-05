@@ -15,6 +15,9 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -35,6 +38,10 @@ public class TestOfNightsOption {
     @Test
     public void testOfNightsOption(){
 
+        final Logger logger = Logger.getLogger(TestOfNightsOption.class);
+        BasicConfigurator.configure();
+        logger.debug("Hello World!");
+
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
@@ -52,6 +59,7 @@ public class TestOfNightsOption {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         commonCode.WaitForProgruzka();
+        logger.debug("Hello World!");
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
