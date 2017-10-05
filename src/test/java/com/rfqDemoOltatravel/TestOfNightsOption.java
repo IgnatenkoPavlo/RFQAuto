@@ -10,7 +10,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
