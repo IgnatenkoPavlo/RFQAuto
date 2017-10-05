@@ -31,11 +31,13 @@ public class TestOfNightsOption {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
-        SoftAssertions softAssertions = new SoftAssertions();
+
     }
 
     @Test
     public void testOfNightsOption(){
+
+        SoftAssertions softAssertions = new SoftAssertions();
 
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
@@ -97,14 +99,15 @@ public class TestOfNightsOption {
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         commonCode.WaitForProgruzka();
-        if (errorText.equals("none")){
+        softAssertions.assertThat(errorText).isNotEqualTo("none");
+        /*if (errorText.equals("none")){
             System.err.println("      Ошибки нет, валидация не отработала - ");
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
             commonCode.WaitForProgruzka();
         } else {
             //System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
             System.out.println("      Валидация отработала, текст ошибки: " + errorText);
-        }
+        }*/
 
         //Выставляем колество ночей как "test"
         System.out.println("[-] Пробуем выставить количество ночей как 'test'");
