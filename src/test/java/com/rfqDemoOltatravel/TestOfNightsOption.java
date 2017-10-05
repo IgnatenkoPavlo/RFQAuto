@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.log4j.Logger;
 
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,14 +36,12 @@ public class TestOfNightsOption {
     @Test
     public void testOfNightsOption(){
 
-        Logger logger = Logger.getLogger(TestOfNightsOption.class);
-
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
-        logger.error("Exiting application.");
+
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
@@ -54,7 +53,6 @@ public class TestOfNightsOption {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         commonCode.WaitForProgruzka();
-
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
@@ -103,7 +101,8 @@ public class TestOfNightsOption {
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
             commonCode.WaitForProgruzka();
         } else {
-            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
+            //System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
+            System.err.println("      Валидация отработала, текст ошибки: " + errorText);
         }
 
         //Выставляем колество ночей как "test"
