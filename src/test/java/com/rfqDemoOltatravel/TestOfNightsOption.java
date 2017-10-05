@@ -10,6 +10,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,11 +35,14 @@ public class TestOfNightsOption {
     @Test
     public void testOfNightsOption(){
 
+        Logger logger = Logger.getLogger(TestOfNightsOption.class);
+
         WebDriverRunner.setWebDriver(driver);
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
+        logger.error("Exiting application.");
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
