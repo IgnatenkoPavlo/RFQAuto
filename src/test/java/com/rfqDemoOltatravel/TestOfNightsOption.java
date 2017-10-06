@@ -215,7 +215,7 @@ public class TestOfNightsOption {
         String datesTillDate = $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.tillDateInputField)).scrollTo().getText();
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная - "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that To date is set correctly")
