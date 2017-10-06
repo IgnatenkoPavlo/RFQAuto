@@ -21,11 +21,17 @@ public class CommonCode {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    public static final String overalLoadingIndicatorREG = "//span[contains(text(),'Loading')]";
+
     public void WaitForProgruzka() {
 
         System.out.print("[-] Ждём прогрузку...");
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        $(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist);
         System.out.println(" - Готово");
+    }
+
+    public void WaitForProgruzkaSilent() {
+        $(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist);
     }
 
     public void WaitForPageToLoad(ChromeDriver driver) {
