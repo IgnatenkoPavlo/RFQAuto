@@ -280,7 +280,7 @@ public class BaseScenario1 {
         else System.out.println("      -  Значения для группы 15 неверное: "
                 + hotelsWES + " не равен " + hotelsWER + " -");
 
-        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
+        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
         $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
         hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
