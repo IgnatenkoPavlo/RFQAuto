@@ -13,7 +13,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import org.assertj.core.api.SoftAssertions;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
+import java.util.Locale;
+
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
@@ -107,7 +113,6 @@ public class TestOfNightsOption {
             commonCode.WaitForProgruzka();
         } else {
             System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: " + CommonCode.ANSI_RESET + errorText);
-            //System.out.println("\033[35m "+"      Валидация отработала, текст ошибки: "+" \033[0m" + errorText);
         }
 
         //Выставляем колество ночей как "test"
@@ -134,17 +139,17 @@ public class TestOfNightsOption {
         commonCode.WaitForProgruzka();
 
         //Выставляем дату
-        Date nowDate = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.print("[-] Добавляем новую дату: " + formatForDateNow.format(nowDate));
+        Instant nowDate = Instant.now();
+        DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy").withLocale(Locale.UK).withZone(ZoneOffset.UTC);
+        System.out.print("[-] Добавляем новую дату: " + formatForDate.format(nowDate));
         //Кликаем на кнопку Add
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addButton)).click();
         //Кликаем на поле для ввода даты
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
-
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
+
         //Вводим дату в поле
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveButton)).click();
         System.out.println(" - Готово");
@@ -204,6 +209,20 @@ public class TestOfNightsOption {
         commonCode.WaitForProgruzka();
 
         //Проверяем что даты в таблице Dates стоят правильные
+        System.out.println("[-] Проверяем, что дата До выставлена корректно:");
+        int currentNightNumber = Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
+        Instant tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
+        String datesTillDate = $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.tillDateInputField)).scrollTo().getText();
+        //System.out.println(datesTillDate);
+        if (datesTillDate.equals(formatForDate.format(tillDate))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная - "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(datesTillDate)
+                    .as("Check that To date is set correctly")
+                    .isEqualTo(formatForDate.format(tillDate));
+            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+        }
+
 
         //Проверяем значения Nights в таблице Accommodations
 

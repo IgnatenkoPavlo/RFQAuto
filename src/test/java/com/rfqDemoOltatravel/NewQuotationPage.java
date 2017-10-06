@@ -26,6 +26,8 @@ public class NewQuotationPage {
 
         public static final String addButton = datesPeriodsTable + " a[class=\"qbtn qbtn-add\"]";
         public static final String newDateInputField = datesPeriodsTable + " input[class=\"input-date hasDatepicker\"]";
+        public static final String tillDateInputField = datesPeriodsTable + " td[class=\"dateTo\"]";
+        public static final String fromDateInputField = datesPeriodsTable + " td[class=\"dateFrom\"]";
         public static final String saveButton = datesPeriodsTable + " a[class=\"qbtn qbtn-save\"]";
     }
 
