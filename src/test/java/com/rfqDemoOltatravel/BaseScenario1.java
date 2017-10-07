@@ -85,8 +85,8 @@ public class BaseScenario1 {
 
         //Выставляем курс доллара 60
         System.out.println("[-] Выставляем курс доллара 60");
-        $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60");
-        commonCode.WaitForProgruzka();
+        $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60").pressEnter();
+        commonCode.WaitForProgruzkaSilent();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);

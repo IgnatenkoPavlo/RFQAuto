@@ -33,6 +33,18 @@ public class NewQuotationPage {
         }
     }
 
+    //Таблица Groups
+    public static final String groupsTableREG = "//table[@id=\"table-groups\"]";
+    public static class GroupsTable {
+
+        CommonCode commonCode = new CommonCode();
+
+        public static final String datesAddButtonREG = groupsTableREG+"//tfoot//a[@class=\"qbtn qbtn-add\"]";
+
+
+    }
+
+
     //Таблица Dates
     public static class DatesPeriodsTable {
 
