@@ -92,6 +92,12 @@ public class NewQuotationPage {
     //Taблица Accommodations
     public static class AccomodationsTable{
 
+        public static String GetAccommodationDateByNumberREG(int dateCounter) {
+            String result = "//div[@id=\"accommodations\"]//div[@id=\"accommodation-select-date\"]//label["+String.valueOf(dateCounter)+"]";
+
+            return result;
+        }
+
         public static final String accomodationsTable = "table[id=\"table-accommodations\"]";
 
         public static final String addButton = accomodationsTable + " a[class=\"qbtn qbtn-add\"]";

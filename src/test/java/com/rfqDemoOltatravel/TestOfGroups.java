@@ -306,7 +306,6 @@ public class TestOfGroups {
     public void close() {
         driver.quit();
         softAssertions.assertAll();
-
     }
 
 
