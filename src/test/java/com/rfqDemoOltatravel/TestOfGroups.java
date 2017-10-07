@@ -175,7 +175,7 @@ public class TestOfGroups {
         if ($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[5]")).scrollTo().getText().equals("35")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[5]")).getText())
-                    .as("Check that group is right place, Groups table")
+                    .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("35"));
         } else {
             System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
@@ -235,11 +235,70 @@ public class TestOfGroups {
         if ($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).scrollTo().getText().equals("18")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).getText())
-                    .as("Check that group is right place, Groups table")
+                    .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("18"));
         } else {
             System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
         }
+
+
+        //Проверяем что можно удалить группу
+        System.out.println("[-] Пробуем удалить группу - 18 человек:");
+        $(By.xpath(NewQuotationPage.GroupsTable.GetGroupByNumberDeleteButtonREG(2))).scrollTo().click();
+        alert = (new WebDriverWait(driver, 4))
+                .until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+        commonCode.WaitForProgruzkaSilent();
+        //Проверяем что теперь на 2-ой позиции группа 20
+        if ($(By.xpath(NewQuotationPage.groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена успешно "+CommonCode.ANSI_RESET);
+            softAssertions.assertThat($(By.xpath(NewQuotationPage.groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).getText())
+                    .as("Check that group was deleted, Groups table")
+                    .isEqualTo(String.valueOf("20"));
+        } else {
+            System.out.println(CommonCode.ANSI_RED+"      Группа не удалилась корректно"+ CommonCode.ANSI_RESET);
+        }
+
+        //Проверяем что гркппа удалилась из Program
+        System.out.println("[-] Проверяем, что группа удалена из секции Program:");
+        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
+                NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
+                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
+        if ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
+                NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
+                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+CommonCode.ANSI_RESET);
+            softAssertions.assertThat($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
+                    NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
+                    NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                    +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).getText())
+                    .as("Check that group is right place, Program section")
+                    .isEqualTo(String.valueOf("20"));
+        } else {
+            System.out.println(CommonCode.ANSI_RED+"      Группа не удалена"+ CommonCode.ANSI_RESET);
+        }
+        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
+                NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
+                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
+
+        //Проверяем что группа удалилась из Results
+        System.out.println("[-] Запускаем перерасчёт");
+        $(By.id("qbtn-execute")).scrollTo().click();
+        commonCode.WaitForProgruzka();
+        System.out.println("[-] Проверяем что группа удалена из Results:");
+        //Проверяем что новая группа 20 теперь вместо 18
+        if ($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).scrollTo().getText().equals("20")){
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+CommonCode.ANSI_RESET);
+            softAssertions.assertThat($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).getText())
+                    .as("Check that group is right place, Results section")
+                    .isEqualTo(String.valueOf("20"));
+        } else {
+            System.out.println(CommonCode.ANSI_RED+"      Группа не удалена"+ CommonCode.ANSI_RESET);
+        }
+
     }
 
 

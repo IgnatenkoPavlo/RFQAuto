@@ -40,7 +40,11 @@ public class NewQuotationPage {
         CommonCode commonCode = new CommonCode();
 
         public static final String datesAddButtonREG = groupsTableREG+"//tfoot//a[@class=\"qbtn qbtn-add\"]";
+        public static String GetGroupByNumberDeleteButtonREG (int groupNumber) {
 
+            String result = groupsTableREG + "//tbody//tr["+String.valueOf(groupNumber)+"]//a[@class=\"qbtn qbtn-delete-group\"]";
+            return result;
+        }
 
     }
 
