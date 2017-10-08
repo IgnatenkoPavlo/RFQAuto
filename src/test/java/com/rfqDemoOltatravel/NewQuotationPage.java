@@ -57,21 +57,19 @@ public class NewQuotationPage {
 
         public static final String addButton = datesPeriodsTable + " a[class=\"qbtn qbtn-add\"]";
         public static final String newDateInputField = datesPeriodsTable + " input[class=\"input-date hasDatepicker\"]";
-        public static final String tillDateInputField = datesPeriodsTable + " td[class=\"dateTo\"]";
-        public static final String fromDateInputField = datesPeriodsTable + " td[class=\"dateFrom\"]";
+        public static final String fromDateField = datesPeriodsTable + " td[class=\"dateFrom\"]";
+        public static final String tillDateInput = datesPeriodsTable + " td[class=\"dateTo\"]";
         public static final String saveButton = datesPeriodsTable + " a[class=\"qbtn qbtn-save\"]";
 
-        public static String GetFromDate(int periodCounter) {
+        public static String GetFromDateByPeriodCounter(int periodCounter) {
 
-            $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
-                    +"]//td[@class=\"dateFrom\"]")).scrollTo();
             String result = $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
-                    +"]//td[@class=\"dateFrom\"]")).getText();
+                    +"]//td[@class=\"dateFrom\"]")).scrollTo().getText();
 
             return result;
         }
 
-        public static String GetTillDate(int periodCounter) {
+        public static String GetTillDateByPeriodCounter(int periodCounter) {
 
             /*$(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
                     +"]//td[class=\"dateTo\"]")).scrollTo();*/

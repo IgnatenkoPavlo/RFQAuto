@@ -4,25 +4,19 @@ import com.codeborne.selenide.WebDriverRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import org.assertj.core.api.SoftAssertions;
-import java.text.SimpleDateFormat;
+
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
 
 import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
@@ -227,7 +221,7 @@ public class TestOfNightsOption {
                 Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
         Instant tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
         String datesTillDate =
-                $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.tillDateInputField)).scrollTo().getText();
+                $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.tillDateInput)).scrollTo().getText();
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
@@ -294,7 +288,7 @@ public class TestOfNightsOption {
         currentNightNumber =
                 Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
         tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
-        datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDate(1);
+        datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(1);
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
