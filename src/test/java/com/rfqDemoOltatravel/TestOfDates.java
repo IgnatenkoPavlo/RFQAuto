@@ -247,11 +247,144 @@ public class TestOfDates {
             System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
                     + resultsDates1);
         }
-        //Добавляем второй промежуток дат, берём вторые даты
-        //Проверяем Dates
-        //Проверяем Accommodations
-        //Проверяем Results
 
+        //Добавляем второй промежуток дат, берём вторые даты
+        System.out.print("[-] Добавляем новую дату: " + formatForDate.format(fromDate2));
+        //Кликаем на кнопку Add
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addButton)).click();
+        //Кликаем на поле для ввода даты
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
+        //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
+        //Вводим дату в поле
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate2));
+        //Кликаем кнопку сохранить
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveButton)).click();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        //Проверяем Dates
+        System.out.println("[-] Проверяем, что промежуток дат в таблице Date на своём месте:");
+        //Проверяем От в Dates
+        datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
+        if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate2)))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(datesFromDate)
+                    .as("Check that From date is set correctly, in Dates")
+                    .isEqualTo(String.valueOf(formatForDate.format(fromDate2)));
+            System.out.println(CommonCode.ANSI_RED +"      Дата От некорректна: " + CommonCode.ANSI_RESET+ datesFromDate);
+        }
+        //Проверяем До в Dates
+        datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
+        if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate2)))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(datesTillDate)
+                    .as("Check that Till date is set correctly, in Dates")
+                    .isEqualTo(String.valueOf(formatForDate.format(tillDate2)));
+            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+        }
+
+        //Проверяем Accommodations
+        System.out.println("[-] Проверяем что новые даты в Accommodations на своём месте:");
+        accommodationDate1 =
+                $(By.xpath(NewQuotationPage.AccomodationsTable.GetAccommodationDateByNumberREG(3)))
+                        .scrollTo().getText();
+        //System.out.println(datesTillDate);
+        if (accommodationDate1.equals(formatForAccommodations1.format(fromDate2)+" - "
+                +formatForAccommodations2.format(tillDate2))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(accommodationDate1)
+                    .as("Check that dates in Accommodation are set correctly")
+                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate2)+" "
+                            +formatForAccommodations2.format(tillDate2)));
+            System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
+                    + accommodationDate1);
+        }
+        //Проверяем Results
+        System.out.println("[-] Запускаем перерасчёт");
+        $(By.id("qbtn-execute")).scrollTo().click();
+        commonCode.WaitForProgruzka();
+        System.out.println("[-] Проверяем что даты в Results верные:");
+        resultsDates1 = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        if (resultsDates1.equals(formatForAccommodations1.format(fromDate2)+" - "
+                +formatForAccommodations2.format(tillDate2))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(resultsDates1)
+                    .as("Check that dates in Results are set correctly")
+                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate2)+" "
+                            +formatForAccommodations2.format(tillDate2)));
+            System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
+                    + resultsDates1);
+        }
+
+        //Удаляем второй промежуток дат
+        System.out.println("[-] Удаляем второй промежуток дат");
+        $(By.xpath(NewQuotationPage.DatesPeriodsTable.datesPeriodsTableREG
+                + "//tbody//tr[2]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
+        driver.switchTo().alert().accept();
+        commonCode.WaitForProgruzka();
+
+        //Проверяем Dates
+        System.out.println("[-] Проверяем, что третий промежуток дат в таблице Date стал вторым:");
+        //Проверяем От в Dates
+        datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
+        if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate3)))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(datesFromDate)
+                    .as("Check that From date is set correctly, in Dates")
+                    .isEqualTo(String.valueOf(formatForDate.format(fromDate3)));
+            System.out.println(CommonCode.ANSI_RED +"      Дата От некорректна: " + CommonCode.ANSI_RESET+ datesFromDate);
+        }
+        //Проверяем До в Dates
+        datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
+        if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate3)))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(datesTillDate)
+                    .as("Check that Till date is set correctly, in Dates")
+                    .isEqualTo(String.valueOf(formatForDate.format(tillDate3)));
+            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+        }
+
+        //Проверяем Accommodations
+        System.out.println("[-] Проверяем что даты в Accommodations на своём месте:");
+        accommodationDate1 =
+                $(By.xpath(NewQuotationPage.AccomodationsTable.GetAccommodationDateByNumberREG(3)))
+                        .scrollTo().getText();
+        //System.out.println(datesTillDate);
+        if (accommodationDate1.equals(formatForAccommodations1.format(fromDate3)+" - "
+                +formatForAccommodations2.format(tillDate3))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(accommodationDate1)
+                    .as("Check that dates in Accommodation are set correctly")
+                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate3)+" "
+                            +formatForAccommodations2.format(tillDate3)));
+            System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
+                    + accommodationDate1);
+        }
+
+        //Проверяем Results
+        System.out.println("[-] Запускаем перерасчёт");
+        $(By.id("qbtn-execute")).scrollTo().click();
+        commonCode.WaitForProgruzka();
+        System.out.println("[-] Проверяем что даты в Results верные:");
+        resultsDates1 = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        if (resultsDates1.equals(formatForAccommodations1.format(fromDate3)+" - "
+                +formatForAccommodations2.format(tillDate3))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(resultsDates1)
+                    .as("Check that dates in Results are set correctly")
+                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate3)+" "
+                            +formatForAccommodations2.format(tillDate3)));
+            System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
+                    + resultsDates1);
+        }
     }
 
     @After

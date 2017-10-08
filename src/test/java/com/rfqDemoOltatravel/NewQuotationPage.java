@@ -79,11 +79,11 @@ public class NewQuotationPage {
             return result;
         }
 
-        public static void DeleteDatesPeriodByNumber(int periodCounter) {
+        /*public static void DeleteDatesPeriodByNumber(int periodCounter) {
 
             $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
-                    +"]//a[class=\"qbtn qbtn-delete\"]")).scrollTo().click();
-        }
+                    +"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
+        }*/
     }
 
 
