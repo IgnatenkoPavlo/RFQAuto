@@ -1,6 +1,7 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class BaseScenario1 {
    public ChromeDriver driver;
 
     CommonCode commonCode = new CommonCode();
-
+    private SoftAssertions softAssertions;
 
     @Before
     public void setUp() {
@@ -247,14 +248,22 @@ public class BaseScenario1 {
         if(priceDBLDS.equals(hotelsWE15womS)) {
             System.out.println("      -  Значения для группы 15 верное + ");
         }
-        else System.out.println("      -  Значения для группы 15 неверное: "
+        else {System.out.println("      -  Значения для группы 15 неверное: "
                 + priceDBLDS + " не равен " + hotelsWE15womS + " -");
+            softAssertions.assertThat(priceDBLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
+                    .isEqualTo(hotelsWE15womS);
+        }
 
         if(priceSGLDS.equals(hotelsWEwomSSS)) {
             System.out.println("      -  Значения для SS верное + ");
         }
-        else System.out.println("      -  Значения SS неверное: "
+        else {System.out.println("      -  Значения SS неверное: "
                 + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
+            softAssertions.assertThat(priceSGLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for SS is correct")
+                    .isEqualTo(hotelsWEwomSSS);
+        }
 
 
         //Проверяем таблицу Hotels (WE)
@@ -277,8 +286,13 @@ public class BaseScenario1 {
         if(hotelsWES.equals(hotelsWER)) {
             System.out.println("      - Значения для группы 15 верное +");
         }
-        else System.out.println("      -  Значения для группы 15 неверное: "
+        else {System.out.println("      -  Значения для группы 15 неверное: "
                 + hotelsWES + " не равен " + hotelsWER + " -");
+            softAssertions.assertThat(hotelsWES)
+                    .as("Check that value in Hotels (WE) for 15 is correct")
+                    .isEqualTo(hotelsWER);
+
+        }
 
         String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
@@ -288,8 +302,12 @@ public class BaseScenario1 {
         if(hotelsWESSS.equals(hotelsWER)) {
             System.out.println("      - Значения для группы SS верное +");
         }
-        else System.out.println("      - Значения для группы SS неверное: "
+        else {System.out.println("      - Значения для группы SS неверное: "
                 + hotelsWESSS + " не равен " + hotelsWER + " -");
+            softAssertions.assertThat(hotelsWESSS)
+                    .as("Check that value in Hotels (WE) for SS is correct")
+                    .isEqualTo(hotelsWER);
+        }
 
 
         //Проверяем таблицу Services
@@ -305,8 +323,12 @@ public class BaseScenario1 {
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println("      -  Значение для группы 15 верное +");
         }
-        else System.out.println("      -  Значение для группы 15 неверное: "
+        else {System.out.println("      -  Значение для группы 15 неверное: "
                 + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + " -");
+            softAssertions.assertThat(services15S)
+                    .as("Check that value in Services for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
 
 
@@ -331,8 +353,12 @@ public class BaseScenario1 {
         if(totalWESSS.equals(hotelsWESSS)) {
             System.out.println("      -  Значение для группы SS верное +");
         }
-        else System.out.println("      -  Значение для группы SS неверное: "
+        else {System.out.println("      -  Значение для группы SS неверное: "
                 + totalWESSS + " не равен " + hotelsWESSS + " -");
+            softAssertions.assertThat(totalWESSS)
+                    .as("Check that value in Totals (WE) for 15 is correct")
+                    .isEqualTo(hotelsWESSS);
+        }
 
 
 
@@ -355,6 +381,7 @@ public class BaseScenario1 {
     public void close() {
 
        driver.quit();
+       softAssertions.assertAll();
     }
 
 }
