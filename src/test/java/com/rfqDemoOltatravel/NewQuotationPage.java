@@ -88,20 +88,36 @@ public class NewQuotationPage {
 
 
     //Taблица Accommodations
+    public static final String accomodationsTable = "table[id=\"table-accommodations\"]";
+    public static final String accomodationsTableREG = "//table[@id=\"table-accommodations\"]";
+
     public static class AccomodationsTable{
 
-        public static String GetAccommodationDateByNumberREG(int dateCounter) {
+        public static String AccommodationDateByNumberREG(int dateCounter) {
             String result = "//div[@id=\"accommodations\"]//div[@id=\"accommodation-select-date\"]//label["+String.valueOf(dateCounter)+"]";
 
             return result;
         }
 
-        public static final String accomodationsTable = "table[id=\"table-accommodations\"]";
-
         public static final String addButton = accomodationsTable + " a[class=\"qbtn qbtn-add\"]";
         public static final String showAllPricesButton = accomodationsTable + " a[class=\"qbtn qbtn-showallprices\"]";
         public static final String nightsAvailableUsedIndicator = accomodationsTable
                 + " tfoot tr[class=\"totals\"] td[class=\"nightsTotal\"]";
+
+        public static final String moveUpOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-move qbtn-moveup\"]";
+        public static final String insertBeforeOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-insert qbtn-insertbefore\"]";
+        public static final String deleteOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]";
+        public static final String togglePricesOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]";
+        public static final String nightsCounterForCityREG = "//td[2]";
+
+        public static String CityByNumberREG (int cityCounter) {
+
+            String result = accomodationsTableREG + "//tbody//tr["+String.valueOf(cityCounter)+"]";
+
+            return result;
+        }
+
+
 
 
     }

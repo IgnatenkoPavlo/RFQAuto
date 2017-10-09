@@ -30,9 +30,7 @@ public class CommonCode {
         System.out.println(" - Готово");
     }
 
-    public void WaitForProgruzkaSilent() {
-        $(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist);
-    }
+    public void WaitForProgruzkaSilent() {$(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist); }
 
     public void WaitForPageToLoad(ChromeDriver driver) {
         JavascriptExecutor js = driver;

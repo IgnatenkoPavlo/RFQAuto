@@ -142,7 +142,7 @@ public class TestOfDates {
         //Проверяем что даты в Accommodations верные
         System.out.println("[-] Проверяем что даты в Accommodations верные:");
         String accommodationDate1 =
-                $(By.xpath(NewQuotationPage.AccomodationsTable.GetAccommodationDateByNumberREG(2)))
+                $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(2)))
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(formatForAccommodations1.format(nowDate)+" - "
@@ -216,7 +216,7 @@ public class TestOfDates {
         //Проверяем Accommodations
         System.out.println("[-] Проверяем что новые даты в Accommodations на своём месте:");
         accommodationDate1 =
-                $(By.xpath(NewQuotationPage.AccomodationsTable.GetAccommodationDateByNumberREG(3)))
+                $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(formatForAccommodations1.format(fromDate3)+" - "
@@ -288,7 +288,7 @@ public class TestOfDates {
         //Проверяем Accommodations
         System.out.println("[-] Проверяем что новые даты в Accommodations на своём месте:");
         accommodationDate1 =
-                $(By.xpath(NewQuotationPage.AccomodationsTable.GetAccommodationDateByNumberREG(3)))
+                $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(formatForAccommodations1.format(fromDate2)+" - "
@@ -353,7 +353,7 @@ public class TestOfDates {
         //Проверяем Accommodations
         System.out.println("[-] Проверяем что даты в Accommodations на своём месте:");
         accommodationDate1 =
-                $(By.xpath(NewQuotationPage.AccomodationsTable.GetAccommodationDateByNumberREG(3)))
+                $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(formatForAccommodations1.format(fromDate3)+" - "

@@ -1,28 +1,28 @@
 package com.rfqDemoOltatravel;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import org.assertj.core.api.SoftAssertions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Locale;
-
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 
-public class TestOfNightsOption {
-
+public class TestOfAccommodations {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
@@ -35,13 +35,14 @@ public class TestOfNightsOption {
         driver.manage().window().maximize();
 
         softAssertions = new SoftAssertions();
-
     }
 
     @Test
-    public void testOfNightsOption(){
+    public void testOfAccommodations() {
 
         WebDriverRunner.setWebDriver(driver);
+        Configuration selenideConfig = new Configuration();
+        selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);
@@ -94,49 +95,8 @@ public class TestOfNightsOption {
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
-        //Выставляем курс евро как "test" - получаем ошибку
-        System.out.println("[-] Пробуем выставить курс евро как 'test'");
-        String temp = $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText();
-        String errorText = "";
-        $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("test").pressEnter();
-        errorText = commonCode.GetJSErrorText(driver);
-        //System.out.println(errorText);
-        commonCode.WaitForProgruzka();
-        if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
-            softAssertions.assertThat(errorText)
-                    .as("Check that Rub-Euro rate can`t be 'test'")
-                    .isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
-            $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue(temp).pressEnter();
-            commonCode.WaitForProgruzkaSilent();
-        } else {
-            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
-        }
-
-        //Выставляем колество ночей как "test"
-        System.out.println("[-] Пробуем выставить количество ночей как 'test'");
-        temp = $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("test").pressEnter();
-        errorText = commonCode.GetJSErrorText(driver);
-        //System.out.println(errorText);
-        commonCode.WaitForProgruzkaSilent();
-
-        if (errorText.equals("none")){
-            softAssertions.assertThat(errorText)
-                    .as("Check that Night can`t be 'test'")
-                    .isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "
-                    +CommonCode.ANSI_RESET);
-            $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(temp);
-            commonCode.WaitForProgruzkaSilent();
-        } else {
-            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
-        }
-
         //Выставляем колество ночей - 2
-        int nightInOptionsCounter = 2;
+        int nightInOptionsCounter = 5;
         System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
         NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
 
@@ -166,71 +126,8 @@ public class TestOfNightsOption {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        System.out.println(" - Готово");
-
-        //Добавляем город - получаем ошибку
-        System.out.println("[-] Добавляем город: SPB");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
-        //Кликаем по кнопке с SPB
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).isDisplayed();
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        errorText = commonCode.GetJSErrorText(driver);
-        //System.out.println(errorText);
-
-        if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
-            commonCode.WaitForProgruzkaSilent();
-            softAssertions.assertThat(errorText)
-                    .as("Check that city can`t be added if all night are filled")
-                    .isEqualTo(String.valueOf("No more nights left."));
-        } else {
-            System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
-        }
-        commonCode.WaitForProgruzka();
-
-
-        //Выставляем колество ночей 1 - получаем ошибку
-        System.out.println("[-] Выставляем количество ночей - 1");
-        temp=$(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).click();
         commonCode.WaitForProgruzkaSilent();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("1").pressEnter();
-        errorText = commonCode.GetJSErrorText(driver);
-        //System.out.println(errorText);
-
-        if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
-            softAssertions.assertThat(errorText)
-                    .as("Check that night number can`t be decreased if all already used")
-                    .isEqualTo(String.valueOf("Accommodations total nights number exceeds quotation nights number. " +
-                            "Please, descrease nights number or delete some accommodation records first."));
-            $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(temp).pressEnter();
-            commonCode.WaitForProgruzkaSilent();
-        } else {
-            System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
-        }
-
-        //Проверяем что даты в таблице Dates стоят правильные
-        System.out.println("[-] Проверяем, что дата До выставлена корректно:");
-        int currentNightNumber =
-                Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
-        Instant tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
-        String datesTillDate =
-                $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.tillDateInput)).scrollTo().getText();
-        //System.out.println(datesTillDate);
-        if (datesTillDate.equals(formatForDate.format(tillDate))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
-        } else {
-            softAssertions.assertThat(datesTillDate)
-                    .as("Check that To date is set correctly")
-                    .isEqualTo(formatForDate.format(tillDate));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
-        }
+        System.out.println(" - Готово");
 
         //Проверяем значения Nights в таблице Accommodations
         //Сохраняем Nights Total из таблицы Accommodations
@@ -263,137 +160,219 @@ public class TestOfNightsOption {
                     + CommonCode.ANSI_RESET+ nightsTotal);
         }
 
-        //Проверяем колличество дней в Program
-        //Получаем колличество дней
-        System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
-        int numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
-        if (numberOfDaysInProgram == nightInOptionsCounter+1){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
-        } else {
-            softAssertions.assertThat(numberOfDaysInProgram)
-                    .as("Check that number of days in Program section is correct")
-                    .isEqualTo(nightInOptionsCounter+1);
-            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
-                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
-        }
-
-        //Выставляем колество ночей 3
-        nightInOptionsCounter = 3;
-        System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
-
-        //Проверяем что дата До в таблице Dates стоит правильная
-        System.out.println("[-] Проверяем, что после изменения Nights дата До выставлена корректно:");
-        currentNightNumber =
-                Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
-        tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
-        datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(1);
-        //System.out.println(datesTillDate);
-        if (datesTillDate.equals(formatForDate.format(tillDate))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
-        } else {
-            softAssertions.assertThat(datesTillDate)
-                    .as("Check that To date is set correctly")
-                    .isEqualTo(formatForDate.format(tillDate));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
-        }
-
-        //Проверяем значения Nights в таблице Accommodations
-        //Сохраняем Nights Total из таблицы Accommodations
-        nightsTotalIndicator = $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
-        nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
-        nightsTotal = nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
-        System.out.println("[-] Проверяем, что после изменений Night Total в таблице Accommodation посчитан корректно:");
-
-        if (nightsUsed.equals(String.valueOf(nightInOptionsCounter-1))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    +CommonCode.ANSI_RESET);
-        } else {
-            softAssertions.assertThat(nightsUsed)
-                    .as("Check that number of total used night in Accommodation table is set correctly")
-                    .isEqualTo(String.valueOf(nightInOptionsCounter-1));
-            System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsUsed);
-        }
-
-        if (nightsTotal.equals(String.valueOf(nightInOptionsCounter))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    +CommonCode.ANSI_RESET);
-        } else {
-            softAssertions.assertThat(nightsTotal)
-                    .as("Check that number of total number of night in Accommodation table is set correctly")
-                    .isEqualTo(String.valueOf(nightInOptionsCounter));
-            System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsTotal);
-        }
-
-        //Проверяем колличество дней в Program
-        //Получаем колличество дней
-        System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
-        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
-        if (numberOfDaysInProgram == nightInOptionsCounter){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
-        } else {
-            softAssertions.assertThat(numberOfDaysInProgram)
-                    .as("Check that number of days in Program section is correct")
-                    .isEqualTo(nightInOptionsCounter);
-            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
-                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
-        }
-
-        //Добавляем ещё один город
-        System.out.print("[-] Добавляем город: SPB");
-        NewQuotationPage.AddCityToAccomodationByName("VLG");
+        //Выставляем значение ночей для отеля в 1
+        System.out.print("[-]Выставляем значение ночей для размещения в 1");
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
+                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("1").pressEnter();
+        Alert alert = (new WebDriverWait(driver, 4))
+                .until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+        commonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
-        //Проверяем значения Nights в таблице Accommodations
-        //Сохраняем Nights Total из таблицы Accommodations
-        nightsTotalIndicator = $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
+        nightsTotalIndicator =
+                $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
         nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
-        nightsTotal = nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
-        System.out.println("[-] Проверяем, что после добавления города Night Total в таблице Accommodation посчитан корректно:");
+        nightsTotal =
+                nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
+        System.out.println("[-] Проверяем, что Night Total в таблице Accommodation посчитан корректно:");
 
-        if (nightsUsed.equals(String.valueOf(nightInOptionsCounter))){
+        if (nightsUsed.equals(String.valueOf(1))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
                     +CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
-                    .isEqualTo(String.valueOf(nightInOptionsCounter));
+                    .isEqualTo(String.valueOf(1));
             System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
                     + CommonCode.ANSI_RESET+ nightsUsed);
         }
 
-        if (nightsTotal.equals(String.valueOf(nightInOptionsCounter))){
+        if (nightsTotal.equals(String.valueOf(5))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
                     +CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
-                    .isEqualTo(String.valueOf(nightInOptionsCounter));
+                    .isEqualTo(String.valueOf(5));
             System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
                     + CommonCode.ANSI_RESET+ nightsTotal);
         }
 
-        //Проверяем колличество дней в Program
+        //Проверяем что к-во дней в Program верное
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
-        if (numberOfDaysInProgram == nightInOptionsCounter+1){
+        int numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        if (numberOfDaysInProgram == 2){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
-                    .isEqualTo(nightInOptionsCounter+1);
+                    .isEqualTo(2);
             System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
 
+        //Выставляем имя отеля1
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
+                +NewQuotationPage.AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
+                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Alfa");
+        commonCode.WaitForProgruzkaSilent();
+
+        //Добавляем MSK
+        System.out.print("[-] Добавляем город: MSK");
+        //Кликаем Add
+        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
+        //Ждём появления меню
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        //Кликаем по кнопке с MSK
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        //Выставляем для него значение ночей в 1
+        System.out.print("[-]Выставляем значение ночей для размещения два в 1");
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
+                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("1").pressEnter();
+        alert = (new WebDriverWait(driver, 4))
+                .until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        nightsTotalIndicator =
+                $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
+        nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
+        nightsTotal =
+                nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
+        System.out.println("[-] Проверяем, что Night Total в таблице Accommodation посчитан корректно:");
+
+        if (nightsUsed.equals(String.valueOf(2))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
+                    +CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(nightsUsed)
+                    .as("Check that number of total used night in Accommodation table is set correctly")
+                    .isEqualTo(String.valueOf(2));
+            System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
+                    + CommonCode.ANSI_RESET+ nightsUsed);
+        }
+
+        if (nightsTotal.equals(String.valueOf(5))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
+                    +CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(nightsTotal)
+                    .as("Check that number of total number of night in Accommodation table is set correctly")
+                    .isEqualTo(String.valueOf(5));
+            System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
+                    + CommonCode.ANSI_RESET+ nightsTotal);
+        }
+
+        //Выставляем имя отеля2
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
+                +NewQuotationPage.AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
+                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Mandarin");
+        commonCode.WaitForProgruzkaSilent();
+
+        //Проверяем что к-во дней в Program верное
+        //Получаем колличество дней
+        System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
+        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        if (numberOfDaysInProgram == 3){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
+                    +CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(numberOfDaysInProgram)
+                    .as("Check that number of days in Program section is correct")
+                    .isEqualTo(3);
+            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
+                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
+        }
+
+        //Добавляем Питер
+        //Добавляем MSK
+        System.out.print("[-] Добавляем город: SPB");
+        //Кликаем Add
+        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
+        //Ждём появления меню
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        //Кликаем по кнопке с MSK
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        //Выставляем для него значение ночей в 1
+        System.out.print("[-]Выставляем значение ночей для размещения два в 1");
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(3)
+                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("2").pressEnter();
+        alert = (new WebDriverWait(driver, 4))
+                .until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        nightsTotalIndicator =
+                $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
+        nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
+        nightsTotal =
+                nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
+        System.out.println("[-] Проверяем, что Night Total в таблице Accommodation посчитан корректно:");
+
+        if (nightsUsed.equals(String.valueOf(4))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
+                    +CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(nightsUsed)
+                    .as("Check that number of total used night in Accommodation table is set correctly")
+                    .isEqualTo(String.valueOf(4));
+            System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
+                    + CommonCode.ANSI_RESET+ nightsUsed);
+        }
+
+        if (nightsTotal.equals(String.valueOf(5))){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
+                    +CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(nightsTotal)
+                    .as("Check that number of total number of night in Accommodation table is set correctly")
+                    .isEqualTo(String.valueOf(5));
+            System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
+                    + CommonCode.ANSI_RESET+ nightsTotal);
+        }
+        //Проверяем что к-во дней в Program верное
+        //Получаем колличество дней
+        System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
+        $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
+        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        if (numberOfDaysInProgram == 5){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
+                    +CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(numberOfDaysInProgram)
+                    .as("Check that number of days in Program section is correct")
+                    .isEqualTo(5);
+            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
+                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
+        }
+
+        //Выставляем для него значение ночей в 2
+        //Проверяем что к-во дней в Program верное
+        //Добавляем перед SPB поезд
+        //Проверяем что к-во дней в Program верное
+        //Меняем отели в MSK местами
+        //Проверяем что к-во дней в Program верное
+        //Удаляем первый в MSK отель
+        //Проверяем что к-во дней в Program верное
+        //Пробуем двинуть Питер вверх
+        //Проверяем что к-во дней в Program верное
 
     }
 
@@ -401,6 +380,5 @@ public class TestOfNightsOption {
     public void close() {
         driver.quit();
         softAssertions.assertAll();
-
     }
 }

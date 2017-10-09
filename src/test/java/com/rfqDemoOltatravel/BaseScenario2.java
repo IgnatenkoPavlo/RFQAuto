@@ -147,9 +147,9 @@ public class BaseScenario2 {
 
         //Изменяем количество дней в MSK на 2
         System.out.print("[-] Изменяем количество дней в MSK на 2");
-        $(By.cssSelector(AccomodationsTable.accomodationsTable)).scrollTo();
-        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
-        $(By.cssSelector(AccomodationsTable.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2").pressEnter();
+        $(By.cssSelector(newQuotationPage.accomodationsTable)).scrollTo();
+        $(By.cssSelector(newQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
+        $(By.cssSelector(newQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2").pressEnter();
         driver.switchTo().alert().accept();
         System.out.println(" - Готово");
 
