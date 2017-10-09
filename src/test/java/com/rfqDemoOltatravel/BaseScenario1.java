@@ -30,6 +30,8 @@ public class BaseScenario1 {
         System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+
+        softAssertions = new SoftAssertions();
     }
 
     @Test

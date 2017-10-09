@@ -1,6 +1,7 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,12 +22,15 @@ public class BaseScenario2 {
     public ChromeDriver driver;
 
     CommonCode commonCode = new CommonCode();
+    private SoftAssertions softAssertions;
 
     @Before
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+
+        softAssertions = new SoftAssertions();
     }
 
     @Test
@@ -374,8 +378,12 @@ public class BaseScenario2 {
         if(priceDBLDS.equals(hotelsWE15womS)) {
             System.out.println("      -  Таблица Hotels (WE) w/o margin содержит верные значения +");
         }
-        else System.out.println("      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
+        else {System.out.println("      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
                 + priceDBLDS + " не равен " + hotelsWE15womS + " -");
+            softAssertions.assertThat(priceDBLDS)
+                    .as("Check that value in Hotels (WE) w/o margin is correct")
+                    .isEqualTo(hotelsWE15womS);
+        }
 
 
         /*Double hotelsWE15wom = 0.0;
@@ -394,8 +402,12 @@ public class BaseScenario2 {
         if(hotelsWES.equals(hotelsWER)) {
             System.out.println("      -  Таблица Hotels (WE) содержит верные значения +");
         }
-        else System.out.println("      -  Таблица Hotels (WE) содержит неверные значения: "
+        else {System.out.println("      -  Таблица Hotels (WE) содержит неверные значения: "
                 + hotelsWES + " не равен " + hotelsWER + "-");
+            softAssertions.assertThat(hotelsWES)
+                    .as("Check that value in Hotels (WE) is correct")
+                    .isEqualTo(hotelsWER);
+        }
 
 
         Double services15 = 0.0;
@@ -409,8 +421,12 @@ public class BaseScenario2 {
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println("      -  Таблица Services содержит верные значения +");
         }
-        else System.out.println("      -  Таблица Services содержит неверные значения: "
+        else {System.out.println("      -  Таблица Services содержит неверные значения: "
                 + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+            softAssertions.assertThat(services15S)
+                    .as("Check that value in Services for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
 
 
@@ -425,8 +441,12 @@ public class BaseScenario2 {
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println("      -  Таблица Totals (WE) содержит верные значения +");
         }
-        else System.out.println("      -  Таблица Totals (WE) содержит неверные значения: "
+        else {System.out.println("      -  Таблица Totals (WE) содержит неверные значения: "
                 + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+            softAssertions.assertThat(totalWE15S)
+                    .as("Check that value in Totals (WE) for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
 
         /*Double totalWE20 = 0.0;
@@ -447,6 +467,7 @@ public class BaseScenario2 {
     public void close() {
 
         driver.quit();
+        softAssertions.assertAll();
     }
 
 }
