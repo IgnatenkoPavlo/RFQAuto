@@ -116,10 +116,6 @@ public class NewQuotationPage {
 
             return result;
         }
-
-
-
-
     }
 
 

@@ -95,7 +95,7 @@ public class TestOfNightsOption {
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
         //Выставляем курс евро как "test" - получаем ошибку
-        System.out.println("[-] Пробуем выставить курс евро как 'test'");
+        /*System.out.println("[-] Пробуем выставить курс евро как 'test'");
         String temp = $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText();
         String errorText = "";
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("test").pressEnter();
@@ -112,13 +112,13 @@ public class TestOfNightsOption {
         } else {
             System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
                     + CommonCode.ANSI_RESET + errorText);
-        }
+        }*/
 
         //Выставляем колество ночей как "test"
         System.out.println("[-] Пробуем выставить количество ночей как 'test'");
-        temp = $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
+        String temp = $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
         $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("test").pressEnter();
-        errorText = commonCode.GetJSErrorText(driver);
+        String errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         commonCode.WaitForProgruzkaSilent();
 
