@@ -376,10 +376,10 @@ public class BaseScenario2 {
         String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println("      -  Таблица Hotels (WE) w/o margin содержит верные значения +");
+            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Hotels (WE) w/o margin содержит верные значения +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println("      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + " -");
+        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+commonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS)
                     .as("Check that value in Hotels (WE) w/o margin is correct")
                     .isEqualTo(hotelsWE15womS);
@@ -400,10 +400,10 @@ public class BaseScenario2 {
         String hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWES.equals(hotelsWER)) {
-            System.out.println("      -  Таблица Hotels (WE) содержит верные значения +");
+            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Hotels (WE) содержит верные значения +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println("      -  Таблица Hotels (WE) содержит неверные значения: "
-                + hotelsWES + " не равен " + hotelsWER + "-");
+        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Hotels (WE) содержит неверные значения: "
+                + hotelsWES + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWES)
                     .as("Check that value in Hotels (WE) is correct")
                     .isEqualTo(hotelsWER);
@@ -419,10 +419,10 @@ public class BaseScenario2 {
         String services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(1, services15S.length());
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println("      -  Таблица Services содержит верные значения +");
+            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Services содержит верные значения +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println("      -  Таблица Services содержит неверные значения: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Services содержит неверные значения: "
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(services15S)
                     .as("Check that value in Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -439,10 +439,10 @@ public class BaseScenario2 {
         String totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(1, totalWE15S.length());
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println("      -  Таблица Totals (WE) содержит верные значения +");
+            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Totals (WE) содержит верные значения +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println("      -  Таблица Totals (WE) содержит неверные значения: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-");
+        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Totals (WE) содержит неверные значения: "
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE15S)
                     .as("Check that value in Totals (WE) for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));

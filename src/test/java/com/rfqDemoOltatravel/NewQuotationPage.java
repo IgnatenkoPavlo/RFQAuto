@@ -71,8 +71,6 @@ public class NewQuotationPage {
 
         public static String GetTillDateByPeriodCounter(int periodCounter) {
 
-            /*$(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
-                    +"]//td[class=\"dateTo\"]")).scrollTo();*/
             String result = $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
                     +"]//td[@class=\"dateTo\"]")).scrollTo().getText();
 
