@@ -144,6 +144,14 @@ public class NewQuotationPage {
     //Таблица Programm
     public static class ProgrammSection {
 
+        public static final String addServiceButtonREG = "//table//tfoot//tr//td[2]//a[@class=\"qbtn qbtn-add\"]";
+        public static final String guideFromMoscowREG = "//span[@class=\"checkDayLine\"]//input[@name=\"guideDay\"]";
+        public static final String goldenRingGuide = "//span[@class=\"checkDayLine\"]//input[@name=\"goldenRingGuideDay\"]";
+        public static final String transportFromMoscowREG = "//span[@class=\"checkDayLine\"]//input[@name=\"transportDay\"]";
+        public static final String showAllDailyPricesREG = "//span[@class=\"checkDayLine\"]//a[@class=\"qbtn qbtn-showalldailyservices\"]";
+        public static final String hideAllDailyPricesREG = "//span[@class=\"checkDayLine\"]//a[@class=\"qbtn qbtn-hidealldailyservices\"]";
+
+
         public static String GetADayByNumberREG(int dayCounter) {
 
             String result = "//div[@id=\"program\"]//div[@class=\"day\"][" + String.valueOf(dayCounter) + "]";
@@ -158,9 +166,31 @@ public class NewQuotationPage {
             return result;
         }
 
-        public static String GetAServiceByNumberREG(int serviceCounter) {
+        public static String GetMainServiceByNumberREG(int serviceCounter) {
 
-            String result = "//table//tbody[@class=\"main\"]//tr[" + String.valueOf(serviceCounter) + "]";
+            String result = "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[" + String.valueOf(serviceCounter) + "]";
+
+            return result;
+        }
+
+        public static String GetAutoServiceByNumberREG(int serviceCounter) {
+
+            String result = "//table[@class=\"services\"]//tbody[@class=\"auto\"]//tr[" + String.valueOf(serviceCounter) + "]";
+
+            return result;
+        }
+
+        public static String GetDailyServiceByNumberREG(int serviceCounter) {
+
+            String result = "//div[@class=\"serviceByDayInfo\"]//table[@class=\"serviceByDayTable services\"]//tbody//tr[" + String.valueOf(serviceCounter) + "]";
+
+            return result;
+        }
+
+        public static String GetDailySumForPeopleREG(int peopleCounter) {
+
+            String result = "";
+            result = "//td[@class=\"featureds\"]//table[@class=\"table-featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[@class=\"number sum\"]//span[@class=\"sum\"]";
 
             return result;
         }
@@ -168,7 +198,7 @@ public class NewQuotationPage {
         public static String GetSumForPeopleREG(int peopleCounter) {
 
             String result = "";
-            result = "//td[@class=\"featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//span[@class=\"sum\"]";
+            result = "//td[@class=\"featureds\"]//table[@class=\"table-featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[4]//span[@class=\"sum\"]";
 
             return result;
         }

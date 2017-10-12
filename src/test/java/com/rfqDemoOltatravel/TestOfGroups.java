@@ -1,14 +1,12 @@
 package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.WebDriverRunner;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -145,16 +143,16 @@ public class TestOfGroups {
         System.out.println("[-] Проверяем позицию группы \"35\" в секции Program:");
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
         if ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[4]/td[@class=\"people\"]")).getText().equals("35")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                     NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                    NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                    NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                     +"//td[@class=\"featureds\"]//table//tbody//tr[4]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Program section")
                     .isEqualTo(String.valueOf("35"));
@@ -163,7 +161,7 @@ public class TestOfGroups {
         }
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
 
         //Проверяем что в результатах группа на всоём месте
@@ -205,16 +203,16 @@ public class TestOfGroups {
         System.out.println("[-] Проверяем позицию группы \"18\" в секции Program:");
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
         if ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("18")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                     NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                    NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                    NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                     +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Program section")
                     .isEqualTo(String.valueOf("18"));
@@ -223,7 +221,7 @@ public class TestOfGroups {
         }
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
 
         //Проверяем что в результатах группа 18 на всоём месте
@@ -263,16 +261,16 @@ public class TestOfGroups {
         System.out.println("[-] Проверяем, что группа удалена из секции Program:");
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
         if ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                     NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                    NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                    NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                     +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Program section")
                     .isEqualTo(String.valueOf("20"));
@@ -281,7 +279,7 @@ public class TestOfGroups {
         }
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)+
                 NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)+
-                NewQuotationPage.ProgrammSection.GetAServiceByNumberREG(1)
+                NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//a[@class=\"qbtn qbtn-prices\"]")).scrollTo().click();
 
         //Проверяем что группа удалилась из Results
