@@ -206,14 +206,18 @@ public class BaseScenario2 {
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
 
         String priceDBL = "";
+        String priceSGL = "";
+        Double priceSGLD = 0.0;
         Double priceDBLD = 0.0;
         //Кликаем на кнопку prices первого отеля
         $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
         //Ждём появления модального окна с ценами отеля
         $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
         //Сохраняем сумму дабл в переменную
+        priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
         //System.out.println(priceDBL);
+        priceSGLD = priceSGLD + Double.valueOf(priceSGL);
         priceDBLD = priceDBLD + Double.valueOf(priceDBL);
         //System.out.println("priceDBLD = "+priceDBLD);
         //Закрываем модальное окно
@@ -227,20 +231,24 @@ public class BaseScenario2 {
         //Ждём появления модального окна с ценами отеля
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] div[class=\"modal-dialog\"] div[class=\"modal-content\"]")).shouldBe(visible);
         //Сохраняем сумму дабл в переменную
+        priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
         //System.out.println(priceDBL);
+        priceSGLD = priceSGLD + Double.valueOf(priceSGL);
         priceDBLD = priceDBLD + Double.valueOf(priceDBL);
+        Double priceSS = priceSGLD - priceDBLD/2;
         priceDBLD = priceDBLD/2 + registrationFeeForSPB;
+
         //System.out.println("priceDBLD = "+priceDBLD);
         //Закрываем модальное окно
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldBe(visible).click();
         $(By.cssSelector("div[id=\"modal-dialog\"]")).shouldNotBe(visible);
+        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldBe(visible).click();
 
         System.out.println(" - Готово");
 
 
         Double programServicesFor15 = 15.0;
-        Double programServicesFor20 = 25.0;
+        Double programServicesFor20 = 20.0;
         Double programServicesFor25 = 25.0;
 
         //Выставляем суммы для 3-х групп: 15, 20, 25
@@ -379,7 +387,7 @@ public class BaseScenario2 {
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         dayCounterMax = nightNumber + 1;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.println("      - считаем для дня номер "+ dayCounter);
+            System.out.print("      - считаем для дня номер "+ dayCounter);
 
             //Считаем для Daily Services
             $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+ProgrammSection.showAllDailyPricesREG)).scrollTo().click();
@@ -392,7 +400,7 @@ public class BaseScenario2 {
 
                 int dalyServicesMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                         +"//div[@class=\"serviceByDayInfo\"]//table[@class=\"serviceByDayTable services\"]//tbody//tr[@class=\"service_by_day\"]")).size();
-                System.out.println(dalyServicesMax+"");
+                //System.out.println(dalyServicesMax+"");
                 for(int dailyServiceCounter=1;dailyServiceCounter<=dalyServicesMax;dailyServiceCounter++){
 
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
@@ -437,7 +445,7 @@ public class BaseScenario2 {
                             Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                                     + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                                     + ProgrammSection.GetSumForPeopleREG(1))).getText());
-                    System.out.println(programServicesFor15);
+                    //System.out.println(programServicesFor15);
 
                     programServicesFor20 = programServicesFor20 +
                             Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
@@ -482,12 +490,12 @@ public class BaseScenario2 {
 
         }
         programServicesFor15 = programServicesFor15/15.0;
-        programServicesFor20 = programServicesFor20/15.0;
-        programServicesFor25 = programServicesFor25/15.0;
+        programServicesFor20 = programServicesFor20/20.0;
+        programServicesFor25 = programServicesFor25/25.0;
 
         programDailyServicesFor15 = programDailyServicesFor15/15.0;
-        programDailyServicesFor20 = programDailyServicesFor20/15.0;
-        programDailyServicesFor25 = programDailyServicesFor25/15.0;
+        programDailyServicesFor20 = programDailyServicesFor20/20.0;
+        programDailyServicesFor25 = programDailyServicesFor25/25.0;
 
         //System.out.println(programServicesFor15 + " " + programServicesFor20 + " " + programServicesFor25);
         System.out.println("[-] Суммы за Daily Services и Services посчитаны");
@@ -501,21 +509,34 @@ public class BaseScenario2 {
 
         //Сравниваем цену за номер
         System.out.println("[-] Проверяем результаты расчёта:");
+        System.out.println("    Проверяем таблицу Hotels (WE) w/o margin:");
         $(By.id("table-result-hotels-wo-margin-we")).scrollTo();
 
         String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
+        String hotelsWEwomSSS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[4]")).getText();
         hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
+        hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
         //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
         String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD).setScale(0, RoundingMode.HALF_UP).floatValue());
+        String priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Hotels (WE) w/o margin содержит верные значения +"+commonCode.ANSI_RESET);
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Hotels (WE) w/o margin содержит неверные значения: "
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
                 + priceDBLDS + " не равен " + hotelsWE15womS + " -"+commonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS)
-                    .as("Check that value in Hotels (WE) w/o margin is correct")
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
                     .isEqualTo(hotelsWE15womS);
+        }
+        if(priceSGLDS.equals(hotelsWEwomSSS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для SS верное + "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения SS неверное: "
+                + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
+            softAssertions.assertThat(priceSGLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for SS is correct"+commonCode.ANSI_RESET)
+                    .isEqualTo(hotelsWEwomSSS);
         }
 
 
@@ -523,7 +544,7 @@ public class BaseScenario2 {
         hotelsWE15wom = priceDBLD/2;
         System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));*/
 
-
+        System.out.println("    Проверяем таблицу Hotels (WE):");
         Double hotelsWE = priceDBLD;
         hotelsWE = hotelsWE / rubUsd;
         hotelsWE = hotelsWE / generalMarge;
@@ -533,34 +554,88 @@ public class BaseScenario2 {
         String hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWES.equals(hotelsWER)) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Hotels (WE) содержит верные значения +"+commonCode.ANSI_RESET);
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Hotels (WE) содержит неверные значения: "
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
                 + hotelsWES + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWES)
-                    .as("Check that value in Hotels (WE) is correct")
+                    .as("Check that value in Hotels (WE) for 15 is correct")
                     .isEqualTo(hotelsWER);
         }
 
+        Double hotelsWESS=0.0;
+        hotelsWESS = priceSS;
+        hotelsWESS = hotelsWESS / rubUsd /generalMarge;
+        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
+        hotelsWER = hotelsWER.substring(1, hotelsWER.length());
+        if(hotelsWESSS.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы SS верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      - Значения для группы SS неверное: "
+                + hotelsWESSS + " не равен " + hotelsWER + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWESSS)
+                    .as("Check that value in Hotels (WE) for SS is correct")
+                    .isEqualTo(hotelsWER);
+        }
 
+        System.out.println("    Проверяем таблицу Services:");
         Double services15 = 0.0;
         services15 = programServicesFor15;
         services15 = services15 / rubUsd;
         services15 = services15 / generalMarge;
+
         //System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
         $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
         String services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(1, services15S.length());
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Services содержит верные значения +"+commonCode.ANSI_RESET);
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Services содержит неверные значения: "
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
                 + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(services15S)
                     .as("Check that value in Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
 
+        Double services20 = 0.0;
+        services20 = programServicesFor20;
+        services20 = services20 / rubUsd;
+        services20 = services20 / generalMarge;
+        //$(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        String services20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        services20S = services20S.substring(1, services20S.length());
+        if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services15S)
+                    .as("Check that value in Services for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        Double services25 = 0.0;
+        services25 = programServicesFor25;
+        services25 = services25 / rubUsd;
+        services25 = services25 / generalMarge;
+        //$(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        String services25S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[3]")).getText();
+        services25S = services25S.substring(1, services25S.length());
+        if(services25S.equals(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
+                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services15S)
+                    .as("Check that value in Services for 25 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        System.out.println("    Проверяем таблицу Day-Related Services:");
         Double dailyServices15 = 0.0;
         dailyServices15 = programDailyServicesFor15;
         dailyServices15 = dailyServices15 / rubUsd;
@@ -569,17 +644,50 @@ public class BaseScenario2 {
         String dailyServices15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         dailyServices15S = dailyServices15S.substring(1, dailyServices15S.length());
         if(dailyServices15S.equals(String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Daily Services содержит верные значения +"+commonCode.ANSI_RESET);
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Daily Services содержит неверные значения: "
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
                 + dailyServices15S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(dailyServices15S)
-                    .as("Check that value in Daily Services for 15 is correct")
+                    .as("Check that value in Day-Related Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
 
+        Double dailyServices20 = 0.0;
+        dailyServices20 = programDailyServicesFor20;
+        dailyServices20 = dailyServices20 / rubUsd;
+        dailyServices20 = dailyServices20 / generalMarge;
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services-by-days\"]")).scrollTo();
+        String dailyServices20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        dailyServices20S = dailyServices20S.substring(1, dailyServices20S.length());
+        if(dailyServices20S.equals(String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + dailyServices20S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(dailyServices15S)
+                    .as("Check that value in Day-Related Services for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
+        Double dailyServices25 = 0.0;
+        dailyServices25 = programDailyServicesFor25;
+        dailyServices25 = dailyServices25 / rubUsd;
+        dailyServices25 = dailyServices25 / generalMarge;
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services-by-days\"]")).scrollTo();
+        String dailyServices25S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[3]")).getText();
+        dailyServices25S = dailyServices25S.substring(1, dailyServices25S.length());
+        if(dailyServices25S.equals(String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
+                + dailyServices25S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(dailyServices15S)
+                    .as("Check that value in Day-Related Services for 25 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
+        System.out.println("    Проверяем таблицу Totals (WE):");
         Double totalWE15 = 0.0;
         totalWE15 = priceDBLD + programServicesFor15 + programDailyServicesFor15;
         totalWE15 = totalWE15 / rubUsd;
@@ -589,27 +697,50 @@ public class BaseScenario2 {
         String totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(1, totalWE15S.length());
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Таблица Totals (WE) содержит верные значения +"+commonCode.ANSI_RESET);
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное "+commonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Таблица Totals (WE) содержит неверные значения: "
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
                 + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE15S)
                     .as("Check that value in Totals (WE) for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
 
-
-        /*Double totalWE20 = 0.0;
-        totalWE20 = priceDBLD + programServicesFor20;
+        Double totalWE20 = 0.0;
+        totalWE20 = priceDBLD + programServicesFor20 + programDailyServicesFor20;
         totalWE20 = totalWE20 / rubUsd;
         totalWE20 = totalWE20 / generalMarge;
-        System.out.println("Total WE 20: " + new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        String totalWE20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        totalWE20S = totalWE20S.substring(1, totalWE20S.length());
+        if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE20S)
+                    .as("Check that value in Totals (WE) for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
         Double totalWE25 = 0.0;
-        totalWE25 = priceDBLD + programServicesFor20;
+        totalWE25 = priceDBLD + programServicesFor25 + programDailyServicesFor25;
         totalWE25 = totalWE25 / rubUsd;
         totalWE25 = totalWE25 / generalMarge;
-        System.out.println("Total WE 35: " + new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue());*/
+        //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        String totalWE25S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[3]")).getText();
+        totalWE25S = totalWE25S.substring(1, totalWE25S.length());
+        if(totalWE25S.equals(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 25 верное "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
+                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE25S)
+                    .as("Check that value in Totals (WE) for 25 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
     }
 
