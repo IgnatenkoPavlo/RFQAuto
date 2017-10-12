@@ -17,8 +17,8 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
-//Базовый сценарий + добавление SPB
-public class BaseScenario2 {
+
+public class AdvancedScenario1 {
     public ChromeDriver driver;
 
     CommonCode commonCode = new CommonCode();
@@ -184,7 +184,7 @@ public class BaseScenario2 {
         //Удаляем ужин в MSK
         System.out.print("[-] Удаляем ужин в MSK");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
-                        + ProgrammSection.GetMainServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
+                + ProgrammSection.GetMainServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
         driver.switchTo().alert().accept();
         System.out.println(" - Готово");
 
@@ -272,8 +272,8 @@ public class BaseScenario2 {
 
 
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
+                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
 
                     programServicesFor15 = programServicesFor15 + 5.0;
                     $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
@@ -285,8 +285,8 @@ public class BaseScenario2 {
                             + ProgrammSection.GetSumForUnitREG(2))).click();
 
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
+                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
 
                     programServicesFor20 = programServicesFor20 + 6.0;
                     $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
@@ -297,8 +297,8 @@ public class BaseScenario2 {
                             + ProgrammSection.GetSumForUnitREG(3))).click();
 
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
+                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
 
 
                     programServicesFor25 = programServicesFor25 + 7.0;
@@ -308,7 +308,7 @@ public class BaseScenario2 {
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
-                }
+            }
             System.out.println(" - готово");
 
         }
@@ -393,9 +393,9 @@ public class BaseScenario2 {
             $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+ProgrammSection.showAllDailyPricesREG)).scrollTo().click();
             if(($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                     +ProgrammSection.guideFromMoscowREG)).isSelected())
-                || ($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
+                    || ($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                     +ProgrammSection.goldenRingGuide)).isSelected())
-                || ($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
+                    || ($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                     +ProgrammSection.transportFromMoscowREG)).isSelected())){
 
                 int dalyServicesMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
@@ -484,7 +484,7 @@ public class BaseScenario2 {
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//table[@class=\"services\"]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo().click();
 
-                }
+            }
             System.out.println(" - готово");
 
 
