@@ -212,29 +212,6 @@ public class BaseScenario1 {
                                     + ProgrammSection.GetSumForUnitREG(3))).getText());
                 }
 
-                int autoServiceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"auto\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= autoServiceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
-
-                    programFor15 = programFor15 +
-                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(1))).getText());
-
-                    programFor20 = programFor20 +
-                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(2))).getText());
-
-                    programFor25 = programFor25 +
-                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(3))).getText());
-                }
-
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
