@@ -20,6 +20,8 @@ public class NewQuotationPage {
         public static final String rubEurRate = optionsTable + " tr[data-key=\"rub_eur_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String generalMarge = optionsTable + " tr[data-key=\"general_marge\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String numberOfNights = optionsTable + " tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]";
+        public static final String freeTourLeadersAccoommType = optionsTable + "tr[data-key=\"ftl_acc_type\"] td select[class=\"option\"]";
+        public static final String freeTourLeaders = optionsTable + " tr[data-key=\"ftl_number\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String currency = optionsTable + " tr[data-key=\"currency\"] select[class=\"option\"]";
         public static final String registrationFeeForSPB = optionsTable + " tr[data-key=\"spb_hotel_registration_fee\"] td[class=\"value editable editable-quotatoin-option-value\"]";
 
@@ -145,11 +147,14 @@ public class NewQuotationPage {
     public static class ProgrammSection {
 
         public static final String addServiceButtonREG = "//table//tfoot//tr//td[2]//a[@class=\"qbtn qbtn-add\"]";
+        public static final String showAllPricesForADayREG = "//table//tfoot//tr//td[7]//a[@class=\"qbtn qbtn-showallprices\"]";
+        public static final String hideAllPricesForADayREG = "//table//tfoot//tr//td[7]//a[@class=\"qbtn qbtn-hideallprices\"]";
         public static final String guideFromMoscowREG = "//span[@class=\"checkDayLine\"]//input[@name=\"guideDay\"]";
         public static final String goldenRingGuide = "//span[@class=\"checkDayLine\"]//input[@name=\"goldenRingGuideDay\"]";
         public static final String transportFromMoscowREG = "//span[@class=\"checkDayLine\"]//input[@name=\"transportDay\"]";
         public static final String showAllDailyPricesREG = "//span[@class=\"checkDayLine\"]//a[@class=\"qbtn qbtn-showalldailyservices\"]";
         public static final String hideAllDailyPricesREG = "//span[@class=\"checkDayLine\"]//a[@class=\"qbtn qbtn-hidealldailyservices\"]";
+
 
 
         public static String GetADayByNumberREG(int dayCounter) {
