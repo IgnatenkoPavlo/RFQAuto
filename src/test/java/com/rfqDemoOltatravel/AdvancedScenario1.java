@@ -1,5 +1,6 @@
 package com.rfqDemoOltatravel;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
@@ -36,6 +37,8 @@ public class AdvancedScenario1 {
     @Test
     public void scenario2() {
         WebDriverRunner.setWebDriver(driver);
+        Configuration selenideConfig = new Configuration();
+        selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);
@@ -605,7 +608,7 @@ public class AdvancedScenario1 {
         }
         else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
                 + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
-            softAssertions.assertThat(services15S)
+            softAssertions.assertThat(services20S)
                     .as("Check that value in Services for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
@@ -622,7 +625,7 @@ public class AdvancedScenario1 {
         }
         else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
                 + services25S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
-            softAssertions.assertThat(services15S)
+            softAssertions.assertThat(services25S)
                     .as("Check that value in Services for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
@@ -657,7 +660,7 @@ public class AdvancedScenario1 {
         }
         else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
                 + dailyServices20S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
-            softAssertions.assertThat(dailyServices15S)
+            softAssertions.assertThat(dailyServices20S)
                     .as("Check that value in Day-Related Services for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
@@ -674,7 +677,7 @@ public class AdvancedScenario1 {
         }
         else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
                 + dailyServices25S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
-            softAssertions.assertThat(dailyServices15S)
+            softAssertions.assertThat(dailyServices25S)
                     .as("Check that value in Day-Related Services for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }

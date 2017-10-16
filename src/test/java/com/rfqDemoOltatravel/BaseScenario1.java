@@ -1,5 +1,6 @@
 package com.rfqDemoOltatravel;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
@@ -37,6 +38,8 @@ public class BaseScenario1 {
     @Test
     public void scenario1() {
         WebDriverRunner.setWebDriver(driver);
+        Configuration selenideConfig = new Configuration();
+        selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);

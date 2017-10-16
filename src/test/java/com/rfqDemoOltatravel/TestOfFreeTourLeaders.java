@@ -1,5 +1,6 @@
 package com.rfqDemoOltatravel;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
@@ -43,6 +44,8 @@ public class TestOfFreeTourLeaders {
     public void testOfFreeTourLeadersOption(){
 
         WebDriverRunner.setWebDriver(driver);
+        Configuration selenideConfig = new Configuration();
+        selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);
@@ -193,7 +196,7 @@ public class TestOfFreeTourLeaders {
                 + NewQuotationPage.ProgrammSection.hideAllPricesForADayREG)).scrollTo().click();
 
         Double programServicesFor15 = 150.0;
-        Double programServicesFor20 = 20.0;
+        Double programServicesFor20 = 140.0;
         Double programServicesFor25 = 25.0;
 
         //Выставляем суммы для 3-х групп: 15, 20, 25
@@ -225,7 +228,7 @@ public class TestOfFreeTourLeaders {
 
 
 
-                    /*$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
                             + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                             + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).click();
 
@@ -233,11 +236,11 @@ public class TestOfFreeTourLeaders {
                             + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                             + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
 
-                    programServicesFor20 = programServicesFor20 + 6.0;
+                    //programServicesFor20 = programServicesFor20 + 6.0;
                     $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
 
 
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                    /*$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
                             + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                             + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).click();
 
@@ -373,6 +376,7 @@ public class TestOfFreeTourLeaders {
         }
 
         programServicesFor15 = programServicesFor15/15.0;
+        programServicesFor20 = programServicesFor20/20.0;
 
         //Проверяем, что в Results кол-во в группе отбражается как 15 + 2
         System.out.print("[-] Запускаем перерасчёт");
@@ -381,7 +385,7 @@ public class TestOfFreeTourLeaders {
         System.out.println(" - Готово");
 
         System.out.println("[-] Проверяем результаты расчёта:");
-        System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15 + 2:");
+        System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15+2:");
         String numberOfPeopleInResult = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//tr[1]//th[2]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("15+2")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
@@ -395,11 +399,14 @@ public class TestOfFreeTourLeaders {
 
         System.out.println("    Проверяем таблицу Hotels (WE) w/o margin:");
         String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
+        String hotelsWE20womS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[2]")).getText();
         String hotelsWEwomSSS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[4]")).getText();
         hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
+        hotelsWE20womS = hotelsWE20womS.substring(0, hotelsWE20womS.indexOf(' '));
         hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
         //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
         String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/15)).setScale(0, RoundingMode.HALF_UP).floatValue());
+        String priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/20)).setScale(0, RoundingMode.HALF_UP).floatValue());
         String priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
@@ -410,6 +417,15 @@ public class TestOfFreeTourLeaders {
             softAssertions.assertThat(priceDBLDS)
                     .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
                     .isEqualTo(hotelsWE15womS);
+        }
+        if(priceDBLDS20.equals(hotelsWE20womS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE20womS + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(priceDBLDS20)
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
+                    .isEqualTo(hotelsWE20womS);
         }
         if(priceSGLDS.equals(hotelsWEwomSSS)) {
             System.out.println(commonCode.ANSI_GREEN+"      -  Значения для SS верное + "+commonCode.ANSI_RESET);
@@ -422,21 +438,38 @@ public class TestOfFreeTourLeaders {
         }
 
         System.out.println("    Проверяем таблицу Hotels (WE):");
-        Double hotelsWE = priceDBLD/2+(priceDBLD/15);
-        hotelsWE = hotelsWE / rubEur;
-        hotelsWE = hotelsWE / generalMarge;
-        String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
+        Double hotelsWE15 = priceDBLD/2+(priceDBLD/15);
+        hotelsWE15 = hotelsWE15 / rubEur;
+        hotelsWE15 = hotelsWE15 / generalMarge;
+        String hotelsWE15S = String.valueOf((int) new BigDecimal(hotelsWE15).setScale(0, RoundingMode.HALF_UP).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
         $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
         String hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
-        if(hotelsWES.equals(hotelsWER)) {
+        if(hotelsWE15S.equals(hotelsWER)) {
             System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+commonCode.ANSI_RESET);
         }
         else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + hotelsWES + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
-            softAssertions.assertThat(hotelsWES)
+                + hotelsWE15S + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWE15S)
                     .as("Check that value in Hotels (WE) for 15 is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        Double hotelsWE20 = priceDBLD/2+(priceDBLD/20);
+        hotelsWE20 = hotelsWE20 / rubEur;
+        hotelsWE20 = hotelsWE20 / generalMarge;
+        String hotelsWE20S = String.valueOf((int) new BigDecimal(hotelsWE20).setScale(0, RoundingMode.HALF_UP).floatValue());
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
+        if(hotelsWE20S.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
+                + hotelsWE20S + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWE20S)
+                    .as("Check that value in Hotels (WE) for 20 is correct")
                     .isEqualTo(hotelsWER);
         }
 
@@ -478,6 +511,24 @@ public class TestOfFreeTourLeaders {
                     .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
 
+        Double services20 = 0.0;
+        services20 = programServicesFor20;
+        services20 = services20 / rubEur;
+        services20 = services20 / generalMarge;
+
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        String services20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        services20S = services20S.substring(0, services20S.indexOf('€'));
+        if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services20S)
+                    .as("Check that value in Services for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
         System.out.println("    Проверяем таблицу Totals (WE):");
         Double totalWE15 = 0.0;
         totalWE15 = priceDBLD/2 +(priceDBLD/15)+ programServicesFor15 + programDailyServicesFor15;
@@ -497,7 +548,778 @@ public class TestOfFreeTourLeaders {
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
         }
 
+        Double totalWE20 = 0.0;
+        totalWE20 = priceDBLD/2 +(priceDBLD/20)+ programServicesFor20 + programDailyServicesFor20;
+        totalWE20 = totalWE20 / rubEur;
+        totalWE20 = totalWE20 / generalMarge;
 
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        String totalWE20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        totalWE20S = totalWE20S.substring(0, totalWE20S.indexOf('€'));
+        if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE20S)
+                    .as("Check that value in Totals (WE) for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+
+
+        //Выставляем Free Tour Leaders в 3
+        System.out.print("[-] Выставляем Free Tour Leaders в 3");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).click();
+        commonCode.WaitForProgruzkaSilent();
+        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).sendKeys("3");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).pressEnter();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        programServicesFor15 = 150.0;
+        programServicesFor20 = 140.0;
+        programServicesFor25 = 25.0;
+
+        //Выставляем суммы для 3-х групп: 15, 20, 25
+        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
+        dayCounterMax = nightInOptionsCounter + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - для дня номер " + dayCounter);
+            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
+
+                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
+
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
+
+                    //programServicesFor15 = programServicesFor15 + 5.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).click();
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
+
+                    //programServicesFor20 = programServicesFor20 + 6.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+                    /*$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).click();
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
+
+
+                    programServicesFor25 = programServicesFor25 + 7.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);*/
+                }
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
+
+            }
+            System.out.println(" - готово");
+
+        }
+
+        programServicesFor15 = 0.0;
+        programServicesFor20 = 0.0;
+        programServicesFor25 = 0.0;
+
+        programDailyServicesFor15 = 0.0;
+        programDailyServicesFor20 = 0.0;
+        programDailyServicesFor25 = 0.0;
+
+        System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
+        dayCounterMax = nightInOptionsCounter + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - считаем для дня номер "+ dayCounter);
+
+            //Считаем для Daily Services
+            $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.showAllDailyPricesREG)).scrollTo().click();
+            if(($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                    + NewQuotationPage.ProgrammSection.guideFromMoscowREG)).isSelected())
+                    || ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                    + NewQuotationPage.ProgrammSection.goldenRingGuide)).isSelected())
+                    || ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                    + NewQuotationPage.ProgrammSection.transportFromMoscowREG)).isSelected())){
+
+                int dalyServicesMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        +"//div[@class=\"serviceByDayInfo\"]//table[@class=\"serviceByDayTable services\"]//tbody//tr[@class=\"service_by_day\"]")).size();
+                //System.out.println(dalyServicesMax+"");
+                for(int dailyServiceCounter=1;dailyServiceCounter<=dalyServicesMax;dailyServiceCounter++){
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                            + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                            + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(1))).scrollTo();
+
+                    programDailyServicesFor15 = programDailyServicesFor15 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(1))).getText());
+
+
+                    programDailyServicesFor20 = programDailyServicesFor20 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(2))).getText());
+
+                    programDailyServicesFor25 = programDailyServicesFor25 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(3))).getText());
+                }
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.hideAllDailyPricesREG)).click();
+            }
+
+            //Считаем для Services
+            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
+                System.out.print("         - считаем для города номер "+ cityCounter);
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
+
+                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).scrollTo();
+
+                    programServicesFor15 = programServicesFor15 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText());
+                    //System.out.println(programServicesFor15);
+
+                    programServicesFor20 = programServicesFor20 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(2))).getText());
+
+                    programServicesFor25 = programServicesFor25 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(3))).getText());
+                }
+
+                int autoServiceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"auto\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= autoServiceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo();
+
+                    programServicesFor15 = programServicesFor15 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText());
+
+                    programServicesFor20 = programServicesFor20 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(2))).getText());
+
+                    programServicesFor25 = programServicesFor25 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(3))).getText());
+                }
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//table[@class=\"services\"]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo().click();
+
+            }
+            System.out.println(" - готово");
+
+
+        }
+
+        programServicesFor15 = programServicesFor15/15.0;
+        programServicesFor20 = programServicesFor20/20.0;
+
+        //Проверяем, что в Results кол-во в группе отбражается как 15 + 3
+        System.out.print("[-] Запускаем перерасчёт");
+        $(By.id("qbtn-execute")).scrollTo().click();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        System.out.println("[-] Проверяем результаты расчёта:");
+        System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15+3:");
+        numberOfPeopleInResult = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//tr[1]//th[2]")).scrollTo().getText();
+        if (numberOfPeopleInResult.equals("15+3")){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(numberOfPeopleInResult)
+                    .as("Check that dates in Results are set correctly")
+                    .isEqualTo(String.valueOf("15+3"));
+            System.out.println(CommonCode.ANSI_RED +"      Количество людей некорректные: " + CommonCode.ANSI_RESET
+                    + numberOfPeopleInResult + " -");
+        }
+
+        System.out.println("    Проверяем таблицу Hotels (WE) w/o margin:");
+        hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
+        hotelsWE20womS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[2]")).getText();
+        hotelsWEwomSSS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[4]")).getText();
+        hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
+        hotelsWE20womS = hotelsWE20womS.substring(0, hotelsWE20womS.indexOf(' '));
+        hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
+        //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
+        priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/15)+priceSGLD/15).setScale(0, RoundingMode.HALF_UP).floatValue());
+        priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/20)+priceSGLD/20).setScale(0, RoundingMode.HALF_UP).floatValue());
+        priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
+        if(priceDBLDS.equals(hotelsWE15womS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(priceDBLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
+                    .isEqualTo(hotelsWE15womS);
+        }
+        if(priceDBLDS20.equals(hotelsWE20womS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE20womS + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(priceDBLDS20)
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
+                    .isEqualTo(hotelsWE20womS);
+        }
+        if(priceSGLDS.equals(hotelsWEwomSSS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для SS верное + "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения SS неверное: "
+                + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
+            softAssertions.assertThat(priceSGLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for SS is correct"+commonCode.ANSI_RESET)
+                    .isEqualTo(hotelsWEwomSSS);
+        }
+
+        System.out.println("    Проверяем таблицу Hotels (WE):");
+        hotelsWE15 = (priceDBLD/2)+(priceDBLD/15)+priceSGLD/15;
+        hotelsWE15 = hotelsWE15 / rubEur;
+        hotelsWE15 = hotelsWE15 / generalMarge;
+        hotelsWE15S = String.valueOf((int) new BigDecimal(hotelsWE15).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
+        if(hotelsWE15S.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
+                + hotelsWE15S + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWE15S)
+                    .as("Check that value in Hotels (WE) for 15 is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        hotelsWE20 = (priceDBLD/2)+(priceDBLD/20)+priceSGLD/20;
+        hotelsWE20 = hotelsWE20 / rubEur;
+        hotelsWE20 = hotelsWE20 / generalMarge;
+        hotelsWE20S = String.valueOf((int) new BigDecimal(hotelsWE20).setScale(0, RoundingMode.HALF_UP).floatValue());
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
+        if(hotelsWE20S.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
+                + hotelsWE20S + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWE20S)
+                    .as("Check that value in Hotels (WE) for 20 is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        hotelsWESS=0.0;
+        hotelsWESS = priceSS;
+        hotelsWESS = hotelsWESS / rubEur /generalMarge;
+        hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));
+        if(hotelsWESSS.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для SS верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      - Значения для SS неверное: "
+                + hotelsWESSS + " не равен " + hotelsWER + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWESSS)
+                    .as("Check that value in Hotels (WE) for SS is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        System.out.println("    Проверяем таблицу Services:");
+        services15 = 0.0;
+        services15 = programServicesFor15;
+        services15 = services15 / rubEur;
+        services15 = services15 / generalMarge;
+
+        //System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        services15S = services15S.substring(0, services15S.indexOf('€'));
+        if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services15S)
+                    .as("Check that value in Services for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        services20 = programServicesFor20;
+        services20 = services20 / rubEur;
+        services20 = services20 / generalMarge;
+        //$(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        services20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        services20S = services20S.substring(0, services20S.indexOf('€'));
+        if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services20S)
+                    .as("Check that value in Services for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+
+        System.out.println("    Проверяем таблицу Totals (WE):");
+        totalWE15 = 0.0;
+        totalWE15 = (priceDBLD/2)+(priceDBLD/15)+priceSGLD/15+ programServicesFor15 + programDailyServicesFor15;
+        totalWE15 = totalWE15 / rubEur;
+        totalWE15 = totalWE15 / generalMarge;
+        //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        totalWE15S = totalWE15S.substring(0, totalWE15S.indexOf('€'));
+        if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE15S)
+                    .as("Check that value in Totals (WE) for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        totalWE20 = (priceDBLD/2)+(priceDBLD/20)+priceSGLD/20 + programServicesFor20 + programDailyServicesFor20;
+        totalWE20 = totalWE20 / rubEur;
+        totalWE20 = totalWE20 / generalMarge;
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        totalWE20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        totalWE20S = totalWE20S.substring(0, totalWE20S.indexOf('€'));
+        if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE20S)
+                    .as("Check that value in Totals (WE) for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        //Выставляем Free Tour Leaders accommodation type в SGL
+        System.out.print("[-] Выставляем Free Tour Leaders accommodation type в SGL");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeadersAccoommType)).scrollTo();
+        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeadersAccoommType)).selectOptionContainingText("SGL");
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        /*programServicesFor15 = 150.0;
+        programServicesFor20 = 140.0;
+        programServicesFor25 = 25.0;
+
+        //Выставляем суммы для 3-х групп: 15, 20, 25
+        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
+        dayCounterMax = nightInOptionsCounter + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - для дня номер " + dayCounter);
+            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
+
+                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
+
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
+
+                    //programServicesFor15 = programServicesFor15 + 5.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).click();
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
+
+                    //programServicesFor20 = programServicesFor20 + 6.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+
+
+                    /*$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).click();
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
+
+
+                    programServicesFor25 = programServicesFor25 + 7.0;
+                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);*/
+                /*}
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
+
+            }
+            System.out.println(" - готово");
+
+        }*/
+
+        /*programServicesFor15 = 0.0;
+        programServicesFor20 = 0.0;
+        programServicesFor25 = 0.0;
+
+        programDailyServicesFor15 = 0.0;
+        programDailyServicesFor20 = 0.0;
+        programDailyServicesFor25 = 0.0;
+
+        System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
+        dayCounterMax = nightInOptionsCounter + 1;
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - считаем для дня номер "+ dayCounter);
+
+            //Считаем для Daily Services
+            $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.showAllDailyPricesREG)).scrollTo().click();
+            if(($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                    + NewQuotationPage.ProgrammSection.guideFromMoscowREG)).isSelected())
+                    || ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                    + NewQuotationPage.ProgrammSection.goldenRingGuide)).isSelected())
+                    || ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                    + NewQuotationPage.ProgrammSection.transportFromMoscowREG)).isSelected())){
+
+                int dalyServicesMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        +"//div[@class=\"serviceByDayInfo\"]//table[@class=\"serviceByDayTable services\"]//tbody//tr[@class=\"service_by_day\"]")).size();
+                //System.out.println(dalyServicesMax+"");
+                for(int dailyServiceCounter=1;dailyServiceCounter<=dalyServicesMax;dailyServiceCounter++){
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                            + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                            + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(1))).scrollTo();
+
+                    programDailyServicesFor15 = programDailyServicesFor15 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(1))).getText());
+
+
+                    programDailyServicesFor20 = programDailyServicesFor20 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(2))).getText());
+
+                    programDailyServicesFor25 = programDailyServicesFor25 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(3))).getText());
+                }
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.hideAllDailyPricesREG)).click();
+            }*/
+
+            //Считаем для Services
+            /*int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
+                System.out.print("         - считаем для города номер "+ cityCounter);
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
+
+                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).scrollTo();
+
+                    programServicesFor15 = programServicesFor15 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText());
+                    //System.out.println(programServicesFor15);
+
+                    programServicesFor20 = programServicesFor20 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(2))).getText());
+
+                    programServicesFor25 = programServicesFor25 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(3))).getText());
+                }
+
+                int autoServiceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"auto\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= autoServiceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo();
+
+                    programServicesFor15 = programServicesFor15 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText());
+
+                    programServicesFor20 = programServicesFor20 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(2))).getText());
+
+                    programServicesFor25 = programServicesFor25 +
+                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
+                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(3))).getText());
+                }
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//table[@class=\"services\"]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo().click();
+
+            }
+            System.out.println(" - готово");
+
+
+        }
+
+        programServicesFor15 = programServicesFor15/15.0;
+        programServicesFor20 = programServicesFor20/20.0;*/
+
+        //Проверяем, что в Results кол-во в группе отбражается как 15 + 3
+        System.out.print("[-] Запускаем перерасчёт");
+        $(By.id("qbtn-execute")).scrollTo().click();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        System.out.println("[-] Проверяем результаты расчёта:");
+        System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15+3:");
+        numberOfPeopleInResult = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//tr[1]//th[2]")).scrollTo().getText();
+        if (numberOfPeopleInResult.equals("15+3")){
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(numberOfPeopleInResult)
+                    .as("Check that dates in Results are set correctly")
+                    .isEqualTo(String.valueOf("15+3"));
+            System.out.println(CommonCode.ANSI_RED +"      Количество людей некорректные: " + CommonCode.ANSI_RESET
+                    + numberOfPeopleInResult + " -");
+        }
+
+        System.out.println("    Проверяем таблицу Hotels (WE) w/o margin:");
+        hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
+        hotelsWE20womS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[2]")).getText();
+        hotelsWEwomSSS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[4]")).getText();
+        hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
+        hotelsWE20womS = hotelsWE20womS.substring(0, hotelsWE20womS.indexOf(' '));
+        hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
+        //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
+        priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+3.0*(priceSGLD/15)).setScale(0, RoundingMode.HALF_UP).floatValue());
+        priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+3.0*(priceSGLD/20)).setScale(0, RoundingMode.HALF_UP).floatValue());
+        priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
+        if(priceDBLDS.equals(hotelsWE15womS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(priceDBLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
+                    .isEqualTo(hotelsWE15womS);
+        }
+        if(priceDBLDS20.equals(hotelsWE20womS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE20womS + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(priceDBLDS20)
+                    .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
+                    .isEqualTo(hotelsWE20womS);
+        }
+        if(priceSGLDS.equals(hotelsWEwomSSS)) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для SS верное + "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения SS неверное: "
+                + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
+            softAssertions.assertThat(priceSGLDS)
+                    .as("Check that value in Hotels (WE) w/o margin for SS is correct"+commonCode.ANSI_RESET)
+                    .isEqualTo(hotelsWEwomSSS);
+        }
+
+        System.out.println("    Проверяем таблицу Hotels (WE):");
+        hotelsWE15 = (priceDBLD/2)+3.0*(priceSGLD/15);
+        hotelsWE15 = hotelsWE15 / rubEur;
+        hotelsWE15 = hotelsWE15 / generalMarge;
+        hotelsWE15S = String.valueOf((int) new BigDecimal(hotelsWE15).setScale(0, RoundingMode.HALF_UP).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
+        if(hotelsWE15S.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
+                + hotelsWE15S + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWE15S)
+                    .as("Check that value in Hotels (WE) for 15 is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        hotelsWE20 = (priceDBLD/2)+3.0*(priceSGLD/20);
+        hotelsWE20 = hotelsWE20 / rubEur;
+        hotelsWE20 = hotelsWE20 / generalMarge;
+        hotelsWE20S = String.valueOf((int) new BigDecimal(hotelsWE20).setScale(0, RoundingMode.HALF_UP).floatValue());
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
+        if(hotelsWE20S.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
+                + hotelsWE20S + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWE20S)
+                    .as("Check that value in Hotels (WE) for 20 is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        hotelsWESS=0.0;
+        hotelsWESS = priceSS;
+        hotelsWESS = hotelsWESS / rubEur /generalMarge;
+        hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
+        //System.out.println("Hotels WE 15: " + hotelsWES);
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
+        hotelsWER = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
+        hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));
+        if(hotelsWESSS.equals(hotelsWER)) {
+            System.out.println(commonCode.ANSI_GREEN+"      - Значения для SS верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      - Значения для SS неверное: "
+                + hotelsWESSS + " не равен " + hotelsWER + " -"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(hotelsWESSS)
+                    .as("Check that value in Hotels (WE) for SS is correct")
+                    .isEqualTo(hotelsWER);
+        }
+
+        System.out.println("    Проверяем таблицу Services:");
+        services15 = 0.0;
+        services15 = programServicesFor15;
+        services15 = services15 / rubEur;
+        services15 = services15 / generalMarge;
+
+        //System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        services15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        services15S = services15S.substring(0, services15S.indexOf('€'));
+        if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services15S)
+                    .as("Check that value in Services for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        services20 = programServicesFor20;
+        services20 = services20 / rubEur;
+        services20 = services20 / generalMarge;
+        //$(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
+        services20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        services20S = services20S.substring(0, services20S.indexOf('€'));
+        if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(services20S)
+                    .as("Check that value in Services for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+
+        System.out.println("    Проверяем таблицу Totals (WE):");
+        totalWE15 = 0.0;
+        totalWE15 = (priceDBLD/2)+3.0*(priceSGLD/15)+ programServicesFor15 + programDailyServicesFor15;
+        totalWE15 = totalWE15 / rubEur;
+        totalWE15 = totalWE15 / generalMarge;
+        //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        totalWE15S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        totalWE15S = totalWE15S.substring(0, totalWE15S.indexOf('€'));
+        if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE15S)
+                    .as("Check that value in Totals (WE) for 15 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
+
+        totalWE20 = (priceDBLD/2)+3.0*(priceSGLD/20) + programServicesFor20 + programDailyServicesFor20;
+        totalWE20 = totalWE20 / rubEur;
+        totalWE20 = totalWE20 / generalMarge;
+        //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]")).scrollTo();
+        totalWE20S = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        totalWE20S = totalWE20S.substring(0, totalWE20S.indexOf('€'));
+        if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное "+commonCode.ANSI_RESET);
+        }
+        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+            softAssertions.assertThat(totalWE20S)
+                    .as("Check that value in Totals (WE) for 20 is correct")
+                    .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
+        }
 
     }
 
