@@ -39,14 +39,21 @@ public class NewQuotationPage {
     public static final String groupsTableREG = "//table[@id=\"table-groups\"]";
     public static class GroupsTable {
 
-        CommonCode commonCode = new CommonCode();
+               public static final String groupsAddButtonREG = groupsTableREG+"//tfoot//a[@class=\"qbtn qbtn-add\"]";
 
-        public static final String datesAddButtonREG = groupsTableREG+"//tfoot//a[@class=\"qbtn qbtn-add\"]";
         public static String GetGroupByNumberDeleteButtonREG (int groupNumber) {
 
             String result = groupsTableREG + "//tbody//tr["+String.valueOf(groupNumber)+"]//a[@class=\"qbtn qbtn-delete-group\"]";
             return result;
         }
+
+        public static String GroupByNumberREG(int groupCounter) {
+
+            String result = groupsTableREG + "//tbody//tr["+String.valueOf(groupCounter)+"]";
+
+            return result;
+        }
+
 
     }
 

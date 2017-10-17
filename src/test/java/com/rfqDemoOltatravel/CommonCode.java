@@ -78,12 +78,12 @@ public class CommonCode {
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         int dayCounterMax = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - считаем для дня номер "+ dayCounter);
+            System.out.println("      - считаем для дня номер "+ dayCounter);
 
             //Считаем для Services
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
-                System.out.print("         - считаем для города номер "+ cityCounter);
+                System.out.println("         - считаем для города номер "+ cityCounter);
                 $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
 
@@ -135,7 +135,7 @@ public class CommonCode {
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         int dayCounterMax = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - считаем для дня номер "+ dayCounter);
+            System.out.println("      - считаем для дня номер "+ dayCounter);
 
             //Считаем для Daily Services
             $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.showAllDailyPricesREG)).scrollTo().click();

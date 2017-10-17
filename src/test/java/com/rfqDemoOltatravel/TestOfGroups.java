@@ -125,7 +125,7 @@ public class TestOfGroups {
 
         //Добавляем группу из 35 человек
         System.out.println("[-] Добавляем новую группу - 35 человек:");
-        $(By.xpath(NewQuotationPage.GroupsTable.datesAddButtonREG)).scrollTo().click();
+        $(By.xpath(NewQuotationPage.GroupsTable.groupsAddButtonREG)).scrollTo().click();
         Alert alert = (new WebDriverWait(driver, 4))
                     .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().sendKeys("35");
@@ -185,7 +185,7 @@ public class TestOfGroups {
 
         //Добавляем группу 18 человек
         System.out.println("[-] Добавляем новую группу - 18 человек:");
-        $(By.xpath(NewQuotationPage.GroupsTable.datesAddButtonREG)).scrollTo().click();
+        $(By.xpath(NewQuotationPage.GroupsTable.groupsAddButtonREG)).scrollTo().click();
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().sendKeys("18");
