@@ -261,122 +261,20 @@ public class TestOfFreeTourLeaders {
 
         }
 
-        programServicesFor15 = 0.0;
-        programServicesFor20 = 0.0;
-        programServicesFor25 = 0.0;
+        double programServices[] = {0.0, 0.0, 0.0};
+        double programDailyServices[] = {0.0, 0.0, 0.0};
 
         Double programDailyServicesFor15 = 0.0;
         Double programDailyServicesFor20 = 0.0;
         Double programDailyServicesFor25 = 0.0;
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
-        dayCounterMax = nightInOptionsCounter + 1;
-        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - считаем для дня номер "+ dayCounter);
+        commonCode.GetSumsForServices(programServices);
+        commonCode.GetSumsForDailyServices(programDailyServices);
+        System.out.println(" - готово");
 
-            //Считаем для Daily Services
-            $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.showAllDailyPricesREG)).scrollTo().click();
-            if(($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                    + NewQuotationPage.ProgrammSection.guideFromMoscowREG)).isSelected())
-                    || ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                    + NewQuotationPage.ProgrammSection.goldenRingGuide)).isSelected())
-                    || ($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                    + NewQuotationPage.ProgrammSection.transportFromMoscowREG)).isSelected())){
-
-                int dalyServicesMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        +"//div[@class=\"serviceByDayInfo\"]//table[@class=\"serviceByDayTable services\"]//tbody//tr[@class=\"service_by_day\"]")).size();
-                //System.out.println(dalyServicesMax+"");
-                for(int dailyServiceCounter=1;dailyServiceCounter<=dalyServicesMax;dailyServiceCounter++){
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                            + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
-                            + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(1))).scrollTo();
-
-                    programDailyServicesFor15 = programDailyServicesFor15 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(1))).getText());
-
-
-                    programDailyServicesFor20 = programDailyServicesFor20 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(2))).getText());
-
-                    programDailyServicesFor25 = programDailyServicesFor25 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                                    + NewQuotationPage.ProgrammSection.GetDailyServiceByNumberREG(dailyServiceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetDailySumForPeopleREG(3))).getText());
-                }
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.hideAllDailyPricesREG)).click();
-            }
-
-            //Считаем для Services
-            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
-            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
-                System.out.print("         - считаем для города номер "+ cityCounter);
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
-
-                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).scrollTo();
-
-                    programServicesFor15 = programServicesFor15 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText());
-                    //System.out.println(programServicesFor15);
-
-                    programServicesFor20 = programServicesFor20 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(2))).getText());
-
-                    programServicesFor25 = programServicesFor25 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(3))).getText());
-                }
-
-                int autoServiceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"auto\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= autoServiceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo();
-
-                    programServicesFor15 = programServicesFor15 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText());
-
-                    programServicesFor20 = programServicesFor20 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(2))).getText());
-
-                    programServicesFor25 = programServicesFor25 +
-                            Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(serviceCounter)
-                                    + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(3))).getText());
-                }
-
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//table[@class=\"services\"]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo().click();
-
-            }
-            System.out.println(" - готово");
-
-
-        }
-
-        programServicesFor15 = programServicesFor15/15.0;
-        programServicesFor20 = programServicesFor20/20.0;
+        programServices[0] = programServices[0]/15.0;
+        programServices[1] = programServices[1]/20.0;
 
         //Проверяем, что в Results кол-во в группе отбражается как 15 + 2
         System.out.print("[-] Запускаем перерасчёт");
@@ -493,7 +391,7 @@ public class TestOfFreeTourLeaders {
 
         System.out.println("    Проверяем таблицу Services:");
         Double services15 = 0.0;
-        services15 = programServicesFor15;
+        services15 = programServices[0];
         services15 = services15 / rubEur;
         services15 = services15 / generalMarge;
 
@@ -512,7 +410,7 @@ public class TestOfFreeTourLeaders {
         }
 
         Double services20 = 0.0;
-        services20 = programServicesFor20;
+        services20 = programServices[1];
         services20 = services20 / rubEur;
         services20 = services20 / generalMarge;
 
@@ -531,7 +429,7 @@ public class TestOfFreeTourLeaders {
 
         System.out.println("    Проверяем таблицу Totals (WE):");
         Double totalWE15 = 0.0;
-        totalWE15 = priceDBLD/2 +(priceDBLD/15)+ programServicesFor15 + programDailyServicesFor15;
+        totalWE15 = priceDBLD/2 +(priceDBLD/15)+ programServices[0] + programDailyServices[0];
         totalWE15 = totalWE15 / rubEur;
         totalWE15 = totalWE15 / generalMarge;
         //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -549,7 +447,7 @@ public class TestOfFreeTourLeaders {
         }
 
         Double totalWE20 = 0.0;
-        totalWE20 = priceDBLD/2 +(priceDBLD/20)+ programServicesFor20 + programDailyServicesFor20;
+        totalWE20 = priceDBLD/2 +(priceDBLD/20)+ programServices[1] + programDailyServices[1];
         totalWE20 = totalWE20 / rubEur;
         totalWE20 = totalWE20 / generalMarge;
 
@@ -570,7 +468,7 @@ public class TestOfFreeTourLeaders {
 
         //Выставляем Free Tour Leaders в 3
         System.out.print("[-] Выставляем Free Tour Leaders в 3");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).click();
+        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).scrollTo().click();
         commonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).sendKeys("3");
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).pressEnter();
