@@ -62,18 +62,26 @@ public class NewQuotationPage {
     //Таблица Dates
     public static class DatesPeriodsTable {
 
-        public static final String datesPeriodsTable = "table[id=\"table-dates\"]";
-        public static final String datesPeriodsTableREG = "//table[@id=\"table-dates\"]";
+        public static final String datesTable = "table[id=\"table-dates\"]";
+        public static final String datesTableREG = "//table[@id=\"table-dates\"]";
 
-        public static final String addButton = datesPeriodsTable + " a[class=\"qbtn qbtn-add\"]";
-        public static final String newDateInputField = datesPeriodsTable + " input[class=\"input-date hasDatepicker\"]";
-        public static final String fromDateField = datesPeriodsTable + " td[class=\"dateFrom\"]";
-        public static final String tillDateInput = datesPeriodsTable + " td[class=\"dateTo\"]";
-        public static final String saveButton = datesPeriodsTable + " a[class=\"qbtn qbtn-save\"]";
+        public static final String periodsTable = "table[id=\"table-periods\"]";
+        public static final String periodsTableREG = "//table[@id=\"table-periods\"]";
+
+        public static final String addDateButton = datesTable + " a[class=\"qbtn qbtn-add\"]";
+        public static final String newDateInputField = datesTable + " input[class=\"input-date hasDatepicker\"]";
+        public static final String fromDateField = datesTable + " td[class=\"dateFrom\"]";
+        public static final String tillDateInput = datesTable + " td[class=\"dateTo\"]";
+        public static final String saveDateButton = datesTable + " a[class=\"qbtn qbtn-save\"]";
+
+        public static final String addPeriodButton = periodsTable + " a[class=\"qbtn qbtn-add\"]";
+        public static final String fromPeriodInputField = periodsTable + " td:nth-of-type(1) input[class=\"input-date hasDatepicker\"]";
+        public static final String toPeriodInputField = periodsTable + " td:nth-of-type(2) input[class=\"input-date hasDatepicker\"]";
+        public static final String savePeriodButton = periodsTable + " a[class=\"qbtn qbtn-save\"]";
 
         public static String GetFromDateByPeriodCounter(int periodCounter) {
 
-            String result = $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
+            String result = $(By.xpath(datesTableREG + "//tbody//tr["+String.valueOf(periodCounter)
                     +"]//td[@class=\"dateFrom\"]")).scrollTo().getText();
 
             return result;
@@ -81,7 +89,7 @@ public class NewQuotationPage {
 
         public static String GetTillDateByPeriodCounter(int periodCounter) {
 
-            String result = $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
+            String result = $(By.xpath(datesTableREG + "//tbody//tr["+String.valueOf(periodCounter)
                     +"]//td[@class=\"dateTo\"]")).scrollTo().getText();
 
             return result;
@@ -89,7 +97,7 @@ public class NewQuotationPage {
 
         /*public static void DeleteDatesPeriodByNumber(int periodCounter) {
 
-            $(By.xpath(datesPeriodsTableREG + "//tbody//tr["+String.valueOf(periodCounter)
+            $(By.xpath(datesTableREG + "//tbody//tr["+String.valueOf(periodCounter)
                     +"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
         }*/
     }

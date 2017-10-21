@@ -114,14 +114,14 @@ public class TestOfDates {
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         System.out.print("[-] Добавляем новую дату: " + formatForDate.format(nowDate));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         commonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
@@ -182,14 +182,14 @@ public class TestOfDates {
         //Добавляем второй промежуток дат, берём третьи даты
         System.out.print("[-] Добавляем новую дату: " + formatForDate.format(fromDate3));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate3));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         commonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
@@ -254,14 +254,14 @@ public class TestOfDates {
         //Добавляем второй промежуток дат, берём вторые даты
         System.out.print("[-] Добавляем новую дату: " + formatForDate.format(fromDate2));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate2));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         commonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
@@ -325,7 +325,7 @@ public class TestOfDates {
 
         //Удаляем второй промежуток дат
         System.out.println("[-] Удаляем второй промежуток дат");
-        $(By.xpath(NewQuotationPage.DatesPeriodsTable.datesPeriodsTableREG
+        $(By.xpath(NewQuotationPage.DatesPeriodsTable.datesTableREG
                 + "//tbody//tr[2]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
         driver.switchTo().alert().accept();
         commonCode.WaitForProgruzka();

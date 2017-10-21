@@ -126,7 +126,7 @@ public class AdvancedScenario1 {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
         System.out.print("[-] Добавляем новую дату: " + formatForDateNow.format(nowDate));
         //Кликаем на кнопку Add
-        $(By.cssSelector(DatesPeriodsTable.addButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).click();
 
@@ -134,7 +134,7 @@ public class AdvancedScenario1 {
         //Вводим дату в поле
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(DatesPeriodsTable.saveButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
         System.out.println(" - Готово");
 
         //Добавляем новый Город MSK

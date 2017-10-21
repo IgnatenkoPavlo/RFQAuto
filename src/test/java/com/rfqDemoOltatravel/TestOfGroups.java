@@ -101,7 +101,7 @@ public class TestOfGroups {
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         System.out.print("[-] Добавляем новую дату: " + formatForDate.format(nowDate));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
@@ -109,7 +109,7 @@ public class TestOfGroups {
         //Вводим дату в поле
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveButton)).click();
+        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         System.out.println(" - Готово");
 
         //Добавляем город
