@@ -165,7 +165,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        String resultsDates1 = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[1]//th")).scrollTo().getText();
+        String resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[1]//th")).scrollTo().getText();
         if (resultsDates1.equals(formatForAccommodations1.format(nowDate)+" - "
                 +formatForAccommodations2.format(tillDate1))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
@@ -238,7 +238,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        resultsDates1 = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(formatForAccommodations1.format(fromDate3)+" - "
                 +formatForAccommodations2.format(tillDate3))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
@@ -310,7 +310,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        resultsDates1 = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(formatForAccommodations1.format(fromDate2)+" - "
                 +formatForAccommodations2.format(tillDate2))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
@@ -376,7 +376,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        resultsDates1 = $(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(formatForAccommodations1.format(fromDate3)+" - "
                 +formatForAccommodations2.format(tillDate3))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);

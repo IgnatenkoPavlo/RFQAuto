@@ -6,8 +6,11 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -30,29 +33,7 @@ public class TestOfPeriodsInDates {
     private SoftAssertions softAssertions;
     CommonCode commonCode = new CommonCode();
 
-    public class PeriodsCollection{
-        public LocalDate dateFrom;
-        public LocalDate dateTo;
-        public int priceSGL;
-        public int priceDBL;
-        public int priceSGLWE;
-        public int priceDBLWE;
 
-        PeriodsCollection(String ... data) {
-          if(data.length>=1)
-              dateFrom = LocalDate.of(Integer.valueOf(data[0].substring(6,data[0].length())), Integer.valueOf(data[0].substring(3,5)), Integer.valueOf(data[0].substring(0,2)));
-          if(data.length>=2)
-              dateTo = LocalDate.of(Integer.valueOf(data[1].substring(6,data[1].length())), Integer.valueOf(data[1].substring(3,5)), Integer.valueOf(data[1].substring(0,2)));
-          if(data.length>=3)
-              priceSGL = Integer.valueOf(data[2]);
-          if(data.length>=4)
-              priceDBL = Integer.valueOf(data[3]);
-          if(data.length>=5)
-              priceSGLWE = Integer.valueOf(data[4]);
-          if(data.length>=6)
-              priceDBLWE = Integer.valueOf(data[5]);
-        }
-    }
 
     @Before
     public void setUp() {
@@ -100,87 +81,37 @@ public class TestOfPeriodsInDates {
         commonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
-        //Выбираем город - SPB
-        System.out.print("[-] Выбираем город - SPB");
-        $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-city\"] button[data-switch-value=\"SPB\"]")).click();
-        commonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
 
-        //Выбираем Hotel 4* central
-        System.out.print("[-] Выбираем Hotel 4* central");
-        $(By.cssSelector("div[id=\"filters-bar\"] select[id=\"hotel-type-filter\"]")).selectOptionContainingText("Hotel 4* central");
-        commonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
 
         //Открываем текущий день
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-        LocalDate ldt = LocalDate.now();
-        System.out.println(ldt.format(formatForDate));
-        System.out.println(ldt.format(formatForPrices));
+
+        //System.out.println(ldt.format(formatForDate));
+        //System.out.println(ldt.format(formatForPrices));
 
         //Скролим к 2017 году
-        $(By.xpath("//div[@id=\"content\"]//center[contains(text(),'2017')]")).scrollTo();
-        //Откраваем 01-01-2017
-        $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2017\"]" +
-                "//div//table//tbody//tr" +
-                "//td[@data-date=\"2017-01-01\"]")).click();
-        commonCode.WaitForProgruzkaSilent();
+        System.out.println("[-] Сохраняем значения для периодов для SPB, Hotel 4* central");
+        List<CommonCode.PeriodsCollection> periodsListSPB
+                = commonCode.SavePeriodsForACityAndHotelType("SPB", "Hotel 4* central");
+
+        System.out.println("[-] Сохраняем значения для периодов для MSK, Hotel 4* central");
+        List<CommonCode.PeriodsCollection> periodsListMSK
+                = commonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");;
 
 
-        List<PeriodsCollection> periodsList = new ArrayList<>();
-
-        $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldBe(visible);
-        //Сохраняем значения из попапа
-        String dateFrom = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-dateFrom\"]")).getValue();
-        String dateTo = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-dateTo\"]")).getValue();
-        String priceSGL = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceSgl\"]")).getValue();
-        String priceDBL = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceDbl\"]")).getValue();
-        String priceSGLWE = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceSglWe\"]")).getValue();
-        String priceDBLWE = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceDblWe\"]")).getValue();
-
-        //Сохраняем значения в новый элемент списка
-        periodsList.add(new PeriodsCollection(dateFrom, dateTo, priceSGL, priceDBL, priceSGLWE, priceDBLWE));
-
-        //System.out.println(dateFrom+" "+dateTo+" "+priceSGL+" "+priceDBL+" "+priceSGLWE+" "+priceDBLWE);
-        //Закрываем попап
-        $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//div[@class=\"modal-footer\"]//button[3]")).click();
-        $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldNotBe(visible);
-
-        //Получаем дату начала следующего периода
-        LocalDate dateToNext = LocalDate.of(Integer.valueOf(dateTo.substring(6,dateTo.length())), Integer.valueOf(dateTo.substring(3,5)), Integer.valueOf(dateTo.substring(0,2))).plusDays(1);
-
-        //Проходим по всем периодам и сохраняем значения в список
-        System.out.print("[-] Проходим по всем периодам и сохраняем значения в список");
-        while(!dateTo.equals("31-12-2017")){
-            $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2017\"]" +
-                    "//div//table//tbody//tr" +
-                    "//td[@data-date=\""+dateToNext.format(formatForPrices)+"\"]")).scrollTo().click();
-
-            $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldBe(visible);
-
-            dateFrom = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-dateFrom\"]")).getValue();
-            dateTo = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-dateTo\"]")).getValue();
-            priceSGL = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceSgl\"]")).getValue();
-            priceDBL = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceDbl\"]")).getValue();
-            priceSGLWE = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceSglWe\"]")).getValue();
-            priceDBLWE = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceDblWe\"]")).getValue();
-
-            periodsList.add(new PeriodsCollection(dateFrom, dateTo, priceSGL, priceDBL, priceSGLWE, priceDBLWE));
-
-            $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//div[@class=\"modal-footer\"]//button[3]")).click();
-            $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldNotBe(visible);
-
-            dateToNext = LocalDate.of(Integer.valueOf(dateTo.substring(6,dateTo.length())), Integer.valueOf(dateTo.substring(3,5)), Integer.valueOf(dateTo.substring(0,2))).plusDays(1);
-
+        /*System.out.println("For SPB");
+        for(int i=0;i<periodsListSPB.size();i++) {
+            System.out.println(periodsListSPB.get(i).dateTo);
+            System.out.println(periodsListSPB.get(i).priceDBLWE);
         }
-        System.out.println(" - готово");
-
-        /*for(int i=0;i<periodsList.size();i++) {
-            System.out.println(periodsList.get(i).dateTo);
-            System.out.println(periodsList.get(i).priceDBLWE);
+        System.out.println("");
+        System.out.println("For MSK");
+        for(int i=0;i<periodsListMSK.size();i++) {
+            System.out.println(periodsListMSK.get(i).dateTo);
+            System.out.println(periodsListMSK.get(i).priceDBLWE);
         }*/
 
         //Открываем Quotation приложение
@@ -220,7 +151,7 @@ public class TestOfPeriodsInDates {
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
         //Выставляем колество ночей - 2
-        int nightInOptionsCounter = 1;
+        int nightInOptionsCounter = 2;
         System.out.print("[-] Меняем количество ночей на " + nightInOptionsCounter+ ": ");
         NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
         System.out.println(" - готово");
@@ -260,13 +191,35 @@ public class TestOfPeriodsInDates {
         System.out.println(" - готово");
 
         //Добавляем город
+        System.out.print("[-] Добавляем город: MSK");
+        //Кликаем Add
+        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
+        //Ждём появления меню
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
+        //Кликаем по кнопке с MSK
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Меняем для MSK к-во ночей на 1
+        System.out.print("[-] Меняем для MSK к-во ночей на 1");
+        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
+                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("1").pressEnter();
+        Alert alert = (new WebDriverWait(driver, 4))
+                .until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert().accept();
+        commonCode.WaitForProgruzkaSilent();
+        System.out.println(" - Готово");
+
+        //Добавляем город
         System.out.print("[-] Добавляем город: SPB");
         //Кликаем Add
         $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
         commonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
@@ -277,9 +230,9 @@ public class TestOfPeriodsInDates {
         System.out.println(" - готово");
 
         //Проверяем, что колличество периодов верное
-        $(By.cssSelector("div#result table#table-result-hotels-wo-margin-we tbody tr")).scrollTo();
-        int periodsInResult = $$(By.cssSelector("div#result table#table-result-hotels-wo-margin-we tbody tr")).size();
-        int periodsFromPrices = periodsList.size();
+        $(By.cssSelector("div#results table#table-result-hotels-wo-margin-we tbody tr")).scrollTo();
+        int periodsInResult = $$(By.cssSelector("div#results table#table-result-hotels-wo-margin-we tbody tr")).size();
+        int periodsFromPrices = periodsListSPB.size();
         System.out.println("[-] Проверяем, что колличество периодов в Results верное:");
         if (periodsInResult == periodsFromPrices){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение корректное + "+CommonCode.ANSI_RESET);
@@ -302,17 +255,17 @@ public class TestOfPeriodsInDates {
         String result;
         String composedPeriodValue;
 
-        for(int periodsCounter=1; periodsCounter <= periodsList.size(); periodsCounter++){
+        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
 
-            result = $(By.cssSelector("div#result table#table-result-hotels-wo-margin-we tbody tr:nth-of-type("+(periodsCounter)+") th")).getText();
+            result = $(By.cssSelector("div#results table#table-result-hotels-wo-margin-we tbody tr:nth-of-type("+(periodsCounter)+") th")).getText();
 
-            if(periodsList.get(periodsCounter-1).dateFrom.getMonth() == periodsList.get(periodsCounter-1).dateTo.getMonth())
-                composedPeriodValue = periodsList.get(periodsCounter-1).dateFrom.format(formatForResultsDayOnly)+" - "+periodsList.get(periodsCounter-1).dateTo.format(formatForResultsFull);
+            if(periodsListSPB.get(periodsCounter-1).dateFrom.getMonth() == periodsListSPB.get(periodsCounter-1).dateTo.getMonth())
+                composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsDayOnly)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
             else
-                composedPeriodValue = periodsList.get(periodsCounter-1).dateFrom.format(formatForResultsDayMonthOnly)+" - "+periodsList.get(periodsCounter-1).dateTo.format(formatForResultsFull);
+                composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsDayMonthOnly)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
 
             if(periodsCounter==1)
-                composedPeriodValue = periodsList.get(periodsCounter-1).dateFrom.format(formatForResultsFull)+" - "+periodsList.get(periodsCounter-1).dateTo.format(formatForResultsFull);
+                composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsFull)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
 
             if (result.equals(composedPeriodValue)){
                 System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
@@ -328,11 +281,11 @@ public class TestOfPeriodsInDates {
         //Проверяем, что цены в Hotels (WE) w/o margin верные
         String priceDBLDS;
         System.out.println("[-] Проверяем, что цены в Hotels (WE) w/o margin верные:");
-        for(int periodsCounter=1; periodsCounter <= periodsList.size(); periodsCounter++){
-            priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsList.get(periodsCounter-1).priceDBL)/2.0
-                    +Double.valueOf(registrationFeeForSPB)).setScale(0, RoundingMode.HALF_UP).floatValue());
+        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+            priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0
+                    +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBLWE)/2.0).setScale(0, RoundingMode.HALF_UP).floatValue());
 
-            result = $(By.cssSelector("div#result table#table-result-hotels-wo-margin-we tbody tr:nth-of-type("+(periodsCounter)+") td")).getText();
+            result = $(By.cssSelector("div#results table#table-result-hotels-wo-margin-we tbody tr:nth-of-type("+(periodsCounter)+") td")).getText();
             result = result.substring(0, result.indexOf(' '));
 
             if (result.equals(priceDBLDS)){
@@ -346,17 +299,39 @@ public class TestOfPeriodsInDates {
             }
         }
 
+        //Проверяем, что цены в Hotels (WD) w/o margin верные
+
+        System.out.println("[-] Проверяем, что цены в Hotels (WE) w/o margin верные:");
+        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+            priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0
+                    +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBL)/2.0).setScale(0, RoundingMode.HALF_UP).floatValue());
+
+            result = $(By.cssSelector("div#results table#table-result-hotels-wo-margin-wd tbody tr:nth-of-type("+(periodsCounter)+") td")).getText();
+            result = result.substring(0, result.indexOf(' '));
+
+            if (result.equals(priceDBLDS)){
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+            } else {
+                softAssertions.assertThat(result)
+                        .as("Check that value in Hotels (WD) w/o margin for 15, for period "+periodsCounter+",is correct")
+                        .isEqualTo(priceDBLDS);
+                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                        + result + " -");
+            }
+        }
+
 
         //Проверяем, что цены в Hotels (WE) верные
         Double hotelsWE;
         System.out.println("[-] Проверяем, что цены в Hotels (WE) верные:");
-        for(int periodsCounter=1; periodsCounter <= periodsList.size(); periodsCounter++){
-            hotelsWE = Double.valueOf(periodsList.get(periodsCounter-1).priceDBL)/2.0+Double.valueOf(registrationFeeForSPB);
+        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+            hotelsWE = Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0
+                    +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBLWE)/2.0;
             hotelsWE = hotelsWE / rubEur;
             hotelsWE = hotelsWE / generalMarge;
             priceDBLDS = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
 
-            result = $(By.cssSelector("div#result table#table-result-hotels-we tbody tr:nth-of-type("+(periodsCounter)+") td")).getText();
+            result = $(By.cssSelector("div#results table#table-result-hotels-we tbody tr:nth-of-type("+(periodsCounter)+") td")).getText();
             result = result.substring(0, result.indexOf('€'));
 
             if (result.equals(priceDBLDS)){
@@ -364,6 +339,28 @@ public class TestOfPeriodsInDates {
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WE) for 15, for period "+periodsCounter+",is correct")
+                        .isEqualTo(priceDBLDS);
+                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                        + result + " -");
+            }
+        }
+
+        System.out.println("[-] Проверяем, что цены в Hotels (WD) верные:");
+        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+            hotelsWE = Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0
+                    +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBL)/2.0;
+            hotelsWE = hotelsWE / rubEur;
+            hotelsWE = hotelsWE / generalMarge;
+            priceDBLDS = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
+
+            result = $(By.cssSelector("div#results table#table-result-hotels-wd tbody tr:nth-of-type("+(periodsCounter)+") td")).getText();
+            result = result.substring(0, result.indexOf('€'));
+
+            if (result.equals(priceDBLDS)){
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+            } else {
+                softAssertions.assertThat(result)
+                        .as("Check that value in Hotels (WD) for 15, for period "+periodsCounter+",is correct")
                         .isEqualTo(priceDBLDS);
                 System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
                         + result + " -");

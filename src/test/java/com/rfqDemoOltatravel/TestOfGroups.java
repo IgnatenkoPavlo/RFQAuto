@@ -173,9 +173,9 @@ public class TestOfGroups {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что группа 35 человек в 4-ом столбце в Results:");
         //Проверяем что новая группа добавилась в 4-й столбец
-        if ($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[5]")).scrollTo().getText().equals("35")){
+        if ($(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[5]")).scrollTo().getText().equals("35")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
-            softAssertions.assertThat($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[5]")).getText())
+            softAssertions.assertThat($(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[5]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("35"));
         } else {
@@ -233,9 +233,9 @@ public class TestOfGroups {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что группа 18 человек в 2-ом столбце в Results:");
         //Проверяем что новая группа добавилась в 4-й столбец
-        if ($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).scrollTo().getText().equals("18")){
+        if ($(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).scrollTo().getText().equals("18")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
-            softAssertions.assertThat($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).getText())
+            softAssertions.assertThat($(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("18"));
         } else {
@@ -291,9 +291,9 @@ public class TestOfGroups {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что группа удалена из Results:");
         //Проверяем что новая группа 20 теперь вместо 18
-        if ($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).scrollTo().getText().equals("20")){
+        if ($(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).scrollTo().getText().equals("20")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+CommonCode.ANSI_RESET);
-            softAssertions.assertThat($(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).getText())
+            softAssertions.assertThat($(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//thead//th[3]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("20"));
         } else {
