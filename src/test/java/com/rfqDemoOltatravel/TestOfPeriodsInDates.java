@@ -264,7 +264,7 @@ public class TestOfPeriodsInDates {
             else
                 composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsDayMonthOnly)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
 
-            if(periodsCounter==1)
+            if(periodsListSPB.get(periodsCounter-1).dateFrom.getYear() != periodsListSPB.get(periodsCounter-1).dateTo.getYear())
                 composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsFull)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
 
             if (result.equals(composedPeriodValue)){

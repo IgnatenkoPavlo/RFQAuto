@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -99,16 +100,16 @@ public class TestOfDates {
 
         //Выставляем дату
         //Получаем первую пару дат
-        Instant nowDate = Instant.now();
-        Instant tillDate1 = nowDate.plus(nightInOptionsCounter, ChronoUnit.DAYS);
+        LocalDate nowDate = LocalDate.now();
+        LocalDate tillDate1 = nowDate.plus(nightInOptionsCounter, ChronoUnit.DAYS);
 
         //Получаем вторую пару дат
-        Instant fromDate2 = nowDate.plus(nightInOptionsCounter+2, ChronoUnit.DAYS);
-        Instant tillDate2 = nowDate.plus(nightInOptionsCounter+4, ChronoUnit.DAYS);
+        LocalDate fromDate2 = nowDate.plus(nightInOptionsCounter+2, ChronoUnit.DAYS);
+        LocalDate tillDate2 = nowDate.plus(nightInOptionsCounter+4, ChronoUnit.DAYS);
 
         //Получаем третью пару дат
-        Instant fromDate3 = nowDate.plus(nightInOptionsCounter+6, ChronoUnit.DAYS);
-        Instant tillDate3 = nowDate.plus(nightInOptionsCounter+8, ChronoUnit.DAYS);
+        LocalDate fromDate3 = nowDate.plus(nightInOptionsCounter+6, ChronoUnit.DAYS);
+        LocalDate tillDate3 = nowDate.plus(nightInOptionsCounter+8, ChronoUnit.DAYS);
 
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
@@ -131,6 +132,13 @@ public class TestOfDates {
         DateTimeFormatter formatForAccommodations2 = DateTimeFormatter.ofPattern("d MMMM yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
 
+        DateTimeFormatter formatForResultsDayOnly = DateTimeFormatter.ofPattern("d")
+                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
+        DateTimeFormatter formatForResultsDayMonthOnly = DateTimeFormatter.ofPattern("d MMMM")
+                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
+        DateTimeFormatter formatForResultsFull = DateTimeFormatter.ofPattern("d MMMM yyyy")
+                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
+
         //Добавляем город
         System.out.print("[-] Добавляем город: MSK");
         //Кликаем Add
@@ -142,20 +150,28 @@ public class TestOfDates {
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
         System.out.println(" - Готово");
 
+        String composedPeriodValue;
+        if(nowDate.getMonth() == tillDate1.getMonth())
+            composedPeriodValue = nowDate.format(formatForResultsDayOnly)+" - "+tillDate1.format(formatForResultsFull);
+        else
+            composedPeriodValue = nowDate.format(formatForResultsDayMonthOnly)+" - "+tillDate1.format(formatForResultsFull);
+
+        if(nowDate.getYear() != tillDate1.getYear())
+            composedPeriodValue = nowDate.format(formatForResultsFull)+" - "+tillDate1.format(formatForResultsFull);
+
         //Проверяем что даты в Accommodations верные
         System.out.println("[-] Проверяем что даты в Accommodations верные:");
         String accommodationDate1 =
                 $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(2)))
                         .scrollTo().getText();
+
         //System.out.println(datesTillDate);
-        if (accommodationDate1.equals(formatForAccommodations1.format(nowDate)+" - "
-                +formatForAccommodations2.format(tillDate1))){
+        if (accommodationDate1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректная + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(nowDate)+" "
-                            +formatForAccommodations2.format(tillDate1)));
+                    .isEqualTo(composedPeriodValue);
             System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET
                     + accommodationDate1);
         }
@@ -166,17 +182,23 @@ public class TestOfDates {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         String resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[1]//th")).scrollTo().getText();
-        if (resultsDates1.equals(formatForAccommodations1.format(nowDate)+" - "
-                +formatForAccommodations2.format(tillDate1))){
+
+        if(nowDate.getMonth() == tillDate1.getMonth())
+            composedPeriodValue = nowDate.format(formatForResultsDayOnly)+" - "+tillDate1.format(formatForResultsFull);
+        else
+            composedPeriodValue = nowDate.format(formatForResultsDayMonthOnly)+" - "+tillDate1.format(formatForResultsFull);
+
+        if(nowDate.getYear() != tillDate1.getYear())
+            composedPeriodValue = nowDate.format(formatForResultsFull)+" - "+tillDate1.format(formatForResultsFull);
+
+        if (resultsDates1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(nowDate)+" "
-                            +formatForAccommodations2.format(tillDate1)));
+                    .isEqualTo(composedPeriodValue);
             System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
-                    + String.valueOf(formatForAccommodations1.format(nowDate)+" - "
-                    +formatForAccommodations2.format(tillDate1)));
+                    + String.valueOf(composedPeriodValue));
         }
 
         //Добавляем второй промежуток дат, берём третьи даты
@@ -221,15 +243,22 @@ public class TestOfDates {
         accommodationDate1 =
                 $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
+        String composedPeriodValue3;
+        if(fromDate3.getMonth() == tillDate3.getMonth())
+            composedPeriodValue3 = fromDate3.format(formatForResultsDayOnly)+" - "+tillDate3.format(formatForResultsFull);
+        else
+            composedPeriodValue3 = fromDate3.format(formatForResultsDayMonthOnly)+" - "+tillDate3.format(formatForResultsFull);
+
+        if(fromDate3.getYear() != tillDate3.getYear())
+            composedPeriodValue3 = fromDate3.format(formatForResultsFull)+" - "+tillDate3.format(formatForResultsFull);
+
         //System.out.println(datesTillDate);
-        if (accommodationDate1.equals(formatForAccommodations1.format(fromDate3)+" - "
-                +formatForAccommodations2.format(tillDate3))){
+        if (accommodationDate1.equals(composedPeriodValue3)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate3)+" "
-                            +formatForAccommodations2.format(tillDate3)));
+                    .isEqualTo(composedPeriodValue3);
             System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
                     + accommodationDate1);
         }
@@ -239,14 +268,12 @@ public class TestOfDates {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
-        if (resultsDates1.equals(formatForAccommodations1.format(fromDate3)+" - "
-                +formatForAccommodations2.format(tillDate3))){
+        if (resultsDates1.equals(composedPeriodValue3)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate3)+" "
-                            +formatForAccommodations2.format(tillDate3)));
+                    .isEqualTo(composedPeriodValue3);
             System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
                     + resultsDates1);
         }
@@ -293,15 +320,20 @@ public class TestOfDates {
         accommodationDate1 =
                 $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
+        if(fromDate2.getMonth() == tillDate2.getMonth())
+            composedPeriodValue = fromDate2.format(formatForResultsDayOnly)+" - "+tillDate2.format(formatForResultsFull);
+        else
+            composedPeriodValue = fromDate2.format(formatForResultsDayMonthOnly)+" - "+tillDate2.format(formatForResultsFull);
+
+        if(fromDate2.getYear() != tillDate2.getYear())
+            composedPeriodValue = fromDate2.format(formatForResultsFull)+" - "+tillDate2.format(formatForResultsFull);
         //System.out.println(datesTillDate);
-        if (accommodationDate1.equals(formatForAccommodations1.format(fromDate2)+" - "
-                +formatForAccommodations2.format(tillDate2))){
+        if (accommodationDate1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate2)+" "
-                            +formatForAccommodations2.format(tillDate2)));
+                    .isEqualTo(composedPeriodValue);
             System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
                     + accommodationDate1);
         }
@@ -311,14 +343,12 @@ public class TestOfDates {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
-        if (resultsDates1.equals(formatForAccommodations1.format(fromDate2)+" - "
-                +formatForAccommodations2.format(tillDate2))){
+        if (resultsDates1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate2)+" "
-                            +formatForAccommodations2.format(tillDate2)));
+                    .isEqualTo(composedPeriodValue);
             System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
                     + resultsDates1);
         }
@@ -359,14 +389,12 @@ public class TestOfDates {
                 $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
-        if (accommodationDate1.equals(formatForAccommodations1.format(fromDate3)+" - "
-                +formatForAccommodations2.format(tillDate3))){
+        if (accommodationDate1.equals(composedPeriodValue3)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate3)+" "
-                            +formatForAccommodations2.format(tillDate3)));
+                    .isEqualTo(composedPeriodValue3);
             System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
                     + accommodationDate1);
         }
@@ -377,14 +405,12 @@ public class TestOfDates {
         commonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
-        if (resultsDates1.equals(formatForAccommodations1.format(fromDate3)+" - "
-                +formatForAccommodations2.format(tillDate3))){
+        if (resultsDates1.equals(composedPeriodValue3)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
-                    .isEqualTo(String.valueOf(formatForAccommodations1.format(fromDate3)+" "
-                            +formatForAccommodations2.format(tillDate3)));
+                    .isEqualTo(composedPeriodValue3);
             System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
                     + resultsDates1);
         }
