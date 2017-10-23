@@ -357,7 +357,7 @@ public class BaseScenario1 {
         String totalWESSS = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[4]")).getText();
         totalWESSS = totalWESSS.substring(1, totalWESSS.length());
         if(totalWESSS.equals(hotelsWESSS)) {
-            System.out.println(commonCode.ANSI_RED+"      -  Значение для группы SS верное +"+commonCode.ANSI_RESET);
+            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы SS верное +"+commonCode.ANSI_RESET);
         }
         else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы SS неверное: "
                 + totalWESSS + " не равен " + hotelsWESSS + " -"+commonCode.ANSI_RESET);
