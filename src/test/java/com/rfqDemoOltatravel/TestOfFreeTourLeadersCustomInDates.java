@@ -134,16 +134,16 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Кликаем Add
         $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
         commonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем для группы 15 FTL 1
         System.out.print("[-] Выставляем для группы 15 FTL 1");
-        $(By.xpath(NewQuotationPage.groupsTableREG)).scrollTo();
+        $(By.xpath(NewQuotationPage.groupsTableREG)).shouldBe(visible).scrollTo();
         $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
         $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
