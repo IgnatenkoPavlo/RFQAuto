@@ -19,6 +19,7 @@ public class NewQuotationPage {
         public static final String rubUsdRate = optionsTable + " tr[data-key=\"rub_usd_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String rubEurRate = optionsTable + " tr[data-key=\"rub_eur_rate\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String generalMarge = optionsTable + " tr[data-key=\"general_marge\"] td[class=\"value editable editable-quotatoin-option-value\"]";
+        public static final String guidesLanguage = optionsTable + " tr[data-key=\"guide_language\"] td select[class=\"option\"]";
         public static final String numberOfNights = optionsTable + " tr[data-key=\"number_of_nights\"] td[class=\"value editable editable-quotatoin-option-value\"]";
         public static final String hotelPriceType = optionsTable + " tr[data-key=\"hotel_price_type\"] td select[class=\"option\"]";
         public static final String freeTourLeadersAccoommType = optionsTable + " tr[data-key=\"ftl_acc_type\"] td select[class=\"option\"]";
