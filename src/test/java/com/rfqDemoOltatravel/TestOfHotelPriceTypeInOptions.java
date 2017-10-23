@@ -271,7 +271,7 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.print("[-] Проверяем, что можно выставить отель");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 + "//td[@class=\"hotel visibility-individual\"]"
-                + "//select[@class=\"hotel\"]")).selectOptionContainingText("PTestHotel1");
+                + "//select[@class=\"hotel\"]")).selectOptionContainingText("COSMOS Hotel");
         commonCode.WaitForProgruzkaSilent();
         System.out.println(commonCode.ANSI_GREEN+" - готово"+commonCode.ANSI_RESET);
 
@@ -279,7 +279,7 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.print("[-] Проверяем, что можно выставить тип номера");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 + "//td[@class=\"hotel visibility-individual\"]"
-                + "//select[@class=\"roomCategory\"]")).selectOptionContainingText("Standard Single");
+                + "//select[@class=\"roomCategory\"]")).selectOptionContainingText("STANDARD");
         commonCode.WaitForProgruzkaSilent();
         System.out.println(commonCode.ANSI_GREEN+" - готово"+commonCode.ANSI_RESET);
 
