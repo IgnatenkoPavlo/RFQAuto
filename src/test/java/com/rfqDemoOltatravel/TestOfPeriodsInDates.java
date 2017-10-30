@@ -58,30 +58,28 @@ public class TestOfPeriodsInDates {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем приложение Prices");
         open("http://rfq-demo.oltatravel.com/application/olta.prices");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Открываем групповые цены
         System.out.print("[-] Открываем групповые цены");
         $(By.cssSelector("li[id=\"group\"]")).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
-
-
 
         //Открываем текущий день
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
@@ -124,13 +122,13 @@ public class TestOfPeriodsInDates {
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - готово");
 
         //Создаём новый Quotation
         System.out.println("[-] Создаём новый Quotation:");
         $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
+        $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
         $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
         System.out.println("      Имя - PTestQuotation1");
         $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
@@ -145,7 +143,7 @@ public class TestOfPeriodsInDates {
         //Выставляем курс Евро
         System.out.print("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
@@ -172,7 +170,7 @@ public class TestOfPeriodsInDates {
         $(By.cssSelector("span#qbtn-periods")).click();
         driver.switchTo().alert().accept();
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем период с 01-01-2017 до 31-12-2017
@@ -187,7 +185,7 @@ public class TestOfPeriodsInDates {
 
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.savePeriodButton)).click();
 
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Добавляем город
@@ -199,7 +197,7 @@ public class TestOfPeriodsInDates {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Меняем для MSK к-во ночей на 1
@@ -209,7 +207,7 @@ public class TestOfPeriodsInDates {
         Alert alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавляем город
@@ -221,12 +219,12 @@ public class TestOfPeriodsInDates {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         System.out.print("[-] Запускаем расчёт ");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Проверяем, что колличество периодов верное

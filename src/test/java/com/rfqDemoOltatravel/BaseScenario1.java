@@ -9,10 +9,14 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
@@ -39,22 +43,35 @@ public class BaseScenario1 {
     public void scenario1() {
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
+
+        Properties props=new Properties();
+        try {
+            props.load(new InputStreamReader(new FileInputStream("..//application.properties"), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         selenideConfig.timeout = 30000;
-        System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
+
+        System.out.print("Получил проперти ");
+        String baseURL = props.getProperty("baseURL");
+        System.out.println(baseURL);
+
+        /*System.out.print("[-] Открываем URL: http://"++");
         open("http://rfq-demo.oltatravel.com/");
         commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
 
 
         //Открываем Quotation приложение
@@ -62,37 +79,26 @@ public class BaseScenario1 {
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем валюту в USD
         System.out.println("[-] Выставляем валюту в USD");
         $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Выставляем курс доллара 60
         System.out.println("[-] Выставляем курс доллара 60");
         $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
         //System.out.println(rubUsd);
@@ -107,12 +113,12 @@ public class BaseScenario1 {
         //Меняем колличество ночей на 3
         System.out.print("[-] Меняем количество ночей на 3");
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(OptionsTable.numberOfNights)).setValue("3");
         $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
         System.out.println(" - Готово");
 
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
@@ -138,15 +144,15 @@ public class BaseScenario1 {
         //Кликаем Add
         $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.cssSelector("div[id=\"modal-cityselector\"] div[class=\"modal-dialog\"]")).isDisplayed();
+        $(By.cssSelector("div[id=\"modal-cityselector\"] div[class=\"modal-dialog\"]")).shouldBe(visible);
         //Ждём появления кнопки MSK
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldHave(text("MSK")).click();
         System.out.println(" - Готово");
 
         //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
 
 
         //Считаем суммы для проверки
@@ -157,7 +163,7 @@ public class BaseScenario1 {
         //Кликаем на кнопку prices
         $(By.cssSelector("table[id=\"table-accommodations\"] a[class=\"qbtn qbtn-prices\"]")).click();
         //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
+        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"] div[class=\"modal-content\"]")).shouldBe(visible);
         //Сохраняем сумму дабл в переменную
         String priceSGL = "";
         String priceDBL = "";
@@ -216,7 +222,7 @@ public class BaseScenario1 {
                 }
 
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).isDisplayed();
+                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible);
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
             }
@@ -232,7 +238,7 @@ public class BaseScenario1 {
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo();
         $(By.id("qbtn-execute")).click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzkaSilent();
 
 
         //Сравниваем цену за номер
@@ -364,7 +370,7 @@ public class BaseScenario1 {
             softAssertions.assertThat(totalWESSS)
                     .as("Check that value in Totals (WE) for 15 is correct")
                     .isEqualTo(hotelsWESSS);
-        }
+        }*/
 
 
 

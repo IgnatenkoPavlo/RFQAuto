@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -49,7 +50,7 @@ public class TestOfDates {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - Готово");
@@ -68,28 +69,18 @@ public class TestOfDates {
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.println("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
@@ -123,7 +114,7 @@ public class TestOfDates {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         DateTimeFormatter formatForAccommodations1 = DateTimeFormatter.ofPattern("d")
@@ -144,9 +135,9 @@ public class TestOfDates {
         //Кликаем Add
         $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
         System.out.println(" - Готово");
 
@@ -212,7 +203,7 @@ public class TestOfDates {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate3));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Проверяем Dates
@@ -289,7 +280,7 @@ public class TestOfDates {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate2));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Проверяем Dates

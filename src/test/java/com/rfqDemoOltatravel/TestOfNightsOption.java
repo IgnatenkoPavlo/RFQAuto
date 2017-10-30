@@ -54,7 +54,7 @@ public class TestOfNightsOption {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - Готово");
@@ -73,28 +73,17 @@ public class TestOfNightsOption {
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.println("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
@@ -112,7 +101,7 @@ public class TestOfNightsOption {
                     .as("Check that Rub-Euro rate can`t be 'test'")
                     .isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue(temp).pressEnter();
-            commonCode.WaitForProgruzkaSilent();
+            CommonCode.WaitForProgruzkaSilent();
         } else {
             System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
                     + CommonCode.ANSI_RESET + errorText);
@@ -124,7 +113,7 @@ public class TestOfNightsOption {
         $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("test").pressEnter();
         String errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         if (errorText.equals("none")){
             softAssertions.assertThat(errorText)
@@ -133,7 +122,7 @@ public class TestOfNightsOption {
             System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "
                     +CommonCode.ANSI_RESET);
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(temp);
-            commonCode.WaitForProgruzkaSilent();
+            CommonCode.WaitForProgruzkaSilent();
         } else {
             System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
                     + CommonCode.ANSI_RESET + errorText);
@@ -186,7 +175,7 @@ public class TestOfNightsOption {
 
         if (errorText.equals("none")){
             System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
-            commonCode.WaitForProgruzkaSilent();
+            CommonCode.WaitForProgruzkaSilent();
             softAssertions.assertThat(errorText)
                     .as("Check that city can`t be added if all night are filled")
                     .isEqualTo(String.valueOf("No more nights left."));
@@ -201,7 +190,7 @@ public class TestOfNightsOption {
         System.out.println("[-] Выставляем количество ночей - 1");
         temp=$(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
         $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("1").pressEnter();
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
@@ -213,7 +202,7 @@ public class TestOfNightsOption {
                     .isEqualTo(String.valueOf("Accommodations total nights number exceeds quotation nights number. " +
                             "Please, descrease nights number or delete some accommodation records first."));
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(temp).pressEnter();
-            commonCode.WaitForProgruzkaSilent();
+            CommonCode.WaitForProgruzkaSilent();
         } else {
             System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
                     + CommonCode.ANSI_RESET + errorText);

@@ -4,10 +4,25 @@ package com.rfqDemoOltatravel;
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class NewQuotationPage {
 
+
+    public static void CreateQuotation(String quotationName, String companyName) {
+        System.out.println("[-] Создаём новый Quotation:");
+        $(By.id("qbtn-create")).click();
+        $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
+        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue(quotationName);
+        System.out.println("      Имя - "+quotationName);
+        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText(companyName);
+        System.out.println("      Клиент - "+companyName);
+        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
+        CommonCode.WaitForProgruzkaSilent();
+        System.out.print(" - Готово - номер квотации - ");
+        System.out.println($(By.cssSelector("input#input-search-query")).getValue());
+    }
 
     public static final String quotationDuplicateButton = "";
 

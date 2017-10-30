@@ -52,14 +52,14 @@ public class TestOfAccommodations {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
@@ -75,24 +75,13 @@ public class TestOfAccommodations {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.println("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
@@ -127,7 +116,7 @@ public class TestOfAccommodations {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Проверяем значения Nights в таблице Accommodations
@@ -168,7 +157,7 @@ public class TestOfAccommodations {
         Alert alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         nightsTotalIndicator =
@@ -245,7 +234,7 @@ public class TestOfAccommodations {
                 +NewQuotationPage.AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Alfa");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавляем MSK
@@ -257,7 +246,7 @@ public class TestOfAccommodations {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Выставляем для него значение ночей в 1
@@ -267,7 +256,7 @@ public class TestOfAccommodations {
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         nightsTotalIndicator =
@@ -305,7 +294,7 @@ public class TestOfAccommodations {
                 +NewQuotationPage.AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Mandarin");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Проверяем что к-во дней в Program верное
@@ -354,7 +343,7 @@ public class TestOfAccommodations {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Выставляем для него значение ночей в 2
@@ -364,7 +353,7 @@ public class TestOfAccommodations {
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         nightsTotalIndicator =
@@ -440,7 +429,7 @@ public class TestOfAccommodations {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("TRAIN"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("TRAIN"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
         //Проверяем что поезд встал на своё место
         System.out.println("[-] Проверяем что поезд встал на своё место:");
@@ -466,7 +455,7 @@ public class TestOfAccommodations {
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getSelectedValue().equals("127")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дни поменялись местами + "
@@ -523,7 +512,7 @@ public class TestOfAccommodations {
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getValue().equals("131")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, день удалён + "
@@ -581,7 +570,7 @@ public class TestOfAccommodations {
         alert = (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
         System.out.println("[-] Проверяем что SPB встал на своё место:");
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)

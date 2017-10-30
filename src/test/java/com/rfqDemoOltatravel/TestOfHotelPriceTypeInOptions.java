@@ -52,7 +52,7 @@ public class TestOfHotelPriceTypeInOptions {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - готово");
@@ -71,28 +71,17 @@ public class TestOfHotelPriceTypeInOptions {
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.print("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
@@ -131,18 +120,18 @@ public class TestOfHotelPriceTypeInOptions {
         //Кликаем Add
         $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Проганяем стили css для контрола Hotel Price Type
         $(By.cssSelector(NewQuotationPage.OptionsTable.hotelPriceType)).scrollTo().selectOptionContainingText("Individual");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(NewQuotationPage.OptionsTable.hotelPriceType)).scrollTo().selectOptionContainingText("Group");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Проверяем, что Hotel Price Type стоит DBL
         System.out.println("[-] Проверяем, что Hotel Price Type стоит DBL:");
@@ -212,7 +201,7 @@ public class TestOfHotelPriceTypeInOptions {
         //Проставляем Hotel Price Type в Individual
         System.out.print("[-] Проставляем Hotel Price Type в Individual");
         $(By.cssSelector(NewQuotationPage.OptionsTable.hotelPriceType)).scrollTo().selectOptionContainingText("Individual");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Проверяем, что заголовок таблицы Accommodations корректный
@@ -272,7 +261,7 @@ public class TestOfHotelPriceTypeInOptions {
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 + "//td[@class=\"hotel visibility-individual\"]"
                 + "//select[@class=\"hotel\"]")).selectOptionContainingText("COSMOS Hotel");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(commonCode.ANSI_GREEN+" - готово"+commonCode.ANSI_RESET);
 
         //Проверяем, что можно выставить номер
@@ -280,7 +269,7 @@ public class TestOfHotelPriceTypeInOptions {
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 + "//td[@class=\"hotel visibility-individual\"]"
                 + "//select[@class=\"roomCategory\"]")).selectOptionContainingText("STANDARD");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(commonCode.ANSI_GREEN+" - готово"+commonCode.ANSI_RESET);
 
         String priceDBL = "";
@@ -292,7 +281,7 @@ public class TestOfHotelPriceTypeInOptions {
         $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
 
         //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
+        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"]")).shouldBe(visible);
         //Сохраняем сумму дабл в переменную
         priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
@@ -393,7 +382,7 @@ public class TestOfHotelPriceTypeInOptions {
 
         System.out.print("[-] Запускаем перерасчёт: ");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         System.out.println("[-] Проверяем результаты расчёта.");

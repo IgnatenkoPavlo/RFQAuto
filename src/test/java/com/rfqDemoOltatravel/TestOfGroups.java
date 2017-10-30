@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -51,7 +52,7 @@ public class TestOfGroups {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - Готово");
@@ -65,33 +66,22 @@ public class TestOfGroups {
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.println("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
 
@@ -117,9 +107,9 @@ public class TestOfGroups {
         //Кликаем Add
         $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).isDisplayed();
+        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).isDisplayed();
+        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
         System.out.println(" - Готово");
 
@@ -130,7 +120,7 @@ public class TestOfGroups {
                     .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().sendKeys("35");
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Проверяем что новая группа добавилась на 4-ю позицию
         if ($(By.xpath(NewQuotationPage.groupsTableREG+"//tbody//tr[4]/td[@class=\"people\"]")).getText().equals("35")){
@@ -190,7 +180,7 @@ public class TestOfGroups {
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().sendKeys("18");
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Проверяем что новая группа добавилась на 2-ю позицию
         if ($(By.xpath(NewQuotationPage.groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("18")){
@@ -249,7 +239,7 @@ public class TestOfGroups {
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         //Проверяем что теперь на 2-ой позиции группа 20
         if ($(By.xpath(NewQuotationPage.groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
             System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена успешно "+CommonCode.ANSI_RESET);

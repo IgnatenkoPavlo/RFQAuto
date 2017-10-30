@@ -32,14 +32,14 @@ public class CommonCode {
 
     public static final String overalLoadingIndicatorREG = "//span[contains(text(),'Loading')]";
 
-    public void WaitForProgruzka() {
+    public static void WaitForProgruzka() {
 
         System.out.print("[-] Ждём прогрузку...");
         $(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist);
         System.out.println(" - Готово");
     }
 
-    public void WaitForProgruzkaSilent() {$(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist); }
+    public static void WaitForProgruzkaSilent() {$(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist); }
 
     public void WaitForPageToLoad(ChromeDriver driver) {
         JavascriptExecutor js = driver;
@@ -242,7 +242,7 @@ public class CommonCode {
         //Сохраняем значения в новый элемент списка
         result.add(new PeriodsCollection(dateFrom, dateTo, priceSGL, priceDBL, priceSGLWE, priceDBLWE));
 
-        System.out.println(dateFrom+" "+dateTo+" "+priceSGL+" "+priceDBL+" "+priceSGLWE+" "+priceDBLWE);
+        //System.out.println(dateFrom+" "+dateTo+" "+priceSGL+" "+priceDBL+" "+priceSGLWE+" "+priceDBLWE);
         //Закрываем попап
         $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//div[@class=\"modal-footer\"]//button[3]")).click();
         $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldNotBe(visible);
@@ -265,7 +265,7 @@ public class CommonCode {
             priceDBL = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceDbl\"]")).getValue();
             priceSGLWE = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceSglWe\"]")).getValue();
             priceDBLWE = $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//form[@id=\"form-update-group-hotel-price\"]//input[@id=\"u-priceDblWe\"]")).getValue();
-            System.out.println(dateFrom+" "+dateTo+" "+priceSGL+" "+priceDBL+" "+priceSGLWE+" "+priceDBLWE);
+            //System.out.println(dateFrom+" "+dateTo+" "+priceSGL+" "+priceDBL+" "+priceSGLWE+" "+priceDBLWE);
 
             result.add(new PeriodsCollection(dateFrom, dateTo, priceSGL, priceDBL, priceSGLWE, priceDBLWE));
 

@@ -55,47 +55,36 @@ public class TestOfFreeTourLeadersCustomInDates {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
-        $(By.id("qbtn-create")).isDisplayed();
+        $(By.id("qbtn-create")).shouldBe(visible);
         System.out.println(" - готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).isDisplayed();
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.print("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
@@ -138,7 +127,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем для группы 15 FTL 1
@@ -148,14 +137,14 @@ public class TestOfFreeTourLeadersCustomInDates {
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
         $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).setValue("1").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем для группы 15 FTL Acc в SGL
         System.out.print("[-] Выставляем для группы 15 FTL Acc в SGL");
         $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
                 + "//td[@class=\"ftlAccType\"]//select")).selectOptionContainingText("SGL");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем для группы 20 FTL 2
@@ -165,7 +154,7 @@ public class TestOfFreeTourLeadersCustomInDates {
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
         $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(2)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).setValue("2").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем для группы 25 FTL 3
@@ -175,7 +164,7 @@ public class TestOfFreeTourLeadersCustomInDates {
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
         $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(3)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).setValue("3").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         String priceDBL = "";
@@ -187,7 +176,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
 
         //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
+        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"]")).shouldBe(visible);
         //Сохраняем сумму дабл в переменную
         priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
@@ -289,7 +278,7 @@ public class TestOfFreeTourLeadersCustomInDates {
 
         System.out.print("[-] Запускаем перерасчёт: ");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         System.out.println("[-] Проверяем результаты расчёта.");
@@ -563,10 +552,10 @@ public class TestOfFreeTourLeadersCustomInDates {
 
         System.out.print("[-] Выставляем Free Tour Leaders в 3");
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).sendKeys("3");
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         priceDBL = "";
@@ -579,7 +568,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
 
         //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div[id=\"modal-dialog\"]")).isDisplayed();
+        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"]")).shouldBe(visible);
         //Сохраняем сумму дабл в переменную
         priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).shouldBe(visible).getText();
         priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
@@ -679,7 +668,7 @@ public class TestOfFreeTourLeadersCustomInDates {
 
         System.out.print("[-] Запускаем перерасчёт: ");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         System.out.println("[-] Проверяем результаты расчёта.");

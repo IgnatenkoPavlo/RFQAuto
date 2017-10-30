@@ -46,14 +46,14 @@ public class AdvancedScenario1 {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - Готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
 
         //Открываем Quotation приложение
@@ -70,29 +70,20 @@ public class AdvancedScenario1 {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-        commonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
 
         //Выставляем валюту в USD
         System.out.print("[-] Выставляем валюту в USD");
         $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Выставляем курс доллара 60
         System.out.print("[-] Выставляем курс доллара 60");
         $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
         Double rubUsd = 0.0;
         rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
@@ -109,9 +100,9 @@ public class AdvancedScenario1 {
         final int nightNumber = 3;
         System.out.print("[-] Меняем количество ночей на " + nightNumber);
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightNumber)).pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Сохраняем значение комиссии за бронь в SPB
@@ -142,19 +133,19 @@ public class AdvancedScenario1 {
         //Кликаем Add
         $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
+        $(By.xpath(NewQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
+        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
+        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("MSK"))).click();
         System.out.println(" - Готово");
 
         //Изменяем количество дней в MSK на 2
         System.out.print("[-] Изменяем количество дней в MSK на 2");
-        $(By.cssSelector(newQuotationPage.accomodationsTable)).scrollTo();
-        $(By.cssSelector(newQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
-        $(By.cssSelector(newQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2").pressEnter();
+        $(By.cssSelector(NewQuotationPage.accomodationsTable)).scrollTo();
+        $(By.cssSelector(NewQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
+        $(By.cssSelector(NewQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2").pressEnter();
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавляем новый Город SPB
@@ -162,10 +153,10 @@ public class AdvancedScenario1 {
         //Кликаем Add
         $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
+        $(By.xpath(NewQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Ждём появления кнопки SPB
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        commonCode.WaitForProgruzkaSilent();
+        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("SPB"))).click();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Переходим к 3-му дню
@@ -176,7 +167,7 @@ public class AdvancedScenario1 {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Удаляем ужин в MSK
@@ -184,7 +175,7 @@ public class AdvancedScenario1 {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Удаляем завтрак в SPB
@@ -192,7 +183,7 @@ public class AdvancedScenario1 {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(2) +
                 ProgrammSection.GetMainServiceByNumberREG(1) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
         driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Считаем суммы для проверки
@@ -313,19 +304,19 @@ public class AdvancedScenario1 {
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
                 +NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.addServiceButtonREG)).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 +ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[3]//select[@class=\"serviceType\"]")).selectOptionContainingText("Excursion");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 +ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавить во второй день шоу Большой Театр
@@ -333,19 +324,19 @@ public class AdvancedScenario1 {
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(2)
                 +NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.addServiceButtonREG)).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(ProgrammSection.GetADayByNumberREG(2)
                 +ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[3]//select[@class=\"serviceType\"]")).selectOptionContainingText("Show");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(ProgrammSection.GetADayByNumberREG(2)
                 +ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bolshoi theatre");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавить в третий день Гид из Москвы и Транспорт из Москвы
@@ -353,13 +344,13 @@ public class AdvancedScenario1 {
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(3))).scrollTo();
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3)
                 +ProgrammSection.guideFromMoscowREG)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         System.out.print("[-] В третий день добавляем \"Транспорт из Москвы\":");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3)
                 +ProgrammSection.transportFromMoscowREG)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавить в четвёртый день Гид из Москвы
@@ -367,7 +358,7 @@ public class AdvancedScenario1 {
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(4))).scrollTo();
         $(By.xpath(ProgrammSection.GetADayByNumberREG(4)
                 +ProgrammSection.guideFromMoscowREG)).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         programServicesFor15 = 0.0;

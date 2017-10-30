@@ -47,45 +47,45 @@ public class TestOfGuidesLanguageSwitching {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("pavel.sales");
+        $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(" - готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем приложение Prices");
         open("http://rfq-demo.oltatravel.com/application/olta.prices");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Открываем цены на гида
         System.out.print("[-] Открываем раздел цены на гида");
         $(By.cssSelector("li[id=\"guides\"]")).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выбираем город - MSK
         System.out.print("[-] Выбираем город - MSK");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-city\"] button[data-switch-value=\"MSK\"]")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выбираем год - 2017
         System.out.print("[-] Выбираем год - 2017");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-year\"] button[data-switch-value=\"2017\"]")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выбираем язык - English
         System.out.print("[-] Выбираем язык - English");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-lang\"] button[data-switch-value=\"English\"]")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         System.out.print("[-] Сохраняем цену для 1/2 day (4 hours)");
@@ -96,7 +96,7 @@ public class TestOfGuidesLanguageSwitching {
         //Выбираем язык - English
         System.out.print("[-] Выбираем язык - Russian");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-lang\"] button[data-switch-value=\"Russian\"]")).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         System.out.print("[-] Сохраняем цену для 1/2 day (4 hours)");
@@ -118,25 +118,13 @@ public class TestOfGuidesLanguageSwitching {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-        commonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
-
-        //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.print("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
@@ -186,19 +174,19 @@ public class TestOfGuidesLanguageSwitching {
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
                 +NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.addServiceButtonREG)).scrollTo().click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[3]//select[@class=\"serviceType\"]")).selectOptionContainingText("Excursion");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Получаем цену которая выставилась для гида
@@ -227,7 +215,7 @@ public class TestOfGuidesLanguageSwitching {
         //Меняем язык гида на Russian
         System.out.print("[-] Меняем язык гида на Russian");
         $(By.cssSelector(NewQuotationPage.OptionsTable.guidesLanguage)).scrollTo().selectOptionContainingText("Russian");
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Получаем новую цену для гида

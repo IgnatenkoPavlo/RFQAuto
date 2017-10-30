@@ -81,4 +81,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+            <profile>
+                <id>demo</id>
+                <properties>
+                    <base.url>1rfq1-demo.oltatravel.com</base.url>
+                </properties>
+                <activation>
+                    <activeByDefault>true</activeByDefault>
+                </activation>
+            </profile>
+        <profile>
+            <id>ak</id>
+            <properties>
+                <base.url>ak.rfq.com</base.url>
+            </properties>
+        </profile>
+    </profiles>
 </project>
