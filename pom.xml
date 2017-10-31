@@ -92,7 +92,7 @@
             <profile>
                 <id>demo</id>
                 <properties>
-                    <baseUrl>rfq-demo.oltatravel.com11</baseUrl>
+                    <baseUrl>http://rfq-demo.oltatravel.com</baseUrl>
                 </properties>
                 <activation>
                     <activeByDefault>true</activeByDefault>
@@ -101,7 +101,7 @@
         <profile>
             <id>ak</id>
             <properties>
-                <baseUrl>ak.rfq.com</baseUrl>
+                <baseUrl>http://ak.rfq.com</baseUrl>
             </properties>
         </profile>
     </profiles>

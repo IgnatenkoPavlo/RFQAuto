@@ -57,8 +57,8 @@ public class BaseScenario1 {
         String baseURL = props.getProperty("baseURL");
         System.out.println(baseURL);
 
-        /*System.out.print("[-] Открываем URL: http://"++");
-        open("http://rfq-demo.oltatravel.com/");
+        System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
+        open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
 
@@ -76,7 +76,7 @@ public class BaseScenario1 {
 
         //Открываем Quotation приложение
         System.out.println("[-] Открываем Quotation приложение");
-        open("http://rfq-demo.oltatravel.com/application/olta.quotation");
+        open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();
@@ -370,7 +370,7 @@ public class BaseScenario1 {
             softAssertions.assertThat(totalWESSS)
                     .as("Check that value in Totals (WE) for 15 is correct")
                     .isEqualTo(hotelsWESSS);
-        }*/
+        }
 
 
 
