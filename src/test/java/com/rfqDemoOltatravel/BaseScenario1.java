@@ -46,7 +46,7 @@ public class BaseScenario1 {
 
         Properties props=new Properties();
         try {
-            props.load(new InputStreamReader(new FileInputStream("..//application.properties"), "UTF-8"));
+            props.load(new InputStreamReader(new FileInputStream("src\\test\\resources\\application.properties"), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
