@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
@@ -16,6 +19,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Properties;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
@@ -45,10 +49,20 @@ public class TestOfFreeTourLeaders {
     public void testOfFreeTourLeadersOption(){
 
         WebDriverRunner.setWebDriver(driver);
+
+        Properties props=new Properties();
+        try {
+            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.print("Получил проперти ");
+        System.out.println(props.getProperty("baseURL"));
+
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
-        System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
-        open("http://rfq-demo.oltatravel.com/");
+        System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
+        open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
 
@@ -66,7 +80,7 @@ public class TestOfFreeTourLeaders {
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
-        open("http://rfq-demo.oltatravel.com/application/olta.quotation");
+        open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();

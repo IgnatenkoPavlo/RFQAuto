@@ -43,6 +43,7 @@ public class BaseScenario1 {
     public void scenario1() {
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
+        selenideConfig.timeout = 30000;
 
         Properties props=new Properties();
         try {
@@ -50,13 +51,8 @@ public class BaseScenario1 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        selenideConfig.timeout = 30000;
-
         System.out.print("Получил проперти ");
-        String baseURL = props.getProperty("baseURL");
-        System.out.println(baseURL);
-
+        System.out.println(props.getProperty("baseURL"));
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);

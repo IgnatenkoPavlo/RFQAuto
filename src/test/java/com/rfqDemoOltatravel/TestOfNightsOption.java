@@ -10,11 +10,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import org.assertj.core.api.SoftAssertions;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.Properties;
 
 
 import static com.codeborne.selenide.Condition.exist;
@@ -46,8 +50,17 @@ public class TestOfNightsOption {
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
-        System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com/");
-        open("http://rfq-demo.oltatravel.com/");
+
+        Properties props=new Properties();
+        try {
+            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.print("Получил проперти ");
+        System.out.println(props.getProperty("baseURL"));
+        System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
+        open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
         System.out.println(" - Готово");
 
@@ -65,7 +78,7 @@ public class TestOfNightsOption {
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
-        open("http://rfq-demo.oltatravel.com/application/olta.quotation");
+        open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
