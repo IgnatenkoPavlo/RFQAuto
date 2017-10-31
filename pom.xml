@@ -86,19 +86,13 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
-        <resources>
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <profiles>
             <profile>
                 <id>demo</id>
                 <properties>
-                    <base.url>1rfq1-demo.oltatravel.com</base.url>
+                    <baseUrl>rfq-demo.oltatravel.com11</baseUrl>
                 </properties>
                 <activation>
                     <activeByDefault>true</activeByDefault>
@@ -107,7 +101,7 @@
         <profile>
             <id>ak</id>
             <properties>
-                <base.url>ak.rfq.com</base.url>
+                <baseUrl>ak.rfq.com</baseUrl>
             </properties>
         </profile>
     </profiles>
