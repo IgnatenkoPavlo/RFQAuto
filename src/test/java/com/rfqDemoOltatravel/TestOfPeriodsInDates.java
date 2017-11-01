@@ -141,13 +141,7 @@ public class TestOfPeriodsInDates {
 
         //Создаём новый Quotation
         System.out.println("[-] Создаём новый Quotation:");
-        $(By.id("qbtn-create")).click();
-        $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
-        $(By.xpath(QuotationListPage.newQuotationNameREG)).setValue("PTestQuotation1");
-        System.out.println("      Имя - PTestQuotation1");
-        $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText("Тест компания");
-        System.out.println("      Клиент - Тест компания");
-        $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
 
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
