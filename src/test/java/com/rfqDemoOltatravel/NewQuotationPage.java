@@ -3,6 +3,7 @@ package com.rfqDemoOltatravel;
 
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -10,7 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class NewQuotationPage {
 
 
-    public static void CreateQuotation(String quotationName, String companyName) {
+    public static void CreateQuotation(WebDriver driver, String quotationName, String companyName) {
         System.out.println("[-] Создаём новый Quotation:");
         $(By.id("qbtn-create")).click();
         $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
@@ -20,8 +21,8 @@ public class NewQuotationPage {
         System.out.println("      Клиент - "+companyName);
         $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.print(" - Готово - номер квотации - ");
-        System.out.println($(By.cssSelector("input#input-search-query")).getValue());
+        System.out.print(" - Готово - ссылка квотации - ");
+        System.out.println(driver.getCurrentUrl());
     }
 
     public static final String quotationDuplicateButton = "";
@@ -42,13 +43,18 @@ public class NewQuotationPage {
         public static final String currency = optionsTable + " tr[data-key=\"currency\"] select[class=\"option\"]";
         public static final String registrationFeeForSPB = optionsTable + " tr[data-key=\"spb_hotel_registration_fee\"] td[class=\"value editable editable-quotatoin-option-value\"]";
 
-        public static void SetNumberOfNights(int nightsCounter) {
+        public static void SetNumberOfNightsInOptions(int nightsCounter) {
 
-            CommonCode commonCode = new CommonCode();
+            System.out.print("[-] Меняем количество ночей на "+String.valueOf(nightsCounter));
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().click();
-            commonCode.WaitForProgruzkaSilent();
+            CommonCode.WaitForProgruzkaSilent();
             $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(String.valueOf(nightsCounter)).pressEnter();
-            commonCode.WaitForProgruzkaSilent();
+            CommonCode.WaitForProgruzkaSilent();
+            String result = $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
+            if(String.valueOf(nightsCounter).equals(result)) {System.out.println(CommonCode.ANSI_GREEN+" - Готово"+CommonCode.ANSI_RESET); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Колличество ночей в Options не установлено"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t set number of nights in Options table as "+String.valueOf(nightsCounter)); }
         }
     }
 

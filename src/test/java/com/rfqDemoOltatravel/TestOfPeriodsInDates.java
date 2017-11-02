@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -51,7 +50,6 @@ public class TestOfPeriodsInDates {
     @Test
     public void testOfPeriodsInDates() {
 
-        WebDriverRunner.setWebDriver(driver);
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
@@ -111,20 +109,7 @@ public class TestOfPeriodsInDates {
 
         System.out.println("[-] Сохраняем значения для периодов для MSK, Hotel 4* central");
         List<CommonCode.PeriodsCollection> periodsListMSK
-                = commonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");;
-
-
-        /*System.out.println("For SPB");
-        for(int i=0;i<periodsListSPB.size();i++) {
-            System.out.println(periodsListSPB.get(i).dateTo);
-            System.out.println(periodsListSPB.get(i).priceDBLWE);
-        }
-        System.out.println("");
-        System.out.println("For MSK");
-        for(int i=0;i<periodsListMSK.size();i++) {
-            System.out.println(periodsListMSK.get(i).dateTo);
-            System.out.println(periodsListMSK.get(i).priceDBLWE);
-        }*/
+                = commonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
@@ -141,7 +126,7 @@ public class TestOfPeriodsInDates {
 
         //Создаём новый Quotation
         System.out.println("[-] Создаём новый Quotation:");
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
 
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
@@ -159,7 +144,7 @@ public class TestOfPeriodsInDates {
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
         System.out.print("[-] Меняем количество ночей на " + nightInOptionsCounter+ ": ");
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
         System.out.println(" - готово");
 
         System.out.print("[-] Сохраняем маржу");

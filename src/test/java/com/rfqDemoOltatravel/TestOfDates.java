@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -87,7 +86,7 @@ public class TestOfDates {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver,"PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
 
@@ -101,7 +100,7 @@ public class TestOfDates {
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
         System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Выставляем дату
         //Получаем первую пару дат

@@ -89,7 +89,7 @@ public class TestOfAccommodations {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем курс Евро
@@ -102,7 +102,7 @@ public class TestOfAccommodations {
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 5;
         System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Выставляем дату
         Instant nowDate = Instant.now();

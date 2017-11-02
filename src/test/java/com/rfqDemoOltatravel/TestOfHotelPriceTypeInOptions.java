@@ -88,7 +88,7 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.println(" - готово");
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем курс Евро
@@ -102,7 +102,7 @@ public class TestOfHotelPriceTypeInOptions {
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 1;
         System.out.print("[-] Меняем количество ночей на " + nightInOptionsCounter+ ": ");
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
         System.out.println(" - готово");
 
         System.out.print("[-] Сохраняем маржу");

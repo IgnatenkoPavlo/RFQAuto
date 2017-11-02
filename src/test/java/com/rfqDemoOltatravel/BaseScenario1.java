@@ -83,7 +83,7 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем валюту в USD
@@ -106,13 +106,8 @@ public class BaseScenario1 {
         System.out.println(" - Готово");
 
 
-        //Меняем колличество ночей на 3
-        System.out.print("[-] Меняем количество ночей на 3");
-        $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        CommonCode.WaitForProgruzkaSilent();
-        $(By.cssSelector(OptionsTable.numberOfNights)).setValue("3");
-        $(By.cssSelector(OptionsTable.numberOfNights)).pressEnter();
-        System.out.println(" - Готово");
+        //Меняем колличество ночей в Options на 3
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(3);
 
         CommonCode.WaitForProgruzkaSilent();
 
@@ -285,6 +280,7 @@ public class BaseScenario1 {
         Double hotelsWESS=0.0;
         hotelsWESS = priceSS;
         hotelsWESS = hotelsWESS / rubUsd /generalMarge;
+        //System.out.println("Hotels WE ss: " + hotelsWESS);
 
         String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE15).setScale(0, RoundingMode.HALF_UP).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
@@ -302,8 +298,7 @@ public class BaseScenario1 {
 
         }
 
-        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
-        //System.out.println("Hotels WE 15: " + hotelsWES);
+        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
         $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
         hotelsWER = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
@@ -364,7 +359,7 @@ public class BaseScenario1 {
         else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы SS неверное: "
                 + totalWESSS + " не равен " + hotelsWESSS + " -"+commonCode.ANSI_RESET);
             softAssertions.assertThat(totalWESSS)
-                    .as("Check that value in Totals (WE) for 15 is correct")
+                    .as("Check that value in Totals (WE) for SS is correct")
                     .isEqualTo(hotelsWESSS);
         }
 

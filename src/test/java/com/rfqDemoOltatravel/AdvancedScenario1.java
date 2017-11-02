@@ -84,7 +84,7 @@ public class AdvancedScenario1 {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
 
@@ -566,7 +566,7 @@ public class AdvancedScenario1 {
         Double hotelsWESS=0.0;
         hotelsWESS = priceSS;
         hotelsWESS = hotelsWESS / rubUsd /generalMarge;
-        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.DOWN).floatValue());
+        String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
         $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
         hotelsWER = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();

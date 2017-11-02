@@ -90,7 +90,7 @@ public class TestOfNightsOption {
         System.out.println(" - Готово");
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем курс Евро
@@ -144,7 +144,7 @@ public class TestOfNightsOption {
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
         System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Выставляем дату
         Instant nowDate = Instant.now();
@@ -287,7 +287,7 @@ public class TestOfNightsOption {
         //Выставляем колество ночей 3
         nightInOptionsCounter = 3;
         System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNights(nightInOptionsCounter);
+        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Проверяем что дата До в таблице Dates стоит правильная
         System.out.println("[-] Проверяем, что после изменения Nights дата До выставлена корректно:");
