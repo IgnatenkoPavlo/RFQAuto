@@ -26,6 +26,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
+import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
 public class TestOfNightsOption {
 
@@ -62,7 +63,7 @@ public class TestOfNightsOption {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -70,11 +71,11 @@ public class TestOfNightsOption {
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
@@ -82,23 +83,20 @@ public class TestOfNightsOption {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
-        NewQuotationPage newQuotationPage = new NewQuotationPage();
+        CreateQuotation("PTestQuotation1", "Тест компания");
+        //NewQuotationPage newQuotationPage = new NewQuotationPage();
 
-        //Выставляем курс Евро
-        System.out.println("[-] Выставляем курс евро 70");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        Double rubEur = 0.0;
-        rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
+        //Выставляем курс Евро - 70.0
+        Double rubEur = 70.0;
+        OptionsTable.SetCurrencyRateForEUR(rubEur);
 
         //Выставляем курс евро как "test" - получаем ошибку
         /*System.out.println("[-] Пробуем выставить курс евро как 'test'");
@@ -107,7 +105,7 @@ public class TestOfNightsOption {
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("test").pressEnter();
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
         if (errorText.equals("none")){
             System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
             softAssertions.assertThat(errorText)
@@ -122,8 +120,8 @@ public class TestOfNightsOption {
 
         //Выставляем колество ночей как "test"
         System.out.println("[-] Пробуем выставить количество ночей как 'test'");
-        String temp = $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("test").pressEnter();
+        String temp = $(By.cssSelector(OptionsTable.numberOfNights)).getText();
+        $(By.cssSelector(OptionsTable.numberOfNights)).setValue("test").pressEnter();
         String errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
         CommonCode.WaitForProgruzkaSilent();
@@ -134,7 +132,7 @@ public class TestOfNightsOption {
                     .isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
             System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "
                     +CommonCode.ANSI_RESET);
-            $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(temp);
+            $(By.cssSelector(OptionsTable.numberOfNights)).setValue(temp);
             CommonCode.WaitForProgruzkaSilent();
         } else {
             System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
@@ -143,8 +141,7 @@ public class TestOfNightsOption {
 
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
-        System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
+        OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Выставляем дату
         Instant nowDate = Instant.now();
@@ -152,37 +149,29 @@ public class TestOfNightsOption {
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         System.out.print("[-] Добавляем новую дату: " + formatForDate.format(nowDate));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).click();
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
 
         //Вводим дату в поле
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(" - Готово");
+        $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
+        System.out.println(CommonCode.OK);
 
         //Добавляем город
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("MSK", 1);
 
         //Добавляем город - получаем ошибку
         System.out.println("[-] Добавляем город: SPB");
         //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
+        $(By.cssSelector(AccomodationsTable.addButton)).click();
         //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
+        $(By.xpath(cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с SPB
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
+        $(By.xpath(GetCityNameButtonREG("SPB"))).shouldBe(visible);
+        $(By.xpath(GetCityNameButtonREG("SPB"))).click();
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
 
@@ -196,15 +185,15 @@ public class TestOfNightsOption {
             System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
                     + CommonCode.ANSI_RESET + errorText);
         }
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
 
 
         //Выставляем колество ночей 1 - получаем ошибку
         System.out.println("[-] Выставляем количество ночей - 1");
-        temp=$(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).click();
+        temp=$(By.cssSelector(OptionsTable.numberOfNights)).getText();
+        $(By.cssSelector(OptionsTable.numberOfNights)).click();
         CommonCode.WaitForProgruzkaSilent();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue("1").pressEnter();
+        $(By.cssSelector(OptionsTable.numberOfNights)).setValue("1").pressEnter();
         errorText = commonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
 
@@ -214,7 +203,7 @@ public class TestOfNightsOption {
                     .as("Check that night number can`t be decreased if all already used")
                     .isEqualTo(String.valueOf("Accommodations total nights number exceeds quotation nights number. " +
                             "Please, descrease nights number or delete some accommodation records first."));
-            $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(temp).pressEnter();
+            $(By.cssSelector(OptionsTable.numberOfNights)).setValue(temp).pressEnter();
             CommonCode.WaitForProgruzkaSilent();
         } else {
             System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
@@ -224,10 +213,10 @@ public class TestOfNightsOption {
         //Проверяем что даты в таблице Dates стоят правильные
         System.out.println("[-] Проверяем, что дата До выставлена корректно:");
         int currentNightNumber =
-                Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
+                Integer.valueOf($(By.cssSelector(OptionsTable.numberOfNights)).scrollTo().getText());
         Instant tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
         String datesTillDate =
-                $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.tillDateInput)).scrollTo().getText();
+                $(By.cssSelector(DatesPeriodsTable.tillDateInput)).scrollTo().getText();
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
@@ -241,7 +230,7 @@ public class TestOfNightsOption {
         //Проверяем значения Nights в таблице Accommodations
         //Сохраняем Nights Total из таблицы Accommodations
         String nightsTotalIndicator =
-                $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
+                $(By.cssSelector(AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
         String nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
         String nightsTotal =
                 nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
@@ -272,7 +261,7 @@ public class TestOfNightsOption {
         //Проверяем колличество дней в Program
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
-        int numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        int numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == nightInOptionsCounter+1){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
@@ -286,15 +275,14 @@ public class TestOfNightsOption {
 
         //Выставляем колество ночей 3
         nightInOptionsCounter = 3;
-        System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
-        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
+        OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Проверяем что дата До в таблице Dates стоит правильная
         System.out.println("[-] Проверяем, что после изменения Nights дата До выставлена корректно:");
         currentNightNumber =
-                Integer.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().getText());
+                Integer.valueOf($(By.cssSelector(OptionsTable.numberOfNights)).scrollTo().getText());
         tillDate = nowDate.plus(currentNightNumber, ChronoUnit.DAYS);
-        datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(1);
+        datesTillDate = DatesPeriodsTable.GetTillDateByPeriodCounter(1);
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+CommonCode.ANSI_RESET);
@@ -307,7 +295,7 @@ public class TestOfNightsOption {
 
         //Проверяем значения Nights в таблице Accommodations
         //Сохраняем Nights Total из таблицы Accommodations
-        nightsTotalIndicator = $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
+        nightsTotalIndicator = $(By.cssSelector(AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
         nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
         nightsTotal = nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
         System.out.println("[-] Проверяем, что после изменений Night Total в таблице Accommodation посчитан корректно:");
@@ -338,7 +326,7 @@ public class TestOfNightsOption {
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == nightInOptionsCounter){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
@@ -351,13 +339,11 @@ public class TestOfNightsOption {
         }
 
         //Добавляем ещё один город
-        System.out.print("[-] Добавляем город: SPB");
-        NewQuotationPage.AddCityToAccomodationByName("VLG");
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("VLG", 2);
 
         //Проверяем значения Nights в таблице Accommodations
         //Сохраняем Nights Total из таблицы Accommodations
-        nightsTotalIndicator = $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
+        nightsTotalIndicator = $(By.cssSelector(AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
         nightsUsed = nightsTotalIndicator.substring(0, (nightsTotalIndicator.indexOf('/')));
         nightsTotal = nightsTotalIndicator.substring(nightsTotalIndicator.indexOf('/')+1, nightsTotalIndicator.length());
         System.out.println("[-] Проверяем, что после добавления города Night Total в таблице Accommodation посчитан корректно:");
@@ -388,7 +374,7 @@ public class TestOfNightsOption {
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == nightInOptionsCounter+1){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);

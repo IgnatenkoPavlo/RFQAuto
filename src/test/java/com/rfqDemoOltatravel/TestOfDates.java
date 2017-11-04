@@ -22,7 +22,9 @@ import java.util.Properties;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.Selenide.open;
+import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfDates {
 
@@ -58,7 +60,7 @@ public class TestOfDates {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -66,40 +68,34 @@ public class TestOfDates {
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        CommonCode.WaitForProgruzkaSilent();
+        System.out.println(CommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver,"PTestQuotation1", "Тест компания");
-        NewQuotationPage newQuotationPage = new NewQuotationPage();
-
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
 
         //Выставляем курс Евро
-        System.out.println("[-] Выставляем курс евро 70");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        Double rubEur = 0.0;
-        rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
+        Double rubEur = 70.0;
+        NewQuotationPage.OptionsTable.SetCurrencyRateForEUR(rubEur);
 
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
-        System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
         NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Выставляем дату
@@ -128,40 +124,26 @@ public class TestOfDates {
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
-        DateTimeFormatter formatForAccommodations1 = DateTimeFormatter.ofPattern("d")
+        DateTimeFormatter formatDayOnly = DateTimeFormatter.ofPattern("d")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-
-        DateTimeFormatter formatForAccommodations2 = DateTimeFormatter.ofPattern("d MMMM yyyy")
+        DateTimeFormatter formatDayMonthOnly = DateTimeFormatter.ofPattern("d MMMM")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-
-        DateTimeFormatter formatForResultsDayOnly = DateTimeFormatter.ofPattern("d")
-                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-        DateTimeFormatter formatForResultsDayMonthOnly = DateTimeFormatter.ofPattern("d MMMM")
-                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-        DateTimeFormatter formatForResultsFull = DateTimeFormatter.ofPattern("d MMMM yyyy")
+        DateTimeFormatter formatFull = DateTimeFormatter.ofPattern("d MMMM yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
 
         //Добавляем город
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("MSK", 1);
 
         String composedPeriodValue;
         if(nowDate.getMonth() == tillDate1.getMonth())
-            composedPeriodValue = nowDate.format(formatForResultsDayOnly)+" - "+tillDate1.format(formatForResultsFull);
+            composedPeriodValue = nowDate.format(formatDayOnly)+" - "+tillDate1.format(formatFull);
         else
-            composedPeriodValue = nowDate.format(formatForResultsDayMonthOnly)+" - "+tillDate1.format(formatForResultsFull);
+            composedPeriodValue = nowDate.format(formatDayMonthOnly)+" - "+tillDate1.format(formatFull);
 
         if(nowDate.getYear() != tillDate1.getYear())
-            composedPeriodValue = nowDate.format(formatForResultsFull)+" - "+tillDate1.format(formatForResultsFull);
+            composedPeriodValue = nowDate.format(formatFull)+" - "+tillDate1.format(formatFull);
 
         //Проверяем что даты в Accommodations верные
         System.out.println("[-] Проверяем что даты в Accommodations верные:");
@@ -183,17 +165,17 @@ public class TestOfDates {
         //Проверяем, что в Results даты тоже корректные
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         String resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[1]//th")).scrollTo().getText();
 
         if(nowDate.getMonth() == tillDate1.getMonth())
-            composedPeriodValue = nowDate.format(formatForResultsDayOnly)+" - "+tillDate1.format(formatForResultsFull);
+            composedPeriodValue = nowDate.format(formatDayOnly)+" - "+tillDate1.format(formatFull);
         else
-            composedPeriodValue = nowDate.format(formatForResultsDayMonthOnly)+" - "+tillDate1.format(formatForResultsFull);
+            composedPeriodValue = nowDate.format(formatDayMonthOnly)+" - "+tillDate1.format(formatFull);
 
         if(nowDate.getYear() != tillDate1.getYear())
-            composedPeriodValue = nowDate.format(formatForResultsFull)+" - "+tillDate1.format(formatForResultsFull);
+            composedPeriodValue = nowDate.format(formatFull)+" - "+tillDate1.format(formatFull);
 
         if (resultsDates1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
@@ -217,7 +199,7 @@ public class TestOfDates {
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Проверяем Dates
         System.out.println("[-] Проверяем, что промежуток дат в таблице Date на своём месте:");
@@ -249,12 +231,12 @@ public class TestOfDates {
                         .scrollTo().getText();
         String composedPeriodValue3;
         if(fromDate3.getMonth() == tillDate3.getMonth())
-            composedPeriodValue3 = fromDate3.format(formatForResultsDayOnly)+" - "+tillDate3.format(formatForResultsFull);
+            composedPeriodValue3 = fromDate3.format(formatDayOnly)+" - "+tillDate3.format(formatFull);
         else
-            composedPeriodValue3 = fromDate3.format(formatForResultsDayMonthOnly)+" - "+tillDate3.format(formatForResultsFull);
+            composedPeriodValue3 = fromDate3.format(formatDayMonthOnly)+" - "+tillDate3.format(formatFull);
 
         if(fromDate3.getYear() != tillDate3.getYear())
-            composedPeriodValue3 = fromDate3.format(formatForResultsFull)+" - "+tillDate3.format(formatForResultsFull);
+            composedPeriodValue3 = fromDate3.format(formatFull)+" - "+tillDate3.format(formatFull);
 
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue3)){
@@ -269,7 +251,7 @@ public class TestOfDates {
         //Проверяем, что в Results даты тоже корректные
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
@@ -294,7 +276,7 @@ public class TestOfDates {
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Проверяем Dates
         System.out.println("[-] Проверяем, что промежуток дат в таблице Date на своём месте:");
@@ -325,12 +307,12 @@ public class TestOfDates {
                 $(By.xpath(NewQuotationPage.AccomodationsTable.AccommodationDateByNumberREG(3)))
                         .scrollTo().getText();
         if(fromDate2.getMonth() == tillDate2.getMonth())
-            composedPeriodValue = fromDate2.format(formatForResultsDayOnly)+" - "+tillDate2.format(formatForResultsFull);
+            composedPeriodValue = fromDate2.format(formatDayOnly)+" - "+tillDate2.format(formatFull);
         else
-            composedPeriodValue = fromDate2.format(formatForResultsDayMonthOnly)+" - "+tillDate2.format(formatForResultsFull);
+            composedPeriodValue = fromDate2.format(formatDayMonthOnly)+" - "+tillDate2.format(formatFull);
 
         if(fromDate2.getYear() != tillDate2.getYear())
-            composedPeriodValue = fromDate2.format(formatForResultsFull)+" - "+tillDate2.format(formatForResultsFull);
+            composedPeriodValue = fromDate2.format(formatFull)+" - "+tillDate2.format(formatFull);
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
@@ -344,7 +326,7 @@ public class TestOfDates {
         //Проверяем Results
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue)){
@@ -361,8 +343,8 @@ public class TestOfDates {
         System.out.println("[-] Удаляем второй промежуток дат");
         $(By.xpath(NewQuotationPage.DatesPeriodsTable.datesTableREG
                 + "//tbody//tr[2]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
-        driver.switchTo().alert().accept();
-        commonCode.WaitForProgruzka();
+        confirm();
+        CommonCode.WaitForProgruzka();
 
         //Проверяем Dates
         System.out.println("[-] Проверяем, что третий промежуток дат в таблице Date стал вторым:");
@@ -406,7 +388,7 @@ public class TestOfDates {
         //Проверяем Results
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){

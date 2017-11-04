@@ -64,7 +64,7 @@ public class TestOfFreeTourLeaders {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -72,7 +72,7 @@ public class TestOfFreeTourLeaders {
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
@@ -84,15 +84,15 @@ public class TestOfFreeTourLeaders {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем курс Евро
@@ -115,13 +115,13 @@ public class TestOfFreeTourLeaders {
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).sendKeys("2");
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).pressEnter();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;
         generalMarge = Double.valueOf(($(By.cssSelector(NewQuotationPage.OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Выставляем дату
         Instant nowDate = Instant.now();
@@ -138,7 +138,7 @@ public class TestOfFreeTourLeaders {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавляем город
         System.out.print("[-] Добавляем город: MSK");
@@ -150,7 +150,7 @@ public class TestOfFreeTourLeaders {
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         String priceDBL = "";
@@ -260,7 +260,7 @@ public class TestOfFreeTourLeaders {
                         + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
             }
-            System.out.println(" - готово");
+            System.out.println(CommonCode.OK);
 
         }
 
@@ -274,7 +274,7 @@ public class TestOfFreeTourLeaders {
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         commonCode.GetSumsForServices(programServices);
         commonCode.GetSumsForDailyServices(programDailyServices);
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         programServices[0] = programServices[0]/15.0;
         programServices[1] = programServices[1]/20.0;
@@ -283,7 +283,7 @@ public class TestOfFreeTourLeaders {
         System.out.print("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         System.out.println("[-] Проверяем результаты расчёта:");
         System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15+2:");
@@ -476,7 +476,7 @@ public class TestOfFreeTourLeaders {
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).sendKeys("3");
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).pressEnter();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         programServicesFor15 = 150.0;
         programServicesFor20 = 140.0;
@@ -540,7 +540,7 @@ public class TestOfFreeTourLeaders {
                         + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
             }
-            System.out.println(" - готово");
+            System.out.println(CommonCode.OK);
 
         }
 
@@ -554,7 +554,7 @@ public class TestOfFreeTourLeaders {
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         commonCode.GetSumsForServices(programServices);
         commonCode.GetSumsForDailyServices(programDailyServices);
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         programServices[0] = programServices[0]/15.0;
         programServices[1] = programServices[1]/20.0;
@@ -564,7 +564,7 @@ public class TestOfFreeTourLeaders {
         System.out.print("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         System.out.println("[-] Проверяем результаты расчёта:");
         System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15+3:");
@@ -748,13 +748,13 @@ public class TestOfFreeTourLeaders {
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeadersAccoommType)).scrollTo();
         $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeadersAccoommType)).selectOptionContainingText("SGL");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Проверяем, что в Results кол-во в группе отбражается как 15 + 3
         System.out.print("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         System.out.println("[-] Проверяем результаты расчёта:");
         System.out.println("[-] Проверяем, что в Results кол-во в группе отбражается как 15+3:");

@@ -23,9 +23,8 @@ import java.util.Properties;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
+import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfAccommodations {
     public ChromeDriver driver;
@@ -61,7 +60,7 @@ public class TestOfAccommodations {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -69,7 +68,7 @@ public class TestOfAccommodations {
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
@@ -80,28 +79,24 @@ public class TestOfAccommodations {
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        CommonCode.WaitForProgruzkaSilent();
+        System.out.println(CommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
+        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем курс Евро
-        System.out.println("[-] Выставляем курс евро 70");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        Double rubEur = 0.0;
-        rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
+        Double rubEur = 70.0;
+        NewQuotationPage.OptionsTable.SetCurrencyRateForEUR(rubEur);
 
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 5;
-        System.out.println("[-] Меняем количество ночей на " + nightInOptionsCounter);
         NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         //Выставляем дату
@@ -119,19 +114,10 @@ public class TestOfAccommodations {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавляем город
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("MSK", 1);
 
         //Проверяем значения Nights в таблице Accommodations
         //Сохраняем Nights Total из таблицы Accommodations
@@ -165,14 +151,7 @@ public class TestOfAccommodations {
         }
 
         //Выставляем значение ночей для отеля в 1
-        System.out.print("[-] Выставляем значение ночей для первого размещения в 1");
-        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
-                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("1").pressEnter();
-        Alert alert = (new WebDriverWait(driver, 4))
-                .until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        NewQuotationPage.AccomodationsTable.SetNightForCityByNumber("MSK", 1, "1");
 
         nightsTotalIndicator =
                 $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
@@ -207,13 +186,13 @@ public class TestOfAccommodations {
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней,после изменения Nights, в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        int numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        int numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 2){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
-                    .as("Check that number of days in Program section is correct")
+                    .as("Check that number of days in Program section is incorrect")
                     .isEqualTo(2);
             System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
@@ -229,14 +208,14 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
-                numberOfServices = Integer.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size());
+                numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 if(numberOfServices==3){
                     System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
-                            .as("Check that number of services in day[%s] in city[%s] is correct.", String.valueOf(dayCounter), String.valueOf(cityCounter))
+                            .as("Check that number of services in day[%s] in city[%s] is incorrect.", String.valueOf(dayCounter), String.valueOf(cityCounter))
                             .isEqualTo(3);
                 }
             }
@@ -249,29 +228,13 @@ public class TestOfAccommodations {
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Alfa");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавляем MSK
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("MSK", 2);
 
         //Выставляем для него значение ночей в 1
-        System.out.print("[-] Выставляем значение ночей для размещения два в 1");
-        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
-                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("1").pressEnter();
-        alert = (new WebDriverWait(driver, 4))
-                .until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        NewQuotationPage.AccomodationsTable.SetNightForCityByNumber("MSK", 2, "1");
 
         nightsTotalIndicator =
                 $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
@@ -309,19 +272,19 @@ public class TestOfAccommodations {
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Mandarin");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Проверяем что к-во дней в Program верное
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 3){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
-                    .as("Check that number of days in Program section is correct")
+                    .as("Check that number of days in Program section is incorrect")
                     .isEqualTo(3);
             System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
@@ -335,8 +298,8 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
-                numberOfServices = Integer.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size());
+                numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 if(numberOfServices==3){
                     System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
@@ -349,26 +312,10 @@ public class TestOfAccommodations {
         }
 
         //Добавляем Питер
-        System.out.print("[-] Добавляем город: SPB");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("SPB", 3);
 
         //Выставляем для него значение ночей в 2
-        System.out.print("[-] Выставляем значение ночей для SPB два в 2");
-        $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(3)
-                +NewQuotationPage.AccomodationsTable.nightsCounterForCityREG)).scrollTo().setValue("2").pressEnter();
-        alert = (new WebDriverWait(driver, 4))
-                .until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        NewQuotationPage.AccomodationsTable.SetNightForCityByNumber("SPB", 3, "2");
 
         nightsTotalIndicator =
                 $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
@@ -402,7 +349,7 @@ public class TestOfAccommodations {
         //Получаем колличество дней
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 5){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
@@ -422,8 +369,8 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
-                numberOfServices = Integer.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size());
+                numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 if(numberOfServices==3){
                     System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
@@ -439,12 +386,12 @@ public class TestOfAccommodations {
         System.out.print("[-] Добавляем перед SPB поезд");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(3)
                 +NewQuotationPage.AccomodationsTable.insertBeforeOfCityREG)).scrollTo().click();
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
+        $(By.xpath(NewQuotationPage.cityAddPopupREG)).shouldBe(visible);
         //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("TRAIN"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("TRAIN"))).click();
+        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("TRAIN"))).shouldBe(visible);
+        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("TRAIN"))).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
         //Проверяем что поезд встал на своё место
         System.out.println("[-] Проверяем что поезд встал на своё место:");
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(3)
@@ -466,9 +413,9 @@ public class TestOfAccommodations {
         System.out.println("[-] Меняем первые MSK местами: ");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
                 +NewQuotationPage.AccomodationsTable.moveUpOfCityREG)).scrollTo().click();
-        alert = (new WebDriverWait(driver, 4))
+        Alert alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
+        confirm();
         CommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getSelectedValue().equals("127")){
@@ -487,7 +434,7 @@ public class TestOfAccommodations {
         //Проверяем что к-во дней в Program верное
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 6){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
@@ -507,8 +454,8 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
-                numberOfServices = Integer.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size());
+                numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 if(numberOfServices==3){
                     System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
@@ -525,7 +472,7 @@ public class TestOfAccommodations {
                 +NewQuotationPage.AccomodationsTable.deleteOfCityREG)).scrollTo().click();
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
+        confirm();
         CommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getValue().equals("131")){
@@ -544,7 +491,7 @@ public class TestOfAccommodations {
         //Проверяем что к-во дней в Program верное
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 5){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
@@ -564,8 +511,8 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
-                numberOfServices = Integer.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size());
+                numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 if(numberOfServices==3){
                     System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
@@ -583,9 +530,9 @@ public class TestOfAccommodations {
                 +NewQuotationPage.AccomodationsTable.moveUpOfCityREG)).scrollTo().click();
         alert = (new WebDriverWait(driver, 10))
                 .until(ExpectedConditions.alertIsPresent());
-        driver.switchTo().alert().accept();
+        confirm();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
         System.out.println("[-] Проверяем что SPB встал на своё место:");
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +"//td[1]")).getText().equals("SPB")){
@@ -603,7 +550,7 @@ public class TestOfAccommodations {
         //Проверяем что к-во дней в Program верное
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
-        numberOfDaysInProgram = Integer.valueOf($$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size());
+        numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 5){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
                     +CommonCode.ANSI_RESET);
@@ -623,8 +570,8 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
-                numberOfServices = Integer.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
-                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size());
+                numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
                 if(numberOfServices==3){
                     System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{

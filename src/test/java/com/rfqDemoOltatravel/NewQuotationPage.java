@@ -2,16 +2,20 @@ package com.rfqDemoOltatravel;
 
 
 import com.codeborne.selenide.Condition;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.confirm;
+import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class NewQuotationPage {
 
 
-    public static void CreateQuotation(WebDriver driver, String quotationName, String companyName) {
+    public static void CreateQuotation(String quotationName, String companyName) {
         System.out.println("[-] Создаём новый Quotation:");
         $(By.id("qbtn-create")).click();
         $(By.xpath(QuotationListPage.newQuotationPopapREG)).shouldBe(visible);
@@ -21,8 +25,7 @@ public class NewQuotationPage {
         System.out.println("      Клиент - "+companyName);
         $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.print(" - Готово - ссылка квотации - ");
-        System.out.println(driver.getCurrentUrl());
+        System.out.println(" - Готово - ссылка квотации - "+url());
     }
 
     public static final String quotationDuplicateButton = "";
@@ -46,15 +49,51 @@ public class NewQuotationPage {
         public static void SetNumberOfNightsInOptions(int nightsCounter) {
 
             System.out.print("[-] Меняем количество ночей на "+String.valueOf(nightsCounter));
-            $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).scrollTo().click();
+            $(By.cssSelector(OptionsTable.numberOfNights)).scrollTo().click();
             CommonCode.WaitForProgruzkaSilent();
-            $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).setValue(String.valueOf(nightsCounter)).pressEnter();
+            $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightsCounter)).pressEnter();
             CommonCode.WaitForProgruzkaSilent();
-            String result = $(By.cssSelector(NewQuotationPage.OptionsTable.numberOfNights)).getText();
-            if(String.valueOf(nightsCounter).equals(result)) {System.out.println(CommonCode.ANSI_GREEN+" - Готово"+CommonCode.ANSI_RESET); }
+            String result = $(By.cssSelector(OptionsTable.numberOfNights)).getText();
+            if(String.valueOf(nightsCounter).equals(result)) {System.out.println(CommonCode.OK); }
             else {
                 System.out.println(CommonCode.ANSI_RED+" - Колличество ночей в Options не установлено"+CommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set number of nights in Options table as "+String.valueOf(nightsCounter)); }
+        }
+
+        public static void SetCurrencyInOptions(String currency) {
+
+            System.out.print("[-] Выставляем валюту в "+currency);
+            $(By.cssSelector(OptionsTable.currency)).scrollTo().selectOptionContainingText(currency);
+            CommonCode.WaitForProgruzkaSilent();
+            String result = $(By.cssSelector(OptionsTable.currency)).getSelectedText();
+            if(currency.equals(result)) {System.out.println(CommonCode.OK); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Валюта в Options не установлена"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t set currency in Options table as "+currency); }
+        }
+
+        public static void SetCurrencyRateForUSD(double usdRate) {
+
+            System.out.print("[-] Выставляем курс доллара - "+usdRate);
+            $(By.cssSelector(OptionsTable.rubUsdRate)).scrollTo().setValue(String.valueOf(usdRate)).pressEnter();
+            CommonCode.WaitForProgruzkaSilent();
+            String result = $(By.cssSelector(OptionsTable.rubUsdRate)).getText();
+            if(String.valueOf(usdRate).equals(result)) {System.out.println(CommonCode.OK); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Курс доллара в Options не установлен"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t set USD rate in Options table as "+usdRate); }
+        }
+
+        public static void SetCurrencyRateForEUR(double eurRate) {
+
+            System.out.print("[-] Выставляем курс евро - "+eurRate);
+            $(By.cssSelector(OptionsTable.rubEurRate)).scrollTo().setValue(String.valueOf(eurRate)).pressEnter();
+            CommonCode.WaitForProgruzkaSilent();
+            String result = $(By.cssSelector(OptionsTable.rubEurRate)).getText();
+            if(String.valueOf(eurRate).equals(result)) {System.out.println(CommonCode.OK); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Курс евро в Options не установлен"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t set EUR rate in Options table as "+eurRate); }
         }
     }
 
@@ -154,6 +193,22 @@ public class NewQuotationPage {
 
             return result;
         }
+
+        public static void SetNightForCityByNumber(String cityName, int cityNumber, String nightsNumber) {
+
+            System.out.print("[-] Изменяем количество дней в "+cityName+" на "+cityNumber);
+            $(By.cssSelector(accomodationsTable)).scrollTo();
+            $(By.xpath(CityByNumberREG(cityNumber)+nightsCounterForCityREG)).click();
+            $(By.xpath(CityByNumberREG(cityNumber)+nightsCounterForCityREG)).setValue(nightsNumber).pressEnter();
+            confirm();
+            CommonCode.WaitForProgruzkaSilent();
+            String result = $(By.xpath(CityByNumberREG(cityNumber)+nightsCounterForCityREG)).getText();
+            if(nightsNumber.equals(result)) {System.out.println(CommonCode.OK); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Количество ночей не изменено"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t set nights value for a city"+ cityNumber+ " in Accommodations as "+nightsNumber); }
+
+        }
     }
 
 
@@ -167,16 +222,21 @@ public class NewQuotationPage {
         return result;
     }
 
-    public static void AddCityToAccomodationByName(String cityName) {
+    public static void AddCityToAccomodationByName(String cityName, int position) {
 
-        CommonCode commonCode = new CommonCode();
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
+        System.out.print("[-] Добавляем город: "+cityName+" на позицию "+position);
+        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).scrollTo().click();
         //Ждём появления меню
         $(By.xpath(cityAddPopupREG)).shouldBe(Condition.visible);
         //Кликаем по кнопке с cityName
         $(By.xpath(GetCityNameButtonREG(cityName))).shouldBe(Condition.visible);
         $(By.xpath(GetCityNameButtonREG(cityName))).click();
-        commonCode.WaitForProgruzkaSilent();
+        CommonCode.WaitForProgruzkaSilent();
+        String result = $(By.xpath(AccomodationsTable.CityByNumberREG(position)+"//td[@class=\"city\"]")).getText();
+        if(String.valueOf(cityName).equals(result)) {System.out.println(CommonCode.OK); }
+        else {
+            System.out.println(CommonCode.ANSI_RED+" - Город не добавлен"+CommonCode.ANSI_RESET);
+            throw new IllegalArgumentException("Can`t add new city to Accommodations "+cityName); }
     }
     //Конец Попапа
 
@@ -232,24 +292,21 @@ public class NewQuotationPage {
 
         public static String GetDailySumForPeopleREG(int peopleCounter) {
 
-            String result = "";
-            result = "//td[@class=\"featureds\"]//table[@class=\"table-featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[@class=\"number sum\"]//span[@class=\"sum\"]";
+            String result = "//td[@class=\"featureds\"]//table[@class=\"table-featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[@class=\"number sum\"]//span[@class=\"sum\"]";
 
             return result;
         }
 
         public static String GetSumForPeopleREG(int peopleCounter) {
 
-            String result = "";
-            result = "//td[@class=\"featureds\"]//table[@class=\"table-featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[4]//span[@class=\"sum\"]";
+            String result = "//td[@class=\"featureds\"]//table[@class=\"table-featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[4]//span[@class=\"sum\"]";
 
             return result;
         }
 
         public static String GetSumForUnitREG(int peopleCounter) {
 
-            String result = "";
-            result = "//td[@class=\"featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[3]//span[@class=\"editable editable-featured-service-price price\"]";
+            String result = "//td[@class=\"featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[3]//span[@class=\"editable editable-featured-service-price price\"]";
 
             return result;
         }

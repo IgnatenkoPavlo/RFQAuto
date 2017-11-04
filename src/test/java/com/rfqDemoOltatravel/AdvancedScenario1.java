@@ -56,14 +56,14 @@ public class AdvancedScenario1 {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
@@ -75,54 +75,41 @@ public class AdvancedScenario1 {
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        CommonCode.WaitForProgruzkaSilent();
+        System.out.println(CommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
-        NewQuotationPage newQuotationPage = new NewQuotationPage();
+        CreateQuotation("PTestQuotation1", "Тест компания");
+        //NewQuotationPage newQuotationPage = new NewQuotationPage();
 
 
         //Выставляем валюту в USD
-        System.out.print("[-] Выставляем валюту в USD");
-        $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        OptionsTable.SetCurrencyInOptions("USD");
 
         //Выставляем курс доллара 60
-        System.out.print("[-] Выставляем курс доллара 60");
-        $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
-        Double rubUsd = 0.0;
-        rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
-        //System.out.println(rubUsd);
+        Double rubUsd = 60.0;
+        OptionsTable.SetCurrencyRateForUSD(rubUsd);
 
         System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;
         generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Меняем колличество ночей на 3
         final int nightNumber = 3;
-        System.out.print("[-] Меняем количество ночей на " + nightNumber);
-        $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        CommonCode.WaitForProgruzkaSilent();
-        $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightNumber)).pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        OptionsTable.SetNumberOfNightsInOptions(nightNumber);
 
         //Сохраняем значение комиссии за бронь в SPB
         System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");
         Double registrationFeeForSPB = Double.valueOf($(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText());
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Добавляем новую дату, дата берётся "сегодня"
@@ -140,38 +127,16 @@ public class AdvancedScenario1 {
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавляем новый Город MSK
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(NewQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("MSK", 1);
 
         //Изменяем количество дней в MSK на 2
-        System.out.print("[-] Изменяем количество дней в MSK на 2");
-        $(By.cssSelector(NewQuotationPage.accomodationsTable)).scrollTo();
-        $(By.cssSelector(NewQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).click();
-        $(By.cssSelector(NewQuotationPage.accomodationsTable + " tbody tr td[class=\"editable editable-accommodation-nights nights\"]")).setValue("2").pressEnter();
-        driver.switchTo().alert().accept();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        AccomodationsTable.SetNightForCityByNumber("MSK", 1, "2");
 
         //Добавляем новый Город SPB
-        System.out.print("[-] Добавляем город: SPB");
-        //Кликаем Add
-        $(By.cssSelector(AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(NewQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Ждём появления кнопки SPB
-        $(By.xpath(NewQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("SPB", 2);
 
         //Переходим к 3-му дню
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3))).scrollTo();
@@ -180,25 +145,25 @@ public class AdvancedScenario1 {
         System.out.print("[-] Удаляем обед в MSK");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
-        driver.switchTo().alert().accept();
+        confirm();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Удаляем ужин в MSK
         System.out.print("[-] Удаляем ужин в MSK");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(2) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
-        driver.switchTo().alert().accept();
+        confirm();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Удаляем завтрак в SPB
         System.out.print("[-] Удаляем завтрак в SPB");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(2) +
                 ProgrammSection.GetMainServiceByNumberREG(1) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
-        driver.switchTo().alert().accept();
+        confirm();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Считаем суммы для проверки
         System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
@@ -244,7 +209,7 @@ public class AdvancedScenario1 {
         $(By.cssSelector("div[id=\"modal-dialog\"]")).shouldNotBe(visible);
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldBe(visible).click();
 
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         Double programServicesFor15 = 15.0;
@@ -276,7 +241,7 @@ public class AdvancedScenario1 {
                             + ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
 
                     programServicesFor15 = programServicesFor15 + 5.0;
-                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                    CommonCode.WaitForProgruzkaSilent();
 
 
 
@@ -289,7 +254,7 @@ public class AdvancedScenario1 {
                             + ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
 
                     programServicesFor20 = programServicesFor20 + 6.0;
-                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                    CommonCode.WaitForProgruzkaSilent();
 
 
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
@@ -302,21 +267,21 @@ public class AdvancedScenario1 {
 
 
                     programServicesFor25 = programServicesFor25 + 7.0;
-                    $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+                    CommonCode.WaitForProgruzkaSilent();
                 }
 
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
             }
-            System.out.println(" - готово");
+            System.out.println(CommonCode.OK);
 
         }
 
         //Добавить в первый день экскурсию Bunker-42
         System.out.print("[-] В первый день добавляем экскурсию \"Бункер-42\":");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
-                +NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.addServiceButtonREG)).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
 
@@ -331,12 +296,12 @@ public class AdvancedScenario1 {
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавить во второй день шоу Большой Театр
         System.out.print("[-] Во второй день добавляем шоу \"Большой театр\":");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(2)
-                +NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(2)
+                + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.addServiceButtonREG)).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
 
@@ -351,29 +316,29 @@ public class AdvancedScenario1 {
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bolshoi theatre");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавить в третий день Гид из Москвы и Транспорт из Москвы
         System.out.print("[-] В третий день добавляем \"Гид из Москвы\":");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(3))).scrollTo();
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(3))).scrollTo();
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3)
                 +ProgrammSection.guideFromMoscowREG)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         System.out.print("[-] В третий день добавляем \"Транспорт из Москвы\":");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3)
                 +ProgrammSection.transportFromMoscowREG)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Добавить в четвёртый день Гид из Москвы
         System.out.print("[-] В четвёртый день добавляем \"Гид из Москвы\":");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(4))).scrollTo();
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(4))).scrollTo();
         $(By.xpath(ProgrammSection.GetADayByNumberREG(4)
                 +ProgrammSection.guideFromMoscowREG)).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         programServicesFor15 = 0.0;
         programServicesFor20 = 0.0;
@@ -485,7 +450,7 @@ public class AdvancedScenario1 {
                         + "//table[@class=\"services\"]//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).scrollTo().click();
 
             }
-            System.out.println(" - готово");
+            System.out.println(CommonCode.OK);
 
 
         }
@@ -504,7 +469,7 @@ public class AdvancedScenario1 {
         //Запускаем Расчёт
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        commonCode.WaitForProgruzka();
+        CommonCode.WaitForProgruzka();
 
 
         //Сравниваем цену за номер
@@ -521,21 +486,21 @@ public class AdvancedScenario1 {
         String priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS)
                     .as("Check that value in Hotels (WE) w/o margin for 15 is correct")
                     .isEqualTo(hotelsWE15womS);
         }
         if(priceSGLDS.equals(hotelsWEwomSSS)) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значения для SS верное + "+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для SS верное + "+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значения SS неверное: "
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значения SS неверное: "
                 + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
             softAssertions.assertThat(priceSGLDS)
-                    .as("Check that value in Hotels (WE) w/o margin for SS is correct"+commonCode.ANSI_RESET)
+                    .as("Check that value in Hotels (WE) w/o margin for SS is correct"+CommonCode.ANSI_RESET)
                     .isEqualTo(hotelsWEwomSSS);
         }
 
@@ -554,10 +519,10 @@ public class AdvancedScenario1 {
         String hotelsWER = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWES.equals(hotelsWER)) {
-            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + hotelsWES + " не равен " + hotelsWER + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
+                + hotelsWES + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWES)
                     .as("Check that value in Hotels (WE) for 15 is correct")
                     .isEqualTo(hotelsWER);
@@ -572,10 +537,10 @@ public class AdvancedScenario1 {
         hotelsWER = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWESSS.equals(hotelsWER)) {
-            System.out.println(commonCode.ANSI_GREEN+"      - Значения для группы SS верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы SS верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      - Значения для группы SS неверное: "
-                + hotelsWESSS + " не равен " + hotelsWER + " -"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      - Значения для группы SS неверное: "
+                + hotelsWESSS + " не равен " + hotelsWER + " -"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWESSS)
                     .as("Check that value in Hotels (WE) for SS is correct")
                     .isEqualTo(hotelsWER);
@@ -592,10 +557,10 @@ public class AdvancedScenario1 {
         String services15S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(1, services15S.length());
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(services15S)
                     .as("Check that value in Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -609,10 +574,10 @@ public class AdvancedScenario1 {
         String services20S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[2]")).getText();
         services20S = services20S.substring(1, services20S.length());
         if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(services20S)
                     .as("Check that value in Services for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -626,10 +591,10 @@ public class AdvancedScenario1 {
         String services25S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[3]")).getText();
         services25S = services25S.substring(1, services25S.length());
         if(services25S.equals(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
+                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(services25S)
                     .as("Check that value in Services for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -644,10 +609,10 @@ public class AdvancedScenario1 {
         String dailyServices15S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         dailyServices15S = dailyServices15S.substring(1, dailyServices15S.length());
         if(dailyServices15S.equals(String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + dailyServices15S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + dailyServices15S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(dailyServices15S)
                     .as("Check that value in Day-Related Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -661,10 +626,10 @@ public class AdvancedScenario1 {
         String dailyServices20S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[2]")).getText();
         dailyServices20S = dailyServices20S.substring(1, dailyServices20S.length());
         if(dailyServices20S.equals(String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + dailyServices20S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + dailyServices20S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(dailyServices20S)
                     .as("Check that value in Day-Related Services for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -678,10 +643,10 @@ public class AdvancedScenario1 {
         String dailyServices25S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[3]")).getText();
         dailyServices25S = dailyServices25S.substring(1, dailyServices25S.length());
         if(dailyServices25S.equals(String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + dailyServices25S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
+                + dailyServices25S + " не равен " + String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(dailyServices25S)
                     .as("Check that value in Day-Related Services for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -697,10 +662,10 @@ public class AdvancedScenario1 {
         String totalWE15S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(1, totalWE15S.length());
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 15 верное "+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE15S)
                     .as("Check that value in Totals (WE) for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -715,10 +680,10 @@ public class AdvancedScenario1 {
         String totalWE20S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[2]")).getText();
         totalWE20S = totalWE20S.substring(1, totalWE20S.length());
         if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 20 верное "+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE20S)
                     .as("Check that value in Totals (WE) for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -733,10 +698,10 @@ public class AdvancedScenario1 {
         String totalWE25S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[3]")).getText();
         totalWE25S = totalWE25S.substring(1, totalWE25S.length());
         if(totalWE25S.equals(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Значение для группы 25 верное "+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
+                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE25S)
                     .as("Check that value in Totals (WE) for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()));

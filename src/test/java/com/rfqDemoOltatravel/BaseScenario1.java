@@ -56,14 +56,14 @@ public class BaseScenario1 {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
@@ -80,36 +80,27 @@ public class BaseScenario1 {
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
+        CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем валюту в USD
-        System.out.println("[-] Выставляем валюту в USD");
-        $(By.cssSelector(OptionsTable.currency)).selectOptionContainingText("USD");
-        CommonCode.WaitForProgruzkaSilent();
+        OptionsTable.SetCurrencyInOptions("USD");
 
         //Выставляем курс доллара 60
-        System.out.println("[-] Выставляем курс доллара 60");
-        $(By.cssSelector(OptionsTable.rubUsdRate)).setValue("60").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        Double rubUsd = 0.0;
-        rubUsd = Double.valueOf($(By.cssSelector(OptionsTable.rubUsdRate)).getText());
-        //System.out.println(rubUsd);
+        Double rubUsd = 60.0;
+        OptionsTable.SetCurrencyRateForUSD(rubUsd);
 
         System.out.print("[-] Сохраняем маржу");
-        Double generalMarge = 0.0;
-        generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
+        Double generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         //Меняем колличество ночей в Options на 3
-        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(3);
-
-        CommonCode.WaitForProgruzkaSilent();
+        OptionsTable.SetNumberOfNightsInOptions(3);
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
@@ -126,25 +117,12 @@ public class BaseScenario1 {
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //$$(By.cssSelector("table[id=\"table-groups\"]"));
 
         //Добавляем новый Город
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.cssSelector("div[id=\"modal-cityselector\"] div[class=\"modal-dialog\"]")).shouldBe(visible);
-        //Ждём появления кнопки MSK
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldHave(text("MSK")).click();
-        System.out.println(" - Готово");
-
-        //Ждём пока страница прогрузится
-        CommonCode.WaitForProgruzkaSilent();
-
+        AddCityToAccomodationByName("MSK", 1);
 
         //Считаем суммы для проверки
         System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
@@ -168,7 +146,7 @@ public class BaseScenario1 {
         //System.out.println(priceDBLD);
         //Закрываем модальное окно
         $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
 
         Double programFor15 = 0.0;
@@ -217,7 +195,7 @@ public class BaseScenario1 {
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
             }
-            System.out.println(" - готово");
+            System.out.println(CommonCode.OK);
 
 
         }
@@ -362,21 +340,6 @@ public class BaseScenario1 {
                     .as("Check that value in Totals (WE) for SS is correct")
                     .isEqualTo(hotelsWESSS);
         }
-
-
-
-        /*Double totalWE20 = 0.0;
-        totalWE20 = priceDBLD + programFor20;
-        totalWE20 = totalWE20 / rubUsd;
-        totalWE20 = totalWE20 / generalMarge;
-        System.out.println("Total WE 20: " + new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue());
-
-        Double totalWE25 = 0.0;
-        totalWE25 = priceDBLD + programFor20;
-        totalWE25 = totalWE25 / rubUsd;
-        totalWE25 = totalWE25 / generalMarge;
-        System.out.println("Total WE 35: " + new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue());*/
-
 
     }
 

@@ -20,6 +20,7 @@ import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
+import static com.rfqDemoOltatravel.NewQuotationPage.*;
 
 public class TestOfGuidesLanguageSwitching {
 
@@ -55,7 +56,7 @@ public class TestOfGuidesLanguageSwitching {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -63,7 +64,7 @@ public class TestOfGuidesLanguageSwitching {
         $(By.id("username")).setValue("test");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
@@ -75,47 +76,47 @@ public class TestOfGuidesLanguageSwitching {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Открываем цены на гида
         System.out.print("[-] Открываем раздел цены на гида");
         $(By.cssSelector("li[id=\"guides\"]")).click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Выбираем город - MSK
         System.out.print("[-] Выбираем город - MSK");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-city\"] button[data-switch-value=\"MSK\"]")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Выбираем год - 2017
         System.out.print("[-] Выбираем год - 2017");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-year\"] button[data-switch-value=\"2017\"]")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Выбираем язык - English
         System.out.print("[-] Выбираем язык - English");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-lang\"] button[data-switch-value=\"English\"]")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         System.out.print("[-] Сохраняем цену для 1/2 day (4 hours)");
         String guidPriceForEnglish = $(By.xpath("//div[@id=\"content\"]//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 day (4 hours)')]//..//..//td[2]")).getText();
         //System.out.println(guidPriceForEnglish);
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Выбираем язык - English
         System.out.print("[-] Выбираем язык - Russian");
         $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-lang\"] button[data-switch-value=\"Russian\"]")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         System.out.print("[-] Сохраняем цену для 1/2 day (4 hours)");
         String guidPriceForRussian = $(By.xpath("//div[@id=\"content\"]//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 day (4 hours)')]//..//..//td[2]")).getText();
         //System.out.println(guidPriceForRussian);
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
@@ -123,36 +124,30 @@ public class TestOfGuidesLanguageSwitching {
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation(driver, "PTestQuotation1", "Тест компания");
-        NewQuotationPage newQuotationPage = new NewQuotationPage();
+        CreateQuotation("PTestQuotation1", "Тест компания");
+        //NewQuotationPage newQuotationPage = new NewQuotationPage();
 
-        //Выставляем курс Евро
-        System.out.print("[-] Выставляем курс евро 70");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
-        Double rubEur = 0.0;
-        rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
+        //Выставляем курс Евро - 70.0
+        Double rubEur = 70.0;
+        OptionsTable.SetCurrencyRateForEUR(rubEur);
 
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
-        System.out.print("[-] Меняем количество ночей на " + nightInOptionsCounter+ ": ");
-        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
-        System.out.println(" - готово");
+        OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;
-        generalMarge = Double.valueOf(($(By.cssSelector(NewQuotationPage.OptionsTable.generalMarge)).getText()).replace(',', '.'));
+        generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
-        System.out.println(" - готово");
+        System.out.println(CommonCode.OK);
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
@@ -160,66 +155,58 @@ public class TestOfGuidesLanguageSwitching {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd-MM-yyyy");
         System.out.print("[-] Добавляем новую дату: " + formatForDateNow.format(nowDate));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).click();
 
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(" - Готово");
+        $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
+        System.out.println(CommonCode.OK);
 
         //Добавляем новый Город MSK
-        System.out.print("[-] Добавляем город: MSK");
-        //Кликаем Add
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).click();
-        //Ждём появления меню
-        $(By.xpath(newQuotationPage.cityAddPopupREG)).shouldBe(visible);
-        //Кликаем по кнопке с MSK
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
-        $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        System.out.println(" - Готово");
+        AddCityToAccomodationByName("MSK", 1);
 
         //Добавить в первый день экскурсию Bunker-42
         System.out.print("[-] В первый день добавляем экскурсию \"Бункер-42\":");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
-                +NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.addServiceButtonREG)).scrollTo().click();
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.addServiceButtonREG)).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
 
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(4)
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[3]//select[@class=\"serviceType\"]")).selectOptionContainingText("Excursion");
         CommonCode.WaitForProgruzkaSilent();
 
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(4)
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Получаем цену которая выставилась для гида
         System.out.print("[-] Получаем цену которая выставилась для гида");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(1) + ProgrammSection.GetACityByNumberREG(1)
                 + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
 
-        String priceForGuideInProgram = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).getText();
-        System.out.println(" - Готово");
+        String priceForGuideInProgram = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetAutoServiceByNumberREG(1)
+                + ProgrammSection.GetSumForPeopleREG(1))).getText();
+        System.out.println(CommonCode.OK);
 
         //Проверяем, что цена гида корректная
         System.out.print("[-] Проверяем, что цена гида корректная:");
         if(priceForGuideInProgram.equals(guidPriceForEnglish)) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Цена для гида English верная +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Цена для гида English верная +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Цена для гида English неверная - "
-                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForEnglish + " -"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Цена для гида English неверная - "
+                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForEnglish + " -"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceForGuideInProgram)
                     .as("Check that price for english guide is correct")
                     .isEqualTo(guidPriceForEnglish);
@@ -227,28 +214,28 @@ public class TestOfGuidesLanguageSwitching {
 
         //Меняем язык гида на Russian
         System.out.print("[-] Меняем язык гида на Russian");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.guidesLanguage)).scrollTo().selectOptionContainingText("Russian");
+        $(By.cssSelector(OptionsTable.guidesLanguage)).scrollTo().selectOptionContainingText("Russian");
         CommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(CommonCode.OK);
 
         //Получаем новую цену для гида
         System.out.print("[-] Получаем цену которая выставилась для гида");
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+        $(By.xpath(ProgrammSection.GetADayByNumberREG(1) + ProgrammSection.GetACityByNumberREG(1)
                 + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
 
-        priceForGuideInProgram = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
-                + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(2)
-                + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(1))).scrollTo().getText();
-        System.out.println(" - Готово");
+        priceForGuideInProgram = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetAutoServiceByNumberREG(2)
+                + ProgrammSection.GetSumForPeopleREG(1))).scrollTo().getText();
+        System.out.println(CommonCode.OK);
 
         //Проверяем, что новая цена гида корректная
         System.out.print("[-] Проверяем, что новая цена гида корректная:");
         if(priceForGuideInProgram.equals(guidPriceForRussian)) {
-            System.out.println(commonCode.ANSI_GREEN+"      -  Цена для гида Russian верная +"+commonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Цена для гида Russian верная +"+CommonCode.ANSI_RESET);
         }
-        else {System.out.println(commonCode.ANSI_RED+"      -  Цена для гида Russian неверная - "
-                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForRussian + " -"+commonCode.ANSI_RESET);
+        else {System.out.println(CommonCode.ANSI_RED+"      -  Цена для гида Russian неверная - "
+                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForRussian + " -"+CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceForGuideInProgram)
                     .as("Check that price for english guide is correct")
                     .isEqualTo(guidPriceForRussian);

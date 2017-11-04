@@ -30,13 +30,15 @@ public class CommonCode {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    public static final String OK = ANSI_GREEN + " - Готово" + ANSI_RESET;
+
     public static final String overalLoadingIndicatorREG = "//span[contains(text(),'Loading')]";
 
     public static void WaitForProgruzka() {
 
         System.out.print("[-] Ждём прогрузку...");
         $(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist);
-        System.out.println(" - Готово");
+        System.out.println(OK);
     }
 
     public static void WaitForProgruzkaSilent() {$(By.xpath(overalLoadingIndicatorREG)).shouldNot(exist); }
