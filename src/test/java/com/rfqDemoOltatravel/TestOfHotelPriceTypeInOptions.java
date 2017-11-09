@@ -271,29 +271,21 @@ public class TestOfHotelPriceTypeInOptions {
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.ANSI_GREEN+CommonCode.OK+CommonCode.ANSI_RESET);
 
-        String priceDBL = "";
-        String priceSGL = "";
-        Double priceSGLD = 0.0;
-        Double priceDBLD = 0.0;
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]")).click();
-
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
-
-        //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"]")).shouldBe(visible);
-        //Сохраняем сумму дабл в переменную
-        priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
-        priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
-        //System.out.println(priceDBL);
-        priceSGLD = priceSGLD + Double.valueOf(priceSGL);
-        priceDBLD = priceDBLD + Double.valueOf(priceDBL);
-        //System.out.println("priceDBLD = "+priceDBLD);
+        //Считаем суммы для проверки
+        System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
+        //Кликаем на кнопку Show All Prices
+        $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
+        //Считываем значения
+        Double priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+                *nightInOptionsCounter;
+        Double priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+                *nightInOptionsCounter;
+        //priceDBLD = priceDBLD / 2;
+        Double priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());
+        //System.out.println(priceDBLD);
         //Закрываем модальное окно
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldNotBe(visible);
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]")).click();
-
-        Double priceSS = priceSGLD - priceDBLD/2;
+        //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        System.out.println(CommonCode.OK);
 
         Double programServicesFor15 = 150.0;
         Double programServicesFor20 = 140.0;

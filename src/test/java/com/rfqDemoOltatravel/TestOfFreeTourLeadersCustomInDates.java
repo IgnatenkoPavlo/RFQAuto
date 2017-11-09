@@ -167,29 +167,21 @@ public class TestOfFreeTourLeadersCustomInDates {
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
-        String priceDBL = "";
-        String priceSGL = "";
-        Double priceSGLD = 0.0;
-        Double priceDBLD = 0.0;
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]")).click();
-
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
-
-        //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"]")).shouldBe(visible);
-        //Сохраняем сумму дабл в переменную
-        priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).getText();
-        priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
-        //System.out.println(priceDBL);
-        priceSGLD = priceSGLD + Double.valueOf(priceSGL);
-        priceDBLD = priceDBLD + Double.valueOf(priceDBL);
-        //System.out.println("priceDBLD = "+priceDBLD);
+        //Считаем суммы для проверки
+        System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
+        //Кликаем на кнопку Show All Prices
+        $(By.cssSelector(NewQuotationPage.AccomodationsTable.showAllPricesButton)).click();
+        //Считываем значения
+        Double priceSGLD = NewQuotationPage.AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+                *nightInOptionsCounter;
+        Double priceDBLD = NewQuotationPage.AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+                *nightInOptionsCounter;
+        //priceDBLD = priceDBLD / 2;
+        Double priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());
+        //System.out.println(priceDBLD);
         //Закрываем модальное окно
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldNotBe(visible);
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]")).click();
-
-        Double priceSS = priceSGLD - priceDBLD/2;
+        //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        System.out.println(CommonCode.OK);
 
         Double programServicesFor15 = 150.0;
         Double programServicesFor20 = 140.0;
@@ -326,9 +318,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWE25womS = hotelsWE25womS.substring(0, hotelsWE25womS.indexOf(' '));
         hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
         //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
-        String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceSGLD/15)).setScale(0, RoundingMode.HALF_UP).floatValue());
-        String priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/20)).setScale(0, RoundingMode.HALF_UP).floatValue());
-        String priceDBLDS25 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/25)+(priceSGLD/25)).setScale(0, RoundingMode.HALF_UP).floatValue());
+        String priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceSGLD/15)).setScale(0, RoundingMode.DOWN).floatValue());
+        String priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/20)).setScale(0, RoundingMode.DOWN).floatValue());
+        String priceDBLDS25 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/25)+(priceSGLD/25)).setScale(0, RoundingMode.DOWN).floatValue());
         String priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
@@ -558,28 +550,21 @@ public class TestOfFreeTourLeadersCustomInDates {
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
-        priceDBL = "";
-        priceSGL = "";
-        priceSGLD = 0.0;
-        priceDBLD = 0.0;
-
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]")).scrollTo().click();
-
-        $(By.xpath("//table[@id=\"table-accommodations\"]//tbody//tr[1]//table[@class=\"prices\"]//tbody//tr//a[@class=\"qbtn qbtn-prices\"]")).click();
-
-        //Ждём появления модального окна с ценами отеля
-        $(By.cssSelector("div#modal-accommodation-days-prices div[class=\"modal-dialog\"]")).shouldBe(visible);
-        //Сохраняем сумму дабл в переменную
-        priceSGL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[2]")).shouldBe(visible).getText();
-        priceDBL = $(By.xpath("//div[@id=\"modal-accommodation-days-prices\"]//div[@class=\"modal-body\"]/table/tfoot/tr[1]/th[3]")).getText();
-        //System.out.println(priceDBL);
-        priceSGLD = priceSGLD + Double.valueOf(priceSGL);
-        priceDBLD = priceDBLD + Double.valueOf(priceDBL);
-        //System.out.println("priceDBLD = "+priceDBLD);
+        //Считаем суммы для проверки
+        System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
+        //Кликаем на кнопку Show All Prices
+        //$(By.cssSelector(NewQuotationPage.AccomodationsTable.showAllPricesButton)).scrollTo().click();
+        //Считываем значения
+        priceSGLD = NewQuotationPage.AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+                *nightInOptionsCounter;
+        priceDBLD = NewQuotationPage.AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+                *nightInOptionsCounter;
+        //priceDBLD = priceDBLD / 2;
+        priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());
+        //System.out.println(priceDBLD);
         //Закрываем модальное окно
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
-        $(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).shouldNotBe(visible);
-        priceSS = priceSGLD - priceDBLD/2;
+        //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
+        System.out.println(CommonCode.OK);
 
         programServicesFor15 = 150.0;
         programServicesFor20 = 140.0;

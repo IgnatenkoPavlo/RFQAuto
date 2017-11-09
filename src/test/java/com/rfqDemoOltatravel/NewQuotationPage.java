@@ -187,9 +187,32 @@ public class NewQuotationPage {
         public static final String togglePricesOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]";
         public static final String nightsCounterForCityREG = "//td[2]";
 
-        public static String CityByNumberREG (int cityCounter) {
+        public static String CityByNumberREG(int cityCounter) {
 
             String result = accomodationsTableREG + "//tbody//tr["+String.valueOf(cityCounter)+"]";
+
+            return result;
+        }
+
+        public static String PeriodByNumberREG(int periodCounter) {
+
+            String result = "//td[@class=\"prices\"]//table//tbody//tr["+String.valueOf(periodCounter)+"]";
+
+            return result;
+        }
+
+        public static double GetPriceSGLForCityForPeriod(int cityCounter, int periodCounter) {
+
+            double result=Double.valueOf($(By.xpath(CityByNumberREG(cityCounter)+PeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-sgl priceSgl\"]")).getText());
+
+            return result;
+        }
+
+        public static double GetPriceDBLForCityForPeriod(int cityCounter, int periodCounter) {
+
+            double result=Double.valueOf($(By.xpath(CityByNumberREG(cityCounter)+PeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-dbl priceDbl\"]")).getText());
 
             return result;
         }
