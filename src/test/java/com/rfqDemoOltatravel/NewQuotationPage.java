@@ -95,6 +95,21 @@ public class NewQuotationPage {
                 System.out.println(CommonCode.ANSI_RED+" - Курс евро в Options не установлен"+CommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set EUR rate in Options table as "+eurRate); }
         }
+
+        public static void SetFreeTourLeadersInOptions(int freeTourLeaders) {
+
+            System.out.print("[-] Выставляем Free Tour Leaders в "+freeTourLeaders);
+            $(By.cssSelector(OptionsTable.freeTourLeaders)).scrollTo().click();
+            CommonCode.WaitForProgruzkaSilent();
+            $(By.cssSelector(OptionsTable.freeTourLeaders)).sendKeys(String.valueOf(freeTourLeaders));
+            $(By.cssSelector(OptionsTable.freeTourLeaders)).pressEnter();
+            CommonCode.WaitForProgruzkaSilent();
+            String result = $(By.cssSelector(OptionsTable.freeTourLeaders)).getText();
+            if(String.valueOf(freeTourLeaders).equals(result)) {System.out.println(CommonCode.OK); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Free Tour Leaders в Options не установлено"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t set Free Tour Leaders in Options table as "+freeTourLeaders); }
+        }
     }
 
     //Таблица Groups
@@ -248,7 +263,7 @@ public class NewQuotationPage {
     public static void AddCityToAccomodationByName(String cityName, int position) {
 
         System.out.print("[-] Добавляем город: "+cityName+" на позицию "+position);
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.addButton)).scrollTo().click();
+        $(By.cssSelector(AccomodationsTable.addButton)).scrollTo().click();
         //Ждём появления меню
         $(By.xpath(cityAddPopupREG)).shouldBe(Condition.visible);
         //Кликаем по кнопке с cityName

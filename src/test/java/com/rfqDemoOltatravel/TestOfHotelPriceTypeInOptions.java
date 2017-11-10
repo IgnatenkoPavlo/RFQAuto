@@ -287,77 +287,11 @@ public class TestOfHotelPriceTypeInOptions {
         //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
         System.out.println(CommonCode.OK);
 
-        Double programServicesFor15 = 150.0;
-        Double programServicesFor20 = 140.0;
-        Double programServicesFor25 = 130.0;
-
         //Выставляем суммы для 3-х групп: 15, 20, 25
-        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
-        int dayCounterMax = nightInOptionsCounter + 1;
-        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - для дня номер " + dayCounter);
-            int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
-            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
-
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
-
-                int serviceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
-
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
-
-                    //programServicesFor15 = programServicesFor15 + 5.0;
-                    CommonCode.WaitForProgruzkaSilent();
-
-
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(2))).click();
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
-
-                    //programServicesFor20 = programServicesFor20 + 6.0;
-                    CommonCode.WaitForProgruzkaSilent();
-
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(3))).click();
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
-
-
-                    //programServicesFor25 = programServicesFor25 + 7.0;
-                    CommonCode.WaitForProgruzkaSilent();
-                }
-
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
-
-            }
-            System.out.println(CommonCode.OK);
-        }
+        commonCode.SetValuesForServicesInProgram(150, 140, 130);
 
         double programServices[] = {0.0, 0.0, 0.0};
         double programDailyServices[] = {0.0, 0.0, 0.0};
-
-        Double programDailyServicesFor15 = 0.0;
-        Double programDailyServicesFor20 = 0.0;
-        Double programDailyServicesFor25 = 0.0;
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         System.out.println("[-] Считаем для Services:");

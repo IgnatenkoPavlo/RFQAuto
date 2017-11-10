@@ -27,6 +27,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
+import static com.rfqDemoOltatravel.NewQuotationPage.*;
 import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfFreeTourLeadersCustomInDates {
@@ -93,20 +94,20 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println(CommonCode.OK);
 
         //Создаём новый Quotation
-        NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
+        CreateQuotation("PTestQuotation1", "Тест компания");
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Выставляем курс Евро
         Double rubEur = 70.0;
-        NewQuotationPage.OptionsTable.SetCurrencyRateForEUR(rubEur);
+        OptionsTable.SetCurrencyRateForEUR(rubEur);
 
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
-        NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
+        OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
         System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;
-        generalMarge = Double.valueOf(($(By.cssSelector(NewQuotationPage.OptionsTable.generalMarge)).getText()).replace(',', '.'));
+        generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
         System.out.println(CommonCode.OK);
 
@@ -116,15 +117,15 @@ public class TestOfFreeTourLeadersCustomInDates {
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         System.out.print("[-] Добавляем новую дату: " + formatForDate.format(nowDate));
         //Кликаем на кнопку Add
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.addDateButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.addDateButton)).click();
         //Кликаем на поле для ввода даты
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).click();
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).click();
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
 
         //Вводим дату в поле
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
+        $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
-        $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
+        $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
         System.out.println(CommonCode.OK);
 
         //Добавляем город
@@ -132,17 +133,17 @@ public class TestOfFreeTourLeadersCustomInDates {
 
         //Выставляем для группы 15 FTL 1
         System.out.print("[-] Выставляем для группы 15 FTL 1");
-        $(By.xpath(NewQuotationPage.groupsTableREG)).shouldBe(visible).scrollTo();
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
+        $(By.xpath(groupsTableREG)).shouldBe(visible).scrollTo();
+        $(By.xpath(GroupsTable.GroupByNumberREG(1)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
+        $(By.xpath(GroupsTable.GroupByNumberREG(1)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).setValue("1").pressEnter();
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
         //Выставляем для группы 15 FTL Acc в SGL
         System.out.print("[-] Выставляем для группы 15 FTL Acc в SGL");
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(1)
+        $(By.xpath(GroupsTable.GroupByNumberREG(1)
                 + "//td[@class=\"ftlAccType\"]//select")).selectOptionContainingText("SGL");
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
@@ -150,9 +151,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Выставляем для группы 20 FTL 2
         System.out.print("[-] Выставляем для группы 20 FTL 2");
         //$(By.xpath(NewQuotationPage.groupsTableREG)).scrollTo();
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(2)
+        $(By.xpath(GroupsTable.GroupByNumberREG(2)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(2)
+        $(By.xpath(GroupsTable.GroupByNumberREG(2)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).setValue("2").pressEnter();
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
@@ -160,9 +161,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Выставляем для группы 25 FTL 3
         System.out.print("[-] Выставляем для группы 25 FTL 3");
         //$(By.xpath(NewQuotationPage.groupsTableREG)).scrollTo();
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(3)
+        $(By.xpath(GroupsTable.GroupByNumberREG(3)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).click();
-        $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(3)
+        $(By.xpath(GroupsTable.GroupByNumberREG(3)
                 + "//td[@class=\"editable editable-group-ftlNumber ftlNumber\"]")).setValue("3").pressEnter();
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
@@ -170,11 +171,11 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Считаем суммы для проверки
         System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
         //Кликаем на кнопку Show All Prices
-        $(By.cssSelector(NewQuotationPage.AccomodationsTable.showAllPricesButton)).click();
+        $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
         //Считываем значения
-        Double priceSGLD = NewQuotationPage.AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+        Double priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
-        Double priceDBLD = NewQuotationPage.AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+        Double priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
         //priceDBLD = priceDBLD / 2;
         Double priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());
@@ -183,78 +184,15 @@ public class TestOfFreeTourLeadersCustomInDates {
         //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
         System.out.println(CommonCode.OK);
 
-        Double programServicesFor15 = 150.0;
-        Double programServicesFor20 = 140.0;
-        Double programServicesFor25 = 130.0;
-
         //Выставляем суммы для 3-х групп: 15, 20, 25
-        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
-        int dayCounterMax = nightInOptionsCounter + 1;
-        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - для дня номер " + dayCounter);
-            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
-            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
-
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
-
-                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
-
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
-
-                    //programServicesFor15 = programServicesFor15 + 5.0;
-                    CommonCode.WaitForProgruzkaSilent();
-
-
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).click();
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
-
-                    //programServicesFor20 = programServicesFor20 + 6.0;
-                    CommonCode.WaitForProgruzkaSilent();
-
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).click();
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
-
-
-                    //programServicesFor25 = programServicesFor25 + 7.0;
-                    CommonCode.WaitForProgruzkaSilent();
-                }
-
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
-
-            }
-            System.out.println(CommonCode.OK);
-
-        }
+        commonCode.SetValuesForServicesInProgram(150, 140, 130);
 
         double programServices[] = {0.0, 0.0, 0.0};
         double programDailyServices[] = {0.0, 0.0, 0.0};
 
-        Double programDailyServicesFor15 = 0.0;
+        /*Double programDailyServicesFor15 = 0.0;
         Double programDailyServicesFor20 = 0.0;
-        Double programDailyServicesFor25 = 0.0;
+        Double programDailyServicesFor25 = 0.0;*/
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         System.out.println("[-] Считаем для Services:");
@@ -543,10 +481,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         }
 
         System.out.print("[-] Выставляем Free Tour Leaders в 3");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).scrollTo().click();
+        $(By.cssSelector(OptionsTable.freeTourLeaders)).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
-        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).sendKeys("3");
-        $(By.cssSelector(NewQuotationPage.OptionsTable.freeTourLeaders)).pressEnter();
+        $(By.cssSelector(OptionsTable.freeTourLeaders)).sendKeys("3");
+        $(By.cssSelector(OptionsTable.freeTourLeaders)).pressEnter();
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
@@ -555,9 +493,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Кликаем на кнопку Show All Prices
         //$(By.cssSelector(NewQuotationPage.AccomodationsTable.showAllPricesButton)).scrollTo().click();
         //Считываем значения
-        priceSGLD = NewQuotationPage.AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+        priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
-        priceDBLD = NewQuotationPage.AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+        priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
         //priceDBLD = priceDBLD / 2;
         priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());
@@ -566,78 +504,11 @@ public class TestOfFreeTourLeadersCustomInDates {
         //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
         System.out.println(CommonCode.OK);
 
-        programServicesFor15 = 150.0;
-        programServicesFor20 = 140.0;
-        programServicesFor25 = 130.0;
-
         //Выставляем суммы для 3-х групп: 15, 20, 25
-        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
-        dayCounterMax = nightInOptionsCounter + 1;
-        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - для дня номер " + dayCounter);
-            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
-            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
-
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
-
-                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
-
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).setValue(programServicesFor15.toString()).pressEnter();
-
-                    //programServicesFor15 = programServicesFor15 + 5.0;
-                    CommonCode.WaitForProgruzkaSilent();
-
-
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).click();
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(programServicesFor20.toString()).pressEnter();
-
-                    //programServicesFor20 = programServicesFor20 + 6.0;
-                    CommonCode.WaitForProgruzkaSilent();
-
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).click();
-
-                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).setValue(programServicesFor25.toString()).pressEnter();
-
-
-                    //programServicesFor25 = programServicesFor25 + 7.0;
-                    CommonCode.WaitForProgruzkaSilent();
-                }
-
-                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
-
-            }
-            System.out.println(CommonCode.OK);
-
-        }
+        commonCode.SetValuesForServicesInProgram(150, 140, 130);
 
         Arrays.fill(programServices, 0.0);
         Arrays.fill(programDailyServices, 0.0);
-
-        programDailyServicesFor15 = 0.0;
-        programDailyServicesFor20 = 0.0;
-        programDailyServicesFor25 = 0.0;
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         System.out.println("[-] Считаем для Services:");
@@ -701,9 +572,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWE25womS = hotelsWE25womS.substring(0, hotelsWE25womS.indexOf(' '));
         hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
         //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
-        priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceSGLD/15)).setScale(0, RoundingMode.HALF_UP).floatValue());
-        priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/20)).setScale(0, RoundingMode.HALF_UP).floatValue());
-        priceDBLDS25 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/25)+(priceSGLD/25)).setScale(0, RoundingMode.HALF_UP).floatValue());
+        priceDBLDS = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceSGLD/15)).setScale(0, RoundingMode.DOWN).floatValue());
+        priceDBLDS20 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/20)).setScale(0, RoundingMode.DOWN).floatValue());
+        priceDBLDS25 = String.valueOf((int) new BigDecimal(priceDBLD/2+(priceDBLD/25)+(priceSGLD/25)).setScale(0, RoundingMode.DOWN).floatValue());
         priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {

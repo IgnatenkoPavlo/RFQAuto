@@ -110,6 +110,7 @@ public class CommonCode {
                                 Double.valueOf($(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
                                         + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                                         + NewQuotationPage.ProgrammSection.GetSumForPeopleREG(serviceSumCounter+1))).getText());
+                        //System.out.println(programServicesGroups[serviceSumCounter]);
 
                     }
                 }
@@ -175,6 +176,68 @@ public class CommonCode {
                 $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+ NewQuotationPage.ProgrammSection.hideAllDailyPricesREG)).click();
             }
 
+
+        }
+
+    }
+
+    public void SetValuesForServicesInProgram(int ... values) {
+
+        System.out.println("[-] Выставляем суммы для 3-х групп: 15, 20, 25");
+        int dayCounterMax = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
+        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
+            System.out.print("      - для дня номер " + dayCounter);
+            int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
+            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo().click();
+
+                int serviceCounterMax= $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) +
+                        NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+                for (int serviceCounter = 1; serviceCounter <= serviceCounterMax; serviceCounter++) {
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).scrollTo().click();
+
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).setValue(String.valueOf(values[0])).pressEnter();
+
+                    CommonCode.WaitForProgruzkaSilent();
+
+
+                    if(values.length>=2)
+                    {$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).click();
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(String.valueOf(values[1])).pressEnter();
+
+                    CommonCode.WaitForProgruzkaSilent();}
+
+
+                    if(values.length>=3)
+                    {$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).click();
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
+                            + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).setValue(String.valueOf(values[2])).pressEnter();
+
+                    CommonCode.WaitForProgruzkaSilent();}
+                }
+
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
+                        + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
+
+            }
+            System.out.println(CommonCode.OK);
 
         }
 

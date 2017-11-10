@@ -138,58 +138,15 @@ public class BaseScenario1 {
         //$(By.cssSelector("div[id=\"modal-accommodation-days-prices\"] button[class=\"btn btn-primary\"]")).click();
         System.out.println(CommonCode.OK);
 
+        //Выставляем суммы для 3-х групп: 15
+        commonCode.SetValuesForServicesInProgram(250);
 
-        Double programFor15 = 0.0;
-        Double programFor20 = 0.0;
-        Double programFor25 = 0.0;
-
+        double[] sumFromProgram = new double[3];
+        //System.out.println(sumFromProgram[0] + " " + sumFromProgram[1] + " " + sumFromProgram[2]);
         //Считаем суммы для 3-х групп: 15, 20, 25
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
-        int dayCounterMax = 3 + 1;
-        for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
-            System.out.print("      - считаем для дня номер "+ dayCounter);
-
-            int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)+"//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
-            for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++){
-
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).scrollTo();
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-showallprices\"]")).click();
-
-                int mainServiceCounterMax= $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) +
-                        ProgrammSection.GetACityByNumberREG(cityCounter) + "//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                for (int serviceCounter = 1; serviceCounter <= mainServiceCounterMax; serviceCounter++) {
-
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter) + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                            + ProgrammSection.GetSumForUnitREG(1))).scrollTo();
-
-                    programFor15 = programFor15 +
-                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(1))).getText());
-
-                    programFor20 = programFor20 +
-                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(2))).getText());
-
-                    programFor25 = programFor25 +
-                            Double.valueOf($(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                                    + ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
-                                    + ProgrammSection.GetSumForUnitREG(3))).getText());
-                }
-
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible);
-                $(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + ProgrammSection.GetACityByNumberREG(cityCounter)
-                        + "//tfoot//a[@class=\"qbtn qbtn-hideallprices\"]")).click();
-            }
-            System.out.println(CommonCode.OK);
-
-
-        }
-        //System.out.println(programFor15 + " " + programFor20 + " " + programFor25);
+        commonCode.GetSumsForServices(sumFromProgram);
+        //System.out.println(sumFromProgram[0] + " " + sumFromProgram[1] + " " + sumFromProgram[2]);
         System.out.println("[-] Суммы за Services посчитаны");
 
 
@@ -284,7 +241,7 @@ public class BaseScenario1 {
         //Проверяем таблицу Services
         System.out.println("    Проверяем таблицу Services:");
         Double services15 = 0.0;
-        services15 = programFor15;
+        services15 = sumFromProgram[0]/15;
         services15 = services15 / rubUsd;
         services15 = services15 / generalMarge;
         //System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -306,7 +263,7 @@ public class BaseScenario1 {
         //Проверяем таблицу Totals (WE)
         System.out.println("    Проверяем таблицу Totals (WE):");
         Double totalWE15 = 0.0;
-        totalWE15 = priceDBLD + programFor15;
+        totalWE15 = priceDBLD + sumFromProgram[0]/15;
         totalWE15 = totalWE15 / rubUsd;
         totalWE15 = totalWE15 / generalMarge;
         //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
