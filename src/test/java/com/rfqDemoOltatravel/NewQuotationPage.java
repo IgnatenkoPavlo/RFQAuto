@@ -116,7 +116,7 @@ public class NewQuotationPage {
     public static final String groupsTableREG = "//table[@id=\"table-groups\"]";
     public static class GroupsTable {
 
-               public static final String groupsAddButtonREG = groupsTableREG+"//tfoot//a[@class=\"qbtn qbtn-add\"]";
+        public static final String groupsAddButtonREG = groupsTableREG+"//tfoot//a[@class=\"qbtn qbtn-add\"]";
 
         public static String GetGroupByNumberDeleteButtonREG (int groupNumber) {
 
@@ -131,6 +131,10 @@ public class NewQuotationPage {
             return result;
         }
 
+        public static void AddNewGroup(String group) {
+
+
+        }
 
     }
 

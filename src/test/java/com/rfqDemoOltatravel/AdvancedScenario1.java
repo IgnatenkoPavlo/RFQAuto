@@ -69,7 +69,6 @@ public class AdvancedScenario1 {
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();
 
-
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
@@ -181,11 +180,6 @@ public class AdvancedScenario1 {
 
         System.out.println(CommonCode.OK);
 
-
-        Double programServicesFor151 = 15.0;
-        Double programServicesFor201 = 20.0;
-        Double programServicesFor251 = 25.0;
-
         //Выставляем суммы для 3-х групп: 15, 20, 25
         commonCode.SetValuesForServicesInProgram(250, 200, 150);
 
@@ -256,9 +250,13 @@ public class AdvancedScenario1 {
         //System.out.println(sumFromProgram[0] + " " + sumFromProgram[1] + " " + sumFromProgram[2]);
         //Считаем суммы для 3-х групп: 15, 20, 25
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
+        System.out.println("[-] Считаем для Services:");
         commonCode.GetSumsForServices(sumFromProgram);
+        System.out.println(CommonCode.OK);
+        System.out.println("[-] Считаем для Daily Services:");
         commonCode.GetSumsForDailyServices(sumFromDailyProgram);
         //System.out.println(sumFromProgram[0] + " " + sumFromProgram[1] + " " + sumFromProgram[2]);
+        System.out.println(CommonCode.OK);
         System.out.println("[-] Суммы за Services посчитаны");
 
         sumFromProgram[0] = sumFromProgram[0]/15.0;
