@@ -202,6 +202,7 @@ public class TestOfAccommodations {
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         int dayCounterMax = 2;
         int numberOfServices;
+        int defaultNumberOfServices = 3;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
             numberOfServices = 0;
             System.out.println("      - для дня номер " + dayCounter+":");
@@ -210,13 +211,13 @@ public class TestOfAccommodations {
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                if(numberOfServices==3){
-                    System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
+                if(numberOfServices==defaultNumberOfServices){
+                    System.out.println(CommonCode.ANSI_GREEN+defaultNumberOfServices+" сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
                             .as("Check that number of services in day[%s] in city[%s] is incorrect.", String.valueOf(dayCounter), String.valueOf(cityCounter))
-                            .isEqualTo(3);
+                            .isEqualTo(defaultNumberOfServices);
                 }
             }
         }
@@ -231,10 +232,10 @@ public class TestOfAccommodations {
         System.out.println(CommonCode.OK);
 
         //Добавляем MSK
-        AddCityToAccomodationByName("MSK", 2);
+        AddCityToAccomodationByName("VNG", 2);
 
         //Выставляем для него значение ночей в 1
-        NewQuotationPage.AccomodationsTable.SetNightForCityByNumber("MSK", 2, "1");
+        NewQuotationPage.AccomodationsTable.SetNightForCityByNumber("VNG", 2, "1");
 
         nightsTotalIndicator =
                 $(By.cssSelector(NewQuotationPage.AccomodationsTable.nightsAvailableUsedIndicator)).scrollTo().getText();
@@ -266,11 +267,11 @@ public class TestOfAccommodations {
         }
 
         //Выставляем имя отеля2
-        System.out.print("[-] Выставляем отель Mandarin для второго размещения:");
+        System.out.print("[-] Выставляем отель Park Inn Beresta для второго размещения:");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
                 +NewQuotationPage.AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
-                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Mandarin");
+                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).scrollTo().selectOptionContainingText("Park Inn Beresta");
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
@@ -292,21 +293,26 @@ public class TestOfAccommodations {
         System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         dayCounterMax = 3;
+        defaultNumberOfServices = 3;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
             numberOfServices = 0;
             System.out.println("      - для дня номер " + dayCounter+":");
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
+                defaultNumberOfServices=3;
+                if (cityCounterMax > 1 & cityCounter<cityCounterMax){
+                    defaultNumberOfServices += 1;
+                }
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                if(numberOfServices==3){
-                    System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
+                if(numberOfServices==defaultNumberOfServices){
+                    System.out.println(CommonCode.ANSI_GREEN+defaultNumberOfServices+" сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
                             .as("Check that number of services in day[%s] in city[%s] is correct.", String.valueOf(dayCounter), String.valueOf(cityCounter))
-                            .isEqualTo(3);
+                            .isEqualTo(defaultNumberOfServices);
                 }
             }
         }
@@ -368,16 +374,20 @@ public class TestOfAccommodations {
             System.out.println("      - для дня номер " + dayCounter+":");
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
+                defaultNumberOfServices=3;
+                if (cityCounterMax > 1 & cityCounter<cityCounterMax){
+                    defaultNumberOfServices += 1;
+                }
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                if(numberOfServices==3){
-                    System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
+                if(numberOfServices==defaultNumberOfServices){
+                    System.out.println(CommonCode.ANSI_GREEN+defaultNumberOfServices+" сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
                             .as("Check that number of services in day[%s] in city[%s] is correct.", String.valueOf(dayCounter), String.valueOf(cityCounter))
-                            .isEqualTo(3);
+                            .isEqualTo(defaultNumberOfServices);
                 }
             }
         }
@@ -410,7 +420,7 @@ public class TestOfAccommodations {
 
 
         //Меняем отели в MSK местами
-        System.out.println("[-] Меняем первые MSK местами: ");
+        System.out.println("[-] Меняем первые MSK и VNG местами: ");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(2)
                 +NewQuotationPage.AccomodationsTable.moveUpOfCityREG)).scrollTo().click();
         Alert alert = (new WebDriverWait(driver, 4))
@@ -418,7 +428,7 @@ public class TestOfAccommodations {
         confirm();
         CommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
-                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getSelectedValue().equals("127")){
+                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getSelectedValue().equals("134")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дни поменялись местами + "
                     +CommonCode.ANSI_RESET);
         } else {
@@ -453,21 +463,25 @@ public class TestOfAccommodations {
             System.out.println("      - для дня номер " + dayCounter+":");
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
+                defaultNumberOfServices=3;
+                if (cityCounterMax > 1 & cityCounter<cityCounterMax){
+                    defaultNumberOfServices += 1;
+                }
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                if(numberOfServices==3){
-                    System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
+                if(numberOfServices==defaultNumberOfServices){
+                    System.out.println(CommonCode.ANSI_GREEN+defaultNumberOfServices+" сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
                             .as("Check that number of services in day[%s] in city[%s] is correct.", String.valueOf(dayCounter), String.valueOf(cityCounter))
-                            .isEqualTo(3);
+                            .isEqualTo(defaultNumberOfServices);
                 }
             }
         }
         //Удаляем первый в MSK отель
-        System.out.println("[-] Удаляем первый MSK: ");
+        System.out.println("[-] Удаляем VNG: ");
         $(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
                 +NewQuotationPage.AccomodationsTable.deleteOfCityREG)).scrollTo().click();
         alert = (new WebDriverWait(driver, 4))
@@ -475,7 +489,7 @@ public class TestOfAccommodations {
         confirm();
         CommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(NewQuotationPage.AccomodationsTable.CityByNumberREG(1)
-                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getValue().equals("131")){
+                +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getValue().equals("127")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, день удалён + "
                     +CommonCode.ANSI_RESET);
         } else {
@@ -510,16 +524,20 @@ public class TestOfAccommodations {
             System.out.println("      - для дня номер " + dayCounter+":");
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
+                defaultNumberOfServices=3;
+                if (cityCounterMax > 1 & cityCounter<cityCounterMax){
+                    defaultNumberOfServices += 1;
+                }
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                if(numberOfServices==3){
-                    System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
+                if(numberOfServices==defaultNumberOfServices){
+                    System.out.println(CommonCode.ANSI_GREEN+defaultNumberOfServices+" сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
                             .as("Check that number of services in day[%s] in city[%s] is correct.", String.valueOf(dayCounter), String.valueOf(cityCounter))
-                            .isEqualTo(3);
+                            .isEqualTo(defaultNumberOfServices);
                 }
             }
         }
@@ -569,16 +587,20 @@ public class TestOfAccommodations {
             System.out.println("      - для дня номер " + dayCounter+":");
             int cityCounterMax = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
+                defaultNumberOfServices=3;
+                if (cityCounterMax > 1 & cityCounter<cityCounterMax){
+                    defaultNumberOfServices += 1;
+                }
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
-                if(numberOfServices==3){
-                    System.out.println(CommonCode.ANSI_GREEN+"3 сервиса как и должно быть"+ CommonCode.ANSI_RESET);
+                if(numberOfServices==defaultNumberOfServices){
+                    System.out.println(CommonCode.ANSI_GREEN+defaultNumberOfServices+" сервиса как и должно быть"+ CommonCode.ANSI_RESET);
                 }else{
                     System.out.println(CommonCode.ANSI_RED+numberOfServices+" сервиса, что является ошибкой"+ CommonCode.ANSI_RESET);
                     softAssertions.assertThat(numberOfServices)
                             .as("Check that number of services in day[%s] in city[%s] is correct.", String.valueOf(dayCounter), String.valueOf(cityCounter))
-                            .isEqualTo(3);
+                            .isEqualTo(defaultNumberOfServices);
                 }
             }
         }
