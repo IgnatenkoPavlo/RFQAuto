@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
@@ -205,6 +206,8 @@ public class NewQuotationPage {
         public static final String deleteOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]";
         public static final String togglePricesOfCityREG = "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-toggleprices\"]";
         public static final String nightsCounterForCityREG = "//td[@class=\"editable editable-accommodation-nights nights\"]";
+        public static final String hotelTypeForCityREG = "/td[@class=\"hotelType visibility-group\"]/select[@class=\"hotelType\"]";
+
 
         public static String CityByNumberREG(int cityCounter) {
 
@@ -294,6 +297,12 @@ public class NewQuotationPage {
         public static final String transportFromMoscowREG = "//span[@class=\"checkDayLine\"]//input[@name=\"transportDay\"]";
         public static final String showAllDailyPricesREG = "//span[@class=\"checkDayLine\"]//a[@class=\"qbtn qbtn-showalldailyservices\"]";
         public static final String hideAllDailyPricesREG = "//span[@class=\"checkDayLine\"]//a[@class=\"qbtn qbtn-hidealldailyservices\"]";
+        public static final String serviceNameDropDownREG = "/td[3]/select";
+        public static final String serviceCriteriaNameREG = "/td[@class=\"criteria\"]/select[@class=\"serviceName\"]";
+        public static final String serviceCriteriaDurationREG = "/td[@class=\"criteria\"]/input[@name=\"hours2\"]";
+        public static final String serviceCriteriaRestaurantTypeREG = "/td[@class=\"criteria\"]/select[@name=\"restaurantType\"]";
+        public static final String serviceCriteriaRateREG = "/td[@class=\"criteria\"]/select[@class=\"rate2\"]";
+
 
 
 
@@ -320,7 +329,7 @@ public class NewQuotationPage {
 
         public static String GetAutoServiceByNumberREG(int serviceCounter) {
 
-            String result = "//table[@class=\"services\"]//tbody[@class=\"auto\"]//tr[" + String.valueOf(serviceCounter) + "]";
+            String result = "//table[@class=\"services\"]/tbody[@class=\"auto\"]/tr[" + String.valueOf(serviceCounter) + "]";
 
             return result;
         }
@@ -351,6 +360,45 @@ public class NewQuotationPage {
             String result = "//td[@class=\"featureds\"]//tbody//tr[" + String.valueOf(peopleCounter) + "]//td[3]//span[@class=\"editable editable-featured-service-price price\"]";
 
             return result;
+        }
+
+        public static void AddServiceByName(int day, int cityCounter, String serviceName) {
+
+            int servicesSize = $$(By.xpath(GetADayByNumberREG(day)
+                    +GetACityByNumberREG(cityCounter)
+                    +"//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+
+            $(By.xpath(GetADayByNumberREG(day)+GetACityByNumberREG(cityCounter)+addServiceButtonREG)).scrollTo().click();
+            CommonCode.WaitForProgruzkaSilent();
+
+            $(By.xpath(GetADayByNumberREG(day)
+                    +GetACityByNumberREG(cityCounter)
+                    +GetMainServiceByNumberREG(servicesSize+1)
+                    +serviceNameDropDownREG)).scrollTo().selectOptionContainingText(serviceName);
+            CommonCode.WaitForProgruzkaSilent();
+
+            String result = $(By.xpath(GetADayByNumberREG(day)
+                    +GetACityByNumberREG(cityCounter)
+                    +GetMainServiceByNumberREG(servicesSize+1)
+                    +serviceNameDropDownREG)).getSelectedText();
+            if(serviceName.equals(result)) {System.out.println(CommonCode.OK); }
+            else {
+                System.out.println(CommonCode.ANSI_RED+" - Service не добавлен"+CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Can`t add new city to Accommodations "+serviceName+" get"+result); }
+        }
+
+        public static void DeleteLastMainService(int day, int cityCounter) {
+
+            int servicesSize = $$(By.xpath(GetADayByNumberREG(day)
+                    +GetACityByNumberREG(cityCounter)
+                    +"//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
+
+            $(By.xpath(GetADayByNumberREG(day)
+                    +GetACityByNumberREG(cityCounter)
+                    +GetMainServiceByNumberREG(servicesSize)
+                    +"/td[@class=\"actions\"]/a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
+            confirm();
+            CommonCode.WaitForProgruzkaSilent();
         }
     }
 }

@@ -96,7 +96,7 @@ public class TestOfAccommodations {
         Double rubEur = 70.0;
         NewQuotationPage.OptionsTable.SetCurrencyRateForEUR(rubEur);
 
-        //Выставляем колество ночей - 2
+        //Выставляем колество ночей - 5
         int nightInOptionsCounter = 5;
         NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
