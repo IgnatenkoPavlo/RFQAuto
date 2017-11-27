@@ -302,6 +302,9 @@ public class NewQuotationPage {
         public static final String serviceCriteriaDurationREG = "/td[@class=\"criteria\"]/input[@name=\"hours2\"]";
         public static final String serviceCriteriaRestaurantTypeREG = "/td[@class=\"criteria\"]/select[@name=\"restaurantType\"]";
         public static final String serviceCriteriaRateREG = "/td[@class=\"criteria\"]/select[@class=\"rate2\"]";
+        public static final String serviceCriteriaClassREG = "/td[@class=\"criteria\"]//select[@name=\"class\"]";
+        public static final String serviceOptionsAddInfoREG = "/td[@class=\"options\"]//span/input[@name=\"customData\"]";
+        public static final String serviceOptionsDurationREG = "/td[@class=\"options\"]/span//input[@name=\"duration\"]";
 
 
 
@@ -396,7 +399,7 @@ public class NewQuotationPage {
             $(By.xpath(GetADayByNumberREG(day)
                     +GetACityByNumberREG(cityCounter)
                     +GetMainServiceByNumberREG(servicesSize)
-                    +"/td[@class=\"actions\"]/a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
+                    +"/td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
             confirm();
             CommonCode.WaitForProgruzkaSilent();
         }

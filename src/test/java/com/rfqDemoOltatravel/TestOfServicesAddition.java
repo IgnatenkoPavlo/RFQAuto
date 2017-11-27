@@ -134,13 +134,13 @@ public class TestOfServicesAddition {
         String[] dayNight = {"Night", "Day"};
         //Добавляем Guide
         /*System.out.print("[-] Добавляем сервис: Guide");
-        ProgrammSection.AddServiceByName(1,1, "Guide");
+        ProgrammSection.AddServiceByName(1,1, "Guide");*/
         List dropDownValues = new ArrayList();
         dropDownValues.addAll(Arrays.asList("1/2 day (4 hours)","Aeroexpress", "City by night", "Day (24 hours)",
                 "Full day (8 hours)", "Golden Ring", "Transfer to the airport (no excursion)",
                 "Transfer to the airport + City tour", "Transfer to the dinner/theatre (no excursion)",
                 "Transfer to the railway station (no excursion)"));
-        Boolean temp1=true;
+        /*temp1=true;
         for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++){
             System.out.println("    - Пробуем выставить: "+dropDownValues.get(dropDownValuesCounter));
             temp1=true;
@@ -161,7 +161,7 @@ public class TestOfServicesAddition {
 
             if(temp1==true){
                 CommonCode.WaitForProgruzkaSilent();
-                Boolean temp2=true;
+                temp2=true;
                 for(int i=0; i<dayNight.length;i++) {
                     System.out.print("        - Пробуем выставить: "+dayNight[i]);
                     temp2=true;
@@ -217,7 +217,7 @@ public class TestOfServicesAddition {
 
             if(temp1==true){
                 CommonCode.WaitForProgruzkaSilent();
-                Boolean temp2=true;
+                temp2=true;
                 for(int i=0; i<dayNight.length;i++) {
                     System.out.print("        - Пробуем выставить: "+dayNight[i]);
                     temp2=true;
@@ -274,12 +274,13 @@ public class TestOfServicesAddition {
 
         }
 
-        ProgrammSection.DeleteLastMainService(1,1);*/
+        CommonCode.WaitForProgruzkaSilent();
+        ProgrammSection.DeleteLastMainService(1,1);
 
         //Добавляем Excursion
-       /* System.out.print("[-] Добавляем сервис: Excursion");
-        ProgrammSection.AddServiceByName(1, 1, "Excursion");
-        dropDownValues.clear();
+        System.out.print("[-] Добавляем сервис: Excursion");
+        ProgrammSection.AddServiceByName(1, 1, "Excursion");*/
+        /*dropDownValues.clear();
         dropDownValues.addAll(Arrays.asList("Alexander Gardens", "Arbat Street", "Bolshoi theatre", "Bunker-42",
                 "Cathedral of Christ the Saviour", "Churches of Moscow Tour", "City tour", "City tour by night",
                 "Cosmonaut Museum", "Free time", "Izmailovo market", "Kolomenskoe", "Kremlin",
@@ -290,7 +291,7 @@ public class TestOfServicesAddition {
                 "Sergiev Posad", "Shopping", "Sparrow Hills", "Star City", "Taganka tour", "Tretyakov Gallery",
                 "Tsaritsyno", "VDNKh", "Victory Park", "Visit to Vodka Museum", "Walking tour through the city center"));*/
 
-       /* System.out.println("    - Пробуем выставить экскурсию: " + "Cathedral of Christ the Saviour");
+        /*System.out.println("    - Пробуем выставить экскурсию: " + "Cathedral of Christ the Saviour");
         temp1 = true;
         try {
             $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
@@ -506,7 +507,7 @@ public class TestOfServicesAddition {
             temp2=true;
             try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                         + ProgrammSection.GetACityByNumberREG(1)
-                        + //tbody[@class="auto"]/tr[@class="service"])).size());}
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
             catch(ElementNotFound e){
                 System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
                 temp2=false;
@@ -569,29 +570,30 @@ public class TestOfServicesAddition {
         }
         //Удаляем экскурсию
         System.out.println("    - Проверяем что автосервисы автоматически удалятся после удаления основного сервиса:");
+        CommonCode.WaitForProgruzkaSilent();
         ProgrammSection.DeleteLastMainService(1,1);
         //Проверяем что после удаления экскурсии удалились автосервисы
         temp2=true;
         result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 + ProgrammSection.GetACityByNumberREG(1)
-                + //tbody[@class="auto"]/tr[@class="service"])).size());
+                + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());
 
         if(result.equals("0")){
             System.out.println(CommonCode.ANSI_GREEN + "      - Автосервисы удалены " + CommonCode.ANSI_RESET);
         }
         else{System.out.println(CommonCode.ANSI_RED + "      - Автосервисы не удалены" + CommonCode.ANSI_RESET);
-            throw new IllegalArgumentException("Autoservices were not deleted automatically, there are "+result+" autoservices still there");}*/
+            throw new IllegalArgumentException("Autoservices were not deleted automatically, there are "+result+" autoservices still there");}
 
 
         //Добавляем Meal
         System.out.print("[-] Добавляем сервис: Meal");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Meal");
-        List dropDownValues = new ArrayList();
+        //List dropDownValues = new ArrayList();
+        dropDownValues.clear();
         dropDownValues.addAll(Arrays.asList("Breakfast at the hotel","Dinner at the hotel", "Lunch at the hotel", "Lunch Box"));
         //Проверяем, что для "ресторанной еды" выставляется класс отеля
         temp1=true;
-        //for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++){
-        for(int dropDownValuesCounter=0; dropDownValuesCounter<1; dropDownValuesCounter++){
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++){
             System.out.println("    - Пробуем выставить: "+dropDownValues.get(dropDownValuesCounter));
             temp1=true;
             try{ $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
@@ -600,7 +602,7 @@ public class TestOfServicesAddition {
                     +ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
             }catch (ElementNotFound e){
                 //e.printStackTrace();
-                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues.get(dropDownValuesCounter)+CommonCode.ANSI_RESET);
                 softAssertions.assertThat("No")
                         .as("Try to add service "+dropDownValues.get(dropDownValuesCounter))
                         .isEqualTo("Yes");
@@ -731,7 +733,7 @@ public class TestOfServicesAddition {
             }
         }
 
-       System.out.print("        - Пробуем выставить Duration 11");
+        System.out.print("        - Пробуем выставить Duration 11");
         temp2 = true;
         try {
             $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
@@ -790,7 +792,518 @@ public class TestOfServicesAddition {
         }
 
         //Проверяем что автосервисы можно отключить/включить
-       /* System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+        System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+        //Проверяем что можно отключить Гида
+        temp1=true;
+        try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetMainServiceByNumberREG(1)
+                + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+        }
+        catch(ElementNotFound e){
+            e.printStackTrace();
+            temp1 = false;
+            System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("Can`t find checkbox to disable Guide autoservice")
+                    .isEqualTo(String.valueOf("Yes"));
+        }
+
+        if(temp1==true){
+            CommonCode.WaitForProgruzkaSilent();
+            result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetAutoServiceByNumberREG(1)
+                    + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+            if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+            else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide autoservice can turned off by checkbox")
+                        .isEqualTo(String.valueOf("Yes"));}
+        }
+
+        //Проверяем что можно отключить Транспорт
+        temp1=true;
+        try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetMainServiceByNumberREG(1)
+                + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+        }
+        catch(ElementNotFound e){
+            e.printStackTrace();
+            temp1 = false;
+            System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("Can`t find checkbox to disable Guide autoservice")
+                    .isEqualTo(String.valueOf("Yes"));
+        }
+        CommonCode.WaitForProgruzkaSilent();
+        if(temp1==true){
+            CommonCode.WaitForProgruzkaSilent();
+            temp2=true;
+            try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+            catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+
+        CommonCode.WaitForProgruzkaSilent();
+        ProgrammSection.DeleteLastMainService(1,1);*/
+
+        //Добавляем Train Tickets
+        /*System.out.print("[-] Добавляем сервис: Train Tickets");
+        NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Train Tickets");
+
+        System.out.println("    - Пробуем выставить экскурсию: " + "Night train Moscow - Saint Petersburg");
+        temp1 = true;
+        try {
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Night train Moscow - Saint Petersburg");
+        } catch (ElementNotFound e) {
+            //e.printStackTrace();
+            //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_RED + "    - Не смог выбрать: " + "Night train Moscow - Saint Petersburg" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("Try to add service " + "Night train Moscow - Saint Petersburg")
+                    .isEqualTo("Yes");
+            temp1 = false;
+
+            //System.out.println(e);
+        }
+        CommonCode.WaitForProgruzkaSilent();
+        if (temp1 == true) {
+            CommonCode.WaitForProgruzkaSilent();
+            System.out.print("        - Пробуем выставить - 1st");
+            temp2 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaClassREG)).scrollTo().selectOptionContainingText("1st");
+                CommonCode.WaitForProgruzkaSilent();
+            } catch (ElementNotFound e) {
+                e.printStackTrace();
+                temp2 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог выставить 1st" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set class for tickets as 1st")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            if (temp2 == true) {
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.println(CommonCode.OK);
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
+        }
+        CommonCode.WaitForProgruzkaSilent();
+        if (temp1 == true) {
+            CommonCode.WaitForProgruzkaSilent();
+            System.out.print("    - Пробуем выставить - Custom");
+            temp2 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Custom");
+                CommonCode.WaitForProgruzkaSilent();
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp2 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог выставить Custom" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set class for tickets as Custom")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            if (temp2 == true) {
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.println(CommonCode.OK);
+
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
+            if(temp2 == true){
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.print("        - Пробуем выставить - business");
+                temp2 = true;
+                try {
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaClassREG)).scrollTo().selectOptionContainingText("business");
+                    CommonCode.WaitForProgruzkaSilent();
+                } catch (ElementNotFound e) {
+                    e.printStackTrace();
+                    temp2 = false;
+                    System.out.println(CommonCode.ANSI_RED + " - Не смог выставить business" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat("No")
+                            .as("Try to set class for tickets as business")
+                            .isEqualTo("Yes");
+
+
+                    //System.out.println(e);
+                }
+                if (temp2 == true) {
+                    CommonCode.WaitForProgruzkaSilent();
+                    System.out.println(CommonCode.OK);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp2 == true){
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.print("        - Пробуем заполнить Train Info");
+                temp2 = true;
+                try {
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceOptionsAddInfoREG)).scrollTo().setValue("Test info").pressEnter();
+                    CommonCode.WaitForProgruzkaSilent();
+                } catch (ElementNotFound e) {
+                    e.printStackTrace();
+                    temp2 = false;
+                    System.out.println(CommonCode.ANSI_RED + " - Не смог заполнить" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat("No")
+                            .as("Try to fill Train Info")
+                            .isEqualTo("Yes");
+
+
+                    //System.out.println(e);
+                }
+                if (temp2 == true) {
+                    System.out.println(CommonCode.OK);
+                }
+            }
+
+        }
+
+        CommonCode.WaitForProgruzkaSilent();
+        ProgrammSection.DeleteLastMainService(1,1);
+
+        //Добавляем Flight Tickets
+        System.out.print("[-] Добавляем сервис: Flight Tickets");
+        NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Flight Tickets");
+
+        System.out.println("    - Пробуем выставить экскурсию: " + "Flight Moscow-Saint Petersburg");
+        temp1 = true;
+        try {
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Flight Moscow-Saint Petersburg");
+        } catch (ElementNotFound e) {
+            //e.printStackTrace();
+            //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_RED + "    - Не смог выбрать: " + "Flight Moscow-Saint Petersburg" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("Try to add service " + "Flight Moscow-Saint Petersburg")
+                    .isEqualTo("Yes");
+            temp1 = false;
+
+            //System.out.println(e);
+        }
+        CommonCode.WaitForProgruzkaSilent();
+        if (temp1 == true) {
+            CommonCode.WaitForProgruzkaSilent();
+            System.out.print("        - Пробуем выставить - 1st");
+            temp2 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaClassREG)).scrollTo().selectOptionContainingText("1st");
+                CommonCode.WaitForProgruzkaSilent();
+            } catch (ElementNotFound e) {
+                e.printStackTrace();
+                temp2 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог выставить 1st" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set class for tickets as 1st")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            if (temp2 == true) {
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.println(CommonCode.OK);
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
+        }
+        CommonCode.WaitForProgruzkaSilent();
+        if (temp1 == true) {
+            CommonCode.WaitForProgruzkaSilent();
+            System.out.print("    - Пробуем выставить - Custom");
+            temp2 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Custom");
+                CommonCode.WaitForProgruzkaSilent();
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp2 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог выставить Custom" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set class for tickets as Custom")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            if (temp2 == true) {
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.println(CommonCode.OK);
+
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
+            if(temp2 == true){
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.print("        - Пробуем выставить - business");
+                temp2 = true;
+                try {
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaClassREG)).scrollTo().selectOptionContainingText("business");
+                    CommonCode.WaitForProgruzkaSilent();
+                } catch (ElementNotFound e) {
+                    e.printStackTrace();
+                    temp2 = false;
+                    System.out.println(CommonCode.ANSI_RED + " - Не смог выставить business" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat("No")
+                            .as("Try to set class for tickets as business")
+                            .isEqualTo("Yes");
+
+
+                    //System.out.println(e);
+                }
+                if (temp2 == true) {
+                    CommonCode.WaitForProgruzkaSilent();
+                    System.out.println(CommonCode.OK);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
+            }
+            if(temp2 == true){
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.print("        - Пробуем заполнить Flight Info");
+                temp2 = true;
+                try {
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceOptionsAddInfoREG)).scrollTo().setValue("Test info").pressEnter();
+                    CommonCode.WaitForProgruzkaSilent();
+                } catch (ElementNotFound e) {
+                    e.printStackTrace();
+                    temp2 = false;
+                    System.out.println(CommonCode.ANSI_RED + " - Не смог заполнить" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat("No")
+                            .as("Try to fill Train Info")
+                            .isEqualTo("Yes");
+
+
+                    //System.out.println(e);
+                }
+                if (temp2 == true) {
+                    CommonCode.WaitForProgruzkaSilent();
+                    System.out.println(CommonCode.OK);
+                }
+            }
+
+        }
+
+        CommonCode.WaitForProgruzkaSilent();
+        ProgrammSection.DeleteLastMainService(1,1);*/
+
+        //Добавляем Show
+        System.out.print("[-] Добавляем сервис: Show");
+        NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Show");
+        System.out.println("    - Пробуем выставить шоу: " + "Bolshoi Theatre (opera)");
+        temp1 = true;
+        try {
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Bolshoi Theatre (opera)");
+        } catch (ElementNotFound e) {
+            //e.printStackTrace();
+            //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("Try to add service " + "Bolshoi Theatre (opera)")
+                    .isEqualTo("Yes");
+            temp1 = false;
+
+            //System.out.println(e);
+        }
+
+        if (temp1 == true) {
+            CommonCode.WaitForProgruzkaSilent();
+            temp2 = true;
+            System.out.print("        - Пробуем выставить Duration 10");
+            temp2 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span/input[@name=\"duration\"]")).scrollTo().setValue("10");
+                CommonCode.WaitForProgruzkaSilent();
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp2 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог Duration 10" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as 10 ")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            if (temp2 == true) {
+                CommonCode.WaitForProgruzkaSilent();
+                System.out.println(CommonCode.OK);
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET);
+            }
+
+        } else {
+            System.out.println(CommonCode.ANSI_RED + "    - Не смог выбрать " + "Bolshoi Theatre (opera)" + CommonCode.ANSI_RESET);
+        }
+
+        //Проверяем что добавились нужные автосервисы
+        System.out.println("    - Проверяем что добавились нужные автосервисы:");
+
+        //Проверяем что добавился Гид
+        temp1=true;
+        result = "none";
+        try {
+            result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                    ProgrammSection.GetACityByNumberREG(1) +
+                    ProgrammSection.GetAutoServiceByNumberREG(1) +
+                    ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+        } catch (ElementNotFound e) {
+            temp1 = false;
+            System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat(result)
+                    .as("Check that Guide is automatically added to Show")
+                    .isEqualTo(String.valueOf("Guide"));
+        }
+        if (temp1 == true) {
+            if (result.equals("Guide")) {
+                System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+        }
+        //Проверяем что часы для гида выставлены в 10
+        if (temp1 == true) {
+            temp2 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+            } catch (ElementNotFound e) {
+                System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Hours for Guide is automatically set equally to Show")
+                        .isEqualTo(String.valueOf("10"));
+                temp2 = false;
+            }
+            if (temp2==true) {
+                if (result.equals("10")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("10"));
+                }
+            }
+        }
+
+        //Проверяем что добавился транспорт
+        result = "none";
+        temp1 = true;
+        try {
+            result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                    ProgrammSection.GetACityByNumberREG(1) +
+                    ProgrammSection.GetAutoServiceByNumberREG(2) +
+                    ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+        } catch (ElementNotFound e) {
+            temp1 = false;
+            System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat(result)
+                    .as("Check that Transport is automatically added to Show")
+                    .isEqualTo(String.valueOf("Transport"));
+        }
+        if (temp1 == true) {
+            if (result.equals("Transport")) {
+                System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+            } else {
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+        }
+        //Проверяем что часы для транспорта выставлены в 10
+        if (temp1 == true) {
+            temp2 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(2)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+            } catch (ElementNotFound e) {
+                System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Hours for Transport is automatically set equally to Show")
+                        .isEqualTo(String.valueOf("10"));
+                temp2 = false;
+            }
+            if (temp2==true) {
+                if (result.equals("10")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("10"));
+                }
+            }
+        }
+        System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
         //Проверяем что можно отключить Гида
         temp1=true;
         try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
@@ -836,7 +1349,7 @@ public class TestOfServicesAddition {
             temp1 = false;
             System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
             softAssertions.assertThat("No")
-                    .as("Can`t find checkbox to disable Guide autoservice")
+                    .as("Can`t find checkbox to disable Transport autoservice")
                     .isEqualTo(String.valueOf("Yes"));
         }
 
@@ -860,30 +1373,161 @@ public class TestOfServicesAddition {
                                 .as("Check that Transport autoservice can turned off by checkbox")
                                 .isEqualTo(String.valueOf("0"));}
                 }
-            }*/
+            }
+
+            //Проверяем что можно влючить Наушники
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[7]/input[@name=\"headphones\"]")).click();
+                CommonCode.WaitForProgruzkaSilent();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс включения Наушников" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to enable Headphones autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            result = "none";
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                try{result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Наушники не получилось корректно включить " + CommonCode.ANSI_RESET);
+                }
+                if (result.equals("Special Services")){
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaNameREG)).getSelectedText();
+                    if(result.equals("Headphones")) System.out.println(CommonCode.ANSI_GREEN + "      - Наушники включились через чекбокс" + CommonCode.ANSI_RESET);
+                    else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Наушники не получилось корректно включить " + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("Headphones"));}
+                }
+                else{
+                    System.out.println(CommonCode.ANSI_RED + "      - Наушники не получилось корректно включить " + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Special Services"));}
+            }
+
+            System.out.println("    - Проверяем что тип временного периода выставляется корректно:");
+            Map<String, String> guideHirePeriods = new HashMap<>();
+            guideHirePeriods.put("4", "1/2 day (4 hours)");
+            guideHirePeriods.put("8", "Full day (8 hours)");
+            guideHirePeriods.put("24", "Day (24 hours)");
+            //Включаем Гида
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetMainServiceByNumberREG(1)
+                + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            CommonCode.WaitForProgruzkaSilent();
+            //Выключаем наушники
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                + ProgrammSection.GetACityByNumberREG(1)
+                + ProgrammSection.GetMainServiceByNumberREG(1)
+                + "/td[@class=\"options\"]/span[7]/input[@name=\"headphones\"]")).click();
+            CommonCode.WaitForProgruzkaSilent();
+
+            for (Map.Entry<String, String> entry : guideHirePeriods.entrySet()) {
+                String hours = entry.getKey();
+                String dropDowdValue = entry.getValue();
+
+                System.out.println("        - Пробуем выставить Duration - "+hours);
+                temp1 = true;
+                try {
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceOptionsDurationREG)).scrollTo().click();
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceOptionsDurationREG)).clear();
+                    confirm();
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceOptionsDurationREG)).sendKeys(hours+"\13");
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceOptionsDurationREG)).pressEnter();
+                    CommonCode.WaitForProgruzkaSilent();
+                } catch (ElementNotFound e) {
+                    //e.printStackTrace();
+                    temp1 = false;
+                    System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+hours + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat("No")
+                            .as("Try to set Duration as "+hours)
+                            .isEqualTo("Yes");
+
+
+                    //System.out.println(e);
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp1 == true) {
+                    CommonCode.WaitForProgruzkaSilent();
+                    temp2 = true;
+                    try {
+                        result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                                + ProgrammSection.GetACityByNumberREG(1)
+                                + ProgrammSection.GetAutoServiceByNumberREG(1)
+                                + ProgrammSection.serviceCriteriaNameREG)).getSelectedText();
+                    } catch (ElementNotFound e) {
+                        System.out.println(CommonCode.ANSI_RED + "      - Не смог получить значение дропдауна у Гида" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Can't get value of Duration for Guide")
+                                .isEqualTo(String.valueOf(dropDowdValue));
+                        temp2 = false;
+                    }
+                    if (temp2==true) {
+                        if (result.equals(dropDowdValue)) {
+                            System.out.println(CommonCode.ANSI_GREEN + "            - Тип часов для Гида выставлен корректно " + CommonCode.ANSI_RESET);
+
+                        } else {
+                            System.out.println(CommonCode.ANSI_RED + "              - Тип часов для Гида выставлен некорректно" + CommonCode.ANSI_RESET);
+                            softAssertions.assertThat(result)
+                                    .as("Check that type of Hours for Guide")
+                                    .isEqualTo(String.valueOf(dropDowdValue));
+                        }
+                    }
+
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "          - При добавлении были ошибки." + CommonCode.ANSI_RESET);
+                }
+            }
+            //Удаляем экскурсию
+            System.out.println("    - Проверяем что автосервисы автоматически удалятся после удаления основного сервиса:");
+            CommonCode.WaitForProgruzkaSilent();
+            ProgrammSection.DeleteLastMainService(1,1);
+            //Проверяем что после удаления экскурсии удалились автосервисы
+            temp2=true;
+            result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());
+
+            if(result.equals("0")){
+                System.out.println(CommonCode.ANSI_GREEN + "      - Автосервисы удалены " + CommonCode.ANSI_RESET);
+            }
+            else{System.out.println(CommonCode.ANSI_RED + "      - Автосервисы не удалены" + CommonCode.ANSI_RESET);
+                throw new IllegalArgumentException("Autoservices were not deleted automatically, there are "+result+" autoservices still there");}
+
 
         //ProgrammSection.DeleteLastMainService(1,1);
 
-        //Добавляем Train Tickets
-        /*System.out.print("[-] Добавляем сервис: Train Tickets");
-        NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Train Tickets");
-        System.out.println("сделать что то");
-        ProgrammSection.DeleteLastMainService(1,1);
-
-        //Добавляем Flight Tickets
-        System.out.print("[-] Добавляем сервис: Flight Tickets");
-        NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Flight Tickets");
-        System.out.println("сделать что то");
-        ProgrammSection.DeleteLastMainService(1,1);
-
-        //Добавляем Show
-        System.out.print("[-] Добавляем сервис: Show");
-        NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Show");
-        System.out.println("сделать что то");
-        ProgrammSection.DeleteLastMainService(1,1);
-
         //Добавляем Transport
-        System.out.print("[-] Добавляем сервис: Transport");
+        /*System.out.print("[-] Добавляем сервис: Transport");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Transport");
         System.out.println("сделать что то");
         ProgrammSection.DeleteLastMainService(1,1);
