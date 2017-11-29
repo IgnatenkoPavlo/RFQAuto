@@ -1778,11 +1778,32 @@ public class TestOfServicesAddition {
                     "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldBe(Condition.visible);
 
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]" +
+                    "//input[@id=\"input-createcustomservice-name\"]")).setValue("тест");
+
+            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]" +
+                    "//input[@id=\"input-createcustomservice-price\"]")).setValue("1000");
+
+            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-primary\"]")).click();
+
+            String errorText = "";
+            errorText = commonCode.GetJSErrorText(driver);
+
+            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-default btn-cancel\"]")).click();
 
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldNotBe(Condition.visible);
-            System.out.println(CommonCode.ANSI_GREEN+" - Popup - ok"+CommonCode.ANSI_RESET);
+            if(errorText.equals("Special service with the same name does already exist.")){
+            System.out.println(CommonCode.OK);}
+            else{
+                System.out.println(CommonCode.ANSI_RED+" - Не получилось добавить новый Special Service"+CommonCode.ANSI_RESET);
+                softAssertions.assertThat(errorText)
+                        .as("Can`t add new special service ")
+                        .isEqualTo("Yes");
+            }
         }
 
         dropDownValues.clear();
