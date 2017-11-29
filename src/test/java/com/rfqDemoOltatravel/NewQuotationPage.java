@@ -300,6 +300,7 @@ public class NewQuotationPage {
         public static final String serviceNameDropDownREG = "/td[3]/select";
         public static final String serviceCriteriaNameREG = "/td[@class=\"criteria\"]/select[@class=\"serviceName\"]";
         public static final String serviceCriteriaDurationREG = "/td[@class=\"criteria\"]/input[@name=\"hours2\"]";
+        public static final String serviceCriteriaDaysREG = "/td[@class=\"criteria\"]//input[@name=\"days\"]";
         public static final String serviceCriteriaRestaurantTypeREG = "/td[@class=\"criteria\"]/select[@name=\"restaurantType\"]";
         public static final String serviceCriteriaRateREG = "/td[@class=\"criteria\"]/select[@class=\"rate2\"]";
         public static final String serviceCriteriaClassREG = "/td[@class=\"criteria\"]//select[@name=\"class\"]";

@@ -58,7 +58,7 @@ public class TestOfServicesAddition {
         System.out.print("Получил проперти ");
         System.out.println(props.getProperty("baseURL"));
 
-        selenideConfig.timeout = 10000;
+        selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: " + props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
@@ -133,14 +133,14 @@ public class TestOfServicesAddition {
 
         String[] dayNight = {"Night", "Day"};
         //Добавляем Guide
-        /*System.out.print("[-] Добавляем сервис: Guide");
-        ProgrammSection.AddServiceByName(1,1, "Guide");*/
+        System.out.print("[-] Добавляем сервис: Guide");
+        ProgrammSection.AddServiceByName(1,1, "Guide");
         List dropDownValues = new ArrayList();
         dropDownValues.addAll(Arrays.asList("1/2 day (4 hours)","Aeroexpress", "City by night", "Day (24 hours)",
                 "Full day (8 hours)", "Golden Ring", "Transfer to the airport (no excursion)",
                 "Transfer to the airport + City tour", "Transfer to the dinner/theatre (no excursion)",
                 "Transfer to the railway station (no excursion)"));
-        /*temp1=true;
+        temp1=true;
         for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++){
             System.out.println("    - Пробуем выставить: "+dropDownValues.get(dropDownValuesCounter));
             temp1=true;
@@ -279,8 +279,8 @@ public class TestOfServicesAddition {
 
         //Добавляем Excursion
         System.out.print("[-] Добавляем сервис: Excursion");
-        ProgrammSection.AddServiceByName(1, 1, "Excursion");*/
-        /*dropDownValues.clear();
+        ProgrammSection.AddServiceByName(1, 1, "Excursion");
+        dropDownValues.clear();
         dropDownValues.addAll(Arrays.asList("Alexander Gardens", "Arbat Street", "Bolshoi theatre", "Bunker-42",
                 "Cathedral of Christ the Saviour", "Churches of Moscow Tour", "City tour", "City tour by night",
                 "Cosmonaut Museum", "Free time", "Izmailovo market", "Kolomenskoe", "Kremlin",
@@ -289,9 +289,9 @@ public class TestOfServicesAddition {
                 "Novodevichy Convent", "Panoramic City tour", "Pushkin Museum of Fine Arts", "Red Square",
                 "River Cruise", "River Cruise on the Radisson ice-breaker ", "Saint-Basil’s Cathedral",
                 "Sergiev Posad", "Shopping", "Sparrow Hills", "Star City", "Taganka tour", "Tretyakov Gallery",
-                "Tsaritsyno", "VDNKh", "Victory Park", "Visit to Vodka Museum", "Walking tour through the city center"));*/
+                "Tsaritsyno", "VDNKh", "Victory Park", "Visit to Vodka Museum", "Walking tour through the city center"));
 
-        /*System.out.println("    - Пробуем выставить экскурсию: " + "Cathedral of Christ the Saviour");
+        System.out.println("    - Пробуем выставить экскурсию: " + "Cathedral of Christ the Saviour");
         temp1 = true;
         try {
             $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
@@ -861,10 +861,10 @@ public class TestOfServicesAddition {
             }
 
         CommonCode.WaitForProgruzkaSilent();
-        ProgrammSection.DeleteLastMainService(1,1);*/
+        ProgrammSection.DeleteLastMainService(1,1);
 
         //Добавляем Train Tickets
-        /*System.out.print("[-] Добавляем сервис: Train Tickets");
+        System.out.print("[-] Добавляем сервис: Train Tickets");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Train Tickets");
 
         System.out.println("    - Пробуем выставить экскурсию: " + "Night train Moscow - Saint Petersburg");
@@ -1137,7 +1137,7 @@ public class TestOfServicesAddition {
         }
 
         CommonCode.WaitForProgruzkaSilent();
-        ProgrammSection.DeleteLastMainService(1,1);*/
+        ProgrammSection.DeleteLastMainService(1,1);
 
         //Добавляем Show
         System.out.print("[-] Добавляем сервис: Show");
@@ -1524,61 +1524,1770 @@ public class TestOfServicesAddition {
                 throw new IllegalArgumentException("Autoservices were not deleted automatically, there are "+result+" autoservices still there");}
 
 
-        //ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Transport
-        /*System.out.print("[-] Добавляем сервис: Transport");
+        System.out.print("[-] Добавляем сервис: Transport");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Transport");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        //dropDownValues.addAll(Arrays.asList("City trip","Hourly", "To/from airport"));
+        dropDownValues.addAll(Arrays.asList("City trip"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
+
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Special Services
         System.out.print("[-] Добавляем сервис: Special Services");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Special Services");
-        System.out.println("сделать что то");
+        System.out.print("      - Пробуем добавить новый Special Service:");
+        temp1=true;
+        try{
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"criteria\"]//a[@class=\"qbtn qbtn-add-custom-service\"]")).scrollTo().click();
+        }
+        catch (ElementNotFound e) {
+            //e.printStackTrace();
+            System.out.println(CommonCode.ANSI_RED+" - Нет кнопки Add"+CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("There is no button to add new special service " )
+                    .isEqualTo("Yes");
+            temp1 = false;
+
+            //System.out.println(e);
+        }
+        if(temp1==true){
+            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldBe(Condition.visible);
+
+            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-default btn-cancel\"]")).click();
+
+            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldNotBe(Condition.visible);
+            System.out.println(CommonCode.ANSI_GREEN+" - Popup - ok"+CommonCode.ANSI_RESET);
+        }
+
+        dropDownValues.clear();
+        dropDownValues.addAll(Arrays.asList("AK 47 shooting"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Meeting
         System.out.print("[-] Добавляем сервис: Meeting");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Meeting");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        //dropDownValues.addAll(Arrays.asList("City trip","Hourly", "To/from airport"));
+        dropDownValues.addAll(Arrays.asList("Meeting with Guide"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Arrival/Depature
         System.out.print("[-] Добавляем сервис: Arrival/Depature");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Arrival/Depature");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        //dropDownValues.addAll(Arrays.asList("City trip","Hourly", "To/from airport"));
+        dropDownValues.addAll(Arrays.asList("Arriving at the airport"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Check-In/Check-Out
         System.out.print("[-] Добавляем сервис: Check-In/Check-Out");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Check-In/Check-Out");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        //dropDownValues.addAll(Arrays.asList("City trip","Hourly", "To/from airport"));
+        dropDownValues.addAll(Arrays.asList("Check-in at the hotel"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Transfer
         System.out.print("[-] Добавляем сервис: Transfer");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Transfer");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        //dropDownValues.addAll(Arrays.asList("City trip","Hourly", "To/from airport"));
+        dropDownValues.addAll(Arrays.asList("Transfer from the Airport"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Overnight
         System.out.print("[-] Добавляем сервис: Overnight");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Overnight");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        temp1=true;
+        try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        //}
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Intercity Transfer
         System.out.print("[-] Добавляем сервис: Intercity Transfer");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Intercity Transfer");
-        System.out.println("сделать что то");
+        dropDownValues.clear();
+        //dropDownValues.addAll(Arrays.asList("City trip","Hourly", "To/from airport"));
+        dropDownValues.addAll(Arrays.asList("VLG"));
+        temp1=true;
+        for(int dropDownValuesCounter=0; dropDownValuesCounter<dropDownValues.size(); dropDownValuesCounter++) {
+            System.out.println("    - Пробуем выставить: " + dropDownValues.get(dropDownValuesCounter));
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf(dropDownValues.get(dropDownValuesCounter)));
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to add service " + dropDownValues.get(dropDownValuesCounter))
+                        .isEqualTo("Yes");
+                temp1 = false;
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            temp1 = true;
+            try {
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).scrollTo().setValue("4");
+
+            } catch (ElementNotFound e) {
+                //e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + " - Не смог найти Duration - "+"4" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Try to set Duration as "+"4")
+                        .isEqualTo("Yes");
+
+
+                //System.out.println(e);
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            result = "none";
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(1) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Guide is automatically added to Show")
+                        .isEqualTo(String.valueOf("Guide"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Guide")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Гид добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Гид не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для гида выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Guide is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Гида выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Гида выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Guide is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+
+            //Проверяем что добавился транспорт
+            result = "none";
+            temp1 = true;
+            try {
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1) +
+                        ProgrammSection.GetACityByNumberREG(1) +
+                        ProgrammSection.GetAutoServiceByNumberREG(2) +
+                        ProgrammSection.serviceNameDropDownREG)).scrollTo().getSelectedText();
+            } catch (ElementNotFound e) {
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Check that Transport is automatically added to Show")
+                        .isEqualTo(String.valueOf("Transport"));
+            }
+            if (temp1 == true) {
+                if (result.equals("Transport")) {
+                    System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт добавлен " + CommonCode.ANSI_RESET);
+
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не добавлен" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Transport is automatically added to Show")
+                            .isEqualTo(String.valueOf("Transport"));
+                }
+            }
+            //Проверяем что часы для транспорта выставлены в 4
+            if (temp1 == true) {
+                temp2 = true;
+                try {
+                    result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetAutoServiceByNumberREG(2)
+                            + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("value");
+                } catch (ElementNotFound e) {
+                    System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Hours for Transport is automatically set equally to Show")
+                            .isEqualTo(String.valueOf("4"));
+                    temp2 = false;
+                }
+                if (temp2==true) {
+                    if (result.equals("4")) {
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Часы для Транспорта выставлены корректно " + CommonCode.ANSI_RESET);
+
+                    } else {
+                        System.out.println(CommonCode.ANSI_RED + "      - Часы для Транспорта выставлены некорректно" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Hours for Transport is automatically set equally to Show")
+                                .isEqualTo(String.valueOf("4"));
+                    }
+                }
+            }
+            System.out.println("    - Проверяем что автосервисы можно отключить/включить:");
+            //Проверяем что можно отключить Гида
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+                $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + "/td[@class=\"options\"]/span[3]/input[@name=\"guide\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Гида" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Guide autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                if (result.equals("Transport")){System.out.println(CommonCode.ANSI_GREEN + "      - Гида можно корректно отключить " + CommonCode.ANSI_RESET);}
+                else{System.out.println(CommonCode.ANSI_RED + "      - Гид не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that Guide autoservice can turned off by checkbox")
+                            .isEqualTo(String.valueOf("Yes"));}
+            }
+
+            //Проверяем что можно отключить Транспорт
+            temp1=true;
+            try{$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + "/td[@class=\"options\"]/span[5]/input[@name=\"transport\"]")).click();
+            }
+            catch(ElementNotFound e){
+                e.printStackTrace();
+                temp1 = false;
+                System.out.println(CommonCode.ANSI_RED + "      - Не смог найти чекбокс отключения Транспорта" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t find checkbox to disable Transport autoservice")
+                        .isEqualTo(String.valueOf("Yes"));
+            }
+            CommonCode.WaitForProgruzkaSilent();
+            if(temp1==true){
+                CommonCode.WaitForProgruzkaSilent();
+                temp2=true;
+                try{result = String.valueOf($$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + "//tbody[@class=\"auto\"]/tr[@class=\"service\"]")).size());}
+                catch(ElementNotFound e){
+                    System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                    temp2=false;
+                }
+                CommonCode.WaitForProgruzkaSilent();
+                if (temp2==true){
+                    if(result.equals("0")){
+                        System.out.println(CommonCode.ANSI_GREEN + "      - Транспорт можно корректно отключить " + CommonCode.ANSI_RESET);
+                    }
+                    else{System.out.println(CommonCode.ANSI_RED + "      - Транспорт не отключился через чекбокс" + CommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check that Transport autoservice can turned off by checkbox")
+                                .isEqualTo(String.valueOf("0"));}
+                }
+            }
+        }
         ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
         //Добавляем Intercity Guide
         System.out.print("[-] Добавляем сервис: Intercity Guide");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Intercity Guide");
-        System.out.println("сделать что то");
-        ProgrammSection.DeleteLastMainService(1,1);*/
+        System.out.print("        - Пробуем выставить Days 10");
+        temp1 = true;
+        try {
+            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + ProgrammSection.serviceCriteriaDaysREG)).scrollTo().setValue("10").pressEnter();
+            CommonCode.WaitForProgruzkaSilent();
+        } catch (ElementNotFound e) {
+            //e.printStackTrace();
+            temp1 = false;
+            System.out.println(CommonCode.ANSI_RED + " - Не найти контрол Days 10" + CommonCode.ANSI_RESET);
+            softAssertions.assertThat("No")
+                    .as("Can`t find input Days")
+                    .isEqualTo("Yes");
+            //System.out.println(e);
+        }
+        CommonCode.WaitForProgruzkaSilent();
+        if(temp1){
+            result = $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                    + ProgrammSection.GetACityByNumberREG(1)
+                    + ProgrammSection.GetMainServiceByNumberREG(1)
+                    + ProgrammSection.serviceCriteriaDaysREG)).getValue();
+            if (result.equals("10")){System.out.println(CommonCode.ANSI_GREEN + "      - Дни выставились корректно " + CommonCode.ANSI_RESET);}
+            else{System.out.println(CommonCode.ANSI_RED + "      - Дни не выставились" + CommonCode.ANSI_RESET);
+                softAssertions.assertThat(result)
+                        .as("Can`t fill input Days")
+                        .isEqualTo(String.valueOf("10"));}
+        }
+        ProgrammSection.DeleteLastMainService(1,1);
+        CommonCode.WaitForProgruzkaSilent();
 
     }
 
