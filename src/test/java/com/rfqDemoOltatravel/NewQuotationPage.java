@@ -218,7 +218,7 @@ public class NewQuotationPage {
 
         public static String PeriodByNumberREG(int periodCounter) {
 
-            String result = "//td[@class=\"prices\"]//table//tbody//tr["+String.valueOf(periodCounter)+"]";
+            String result = "//td[@class=\"prices-group visibility-group\"]//table//tbody//tr["+String.valueOf(periodCounter)+"]";
 
             return result;
         }
@@ -226,15 +226,14 @@ public class NewQuotationPage {
         public static double GetPriceSGLForCityForPeriod(int cityCounter, int periodCounter) {
 
             double result=Double.valueOf($(By.xpath(CityByNumberREG(cityCounter)+PeriodByNumberREG(periodCounter)
-                    + "//td[@class=\"editable editable-accommodation-date-price-sgl priceSgl\"]")).getText());
-
+                    + "//td[@class=\"editable editable-accommodation-date-price-sgl-group priceSglGroup\"]")).getText());
             return result;
         }
 
         public static double GetPriceDBLForCityForPeriod(int cityCounter, int periodCounter) {
 
             double result=Double.valueOf($(By.xpath(CityByNumberREG(cityCounter)+PeriodByNumberREG(periodCounter)
-                    + "//td[@class=\"editable editable-accommodation-date-price-dbl priceDbl\"]")).getText());
+                    + "//td[@class=\"editable editable-accommodation-date-price-dbl-group priceDblGroup\"]")).getText());
 
             return result;
         }
@@ -404,5 +403,17 @@ public class NewQuotationPage {
             confirm();
             CommonCode.WaitForProgruzkaSilent();
         }
+    }
+
+    //Results
+    public static final String resultsSectionREG = "//div[@id=\"results\"]";
+    public static class ResultsSection{
+
+        public static final String hotelsWOMTableREG = resultsSectionREG+"//table[@id=\"table-result-hotels-wo-margin-hybrid\"]";
+        public static final String hotelsTableREG = resultsSectionREG+"//table[@id=\"table-result-hotels-hybrid\"]";
+        public static final String hotelsServicesREG = resultsSectionREG+"//table[@id=\"table-result-services\"]";
+        public static final String hotelsDayRelatedServicesREG = resultsSectionREG+"//table[@id=\"table-result-services-by-days\"]";
+        public static final String totalsREG = resultsSectionREG+"//table[@id=\"table-result-totals\"]";
+
     }
 }

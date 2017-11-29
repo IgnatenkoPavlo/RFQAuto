@@ -280,10 +280,10 @@ public class AdvancedScenario1 {
         //Сравниваем цену за номер
         System.out.println("[-] Проверяем результаты расчёта:");
         System.out.println("    Проверяем таблицу Hotels (WE) w/o margin:");
-        $(By.id("table-result-hotels-wo-margin-we")).scrollTo();
+        $(By.xpath(ResultsSection.hotelsWOMTableREG)).scrollTo();
 
-        String hotelsWE15womS = $(By.cssSelector("table[id=\"table-result-hotels-wo-margin-we\"] tbody tr td")).getText();
-        String hotelsWEwomSSS = $(By.xpath("//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr//td[4]")).getText();
+        String hotelsWE15womS = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//tbody//tr//td")).getText();
+        String hotelsWEwomSSS = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//tbody//tr//td[4]")).getText();
         hotelsWE15womS = hotelsWE15womS.substring(0, hotelsWE15womS.indexOf(' '));
         hotelsWEwomSSS = hotelsWEwomSSS.substring(0, hotelsWEwomSSS.indexOf(' '));
         //System.out.println("hotelsWE 15 w/o marge: " + hotelsWE15womS);
@@ -314,14 +314,14 @@ public class AdvancedScenario1 {
         hotelsWE15wom = priceDBLD/2;
         System.out.println("Hotels WE w/om 15: " + (new BigDecimal(hotelsWE15wom).setScale(0, RoundingMode.HALF_UP).floatValue()));*/
 
-        System.out.println("    Проверяем таблицу Hotels (WE):");
+        System.out.println("    Проверяем таблицу Hotels:");
         Double hotelsWE = priceDBLD;
         hotelsWE = hotelsWE / rubUsd;
         hotelsWE = hotelsWE / generalMarge;
         String hotelsWES = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
-        String hotelsWER = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        $(By.xpath(ResultsSection.hotelsTableREG)).scrollTo();
+        String hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWES.equals(hotelsWER)) {
             System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
@@ -338,8 +338,8 @@ public class AdvancedScenario1 {
         hotelsWESS = hotelsWESS / rubUsd /generalMarge;
         String hotelsWESSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //System.out.println("Hotels WE 15: " + hotelsWES);
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]")).scrollTo();
-        hotelsWER = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-we\"]//tbody//tr//th/following-sibling::td[4]")).getText();
+        $(By.xpath(ResultsSection.hotelsTableREG)).scrollTo();
+        hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[4]")).getText();
         hotelsWER = hotelsWER.substring(1, hotelsWER.length());
         if(hotelsWESSS.equals(hotelsWER)) {
             System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы SS верное +"+CommonCode.ANSI_RESET);
@@ -358,8 +358,8 @@ public class AdvancedScenario1 {
         services15 = services15 / generalMarge;
 
         //System.out.println("Services WE w/om 15: " + (new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]")).scrollTo();
-        String services15S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        $(By.xpath(ResultsSection.hotelsServicesREG)).scrollTo();
+        String services15S = $(By.xpath(ResultsSection.hotelsServicesREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(1, services15S.length());
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
@@ -376,7 +376,7 @@ public class AdvancedScenario1 {
         services20 = services20 / rubUsd;
         services20 = services20 / generalMarge;
         //$(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
-        String services20S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        String services20S = $(By.xpath(ResultsSection.hotelsServicesREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         services20S = services20S.substring(1, services20S.length());
         if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
@@ -393,7 +393,7 @@ public class AdvancedScenario1 {
         services25 = services25 / rubUsd;
         services25 = services25 / generalMarge;
         //$(By.xpath("//div[@id=\"result\"]//table[@id=\"table-result-services\"]")).scrollTo();
-        String services25S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services\"]//tbody//tr//th/following-sibling::td[3]")).getText();
+        String services25S = $(By.xpath(ResultsSection.hotelsServicesREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         services25S = services25S.substring(1, services25S.length());
         if(services25S.equals(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
@@ -410,8 +410,8 @@ public class AdvancedScenario1 {
         dailyServices15 = sumFromDailyProgram[0];
         dailyServices15 = dailyServices15 / rubUsd;
         dailyServices15 = dailyServices15 / generalMarge;
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]")).scrollTo();
-        String dailyServices15S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        $(By.xpath(ResultsSection.hotelsDayRelatedServicesREG)).scrollTo();
+        String dailyServices15S = $(By.xpath(ResultsSection.hotelsDayRelatedServicesREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         dailyServices15S = dailyServices15S.substring(1, dailyServices15S.length());
         if(dailyServices15S.equals(String.valueOf((int) new BigDecimal(dailyServices15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
@@ -427,8 +427,8 @@ public class AdvancedScenario1 {
         dailyServices20 = sumFromDailyProgram[1];
         dailyServices20 = dailyServices20 / rubUsd;
         dailyServices20 = dailyServices20 / generalMarge;
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]")).scrollTo();
-        String dailyServices20S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        $(By.xpath(ResultsSection.hotelsDayRelatedServicesREG)).scrollTo();
+        String dailyServices20S = $(By.xpath(ResultsSection.hotelsDayRelatedServicesREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         dailyServices20S = dailyServices20S.substring(1, dailyServices20S.length());
         if(dailyServices20S.equals(String.valueOf((int) new BigDecimal(dailyServices20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
@@ -444,8 +444,8 @@ public class AdvancedScenario1 {
         dailyServices25 = sumFromDailyProgram[2];
         dailyServices25 = dailyServices25 / rubUsd;
         dailyServices25 = dailyServices25 / generalMarge;
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]")).scrollTo();
-        String dailyServices25S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-services-by-days\"]//tbody//tr//th/following-sibling::td[3]")).getText();
+        $(By.xpath(ResultsSection.hotelsDayRelatedServicesREG)).scrollTo();
+        String dailyServices25S = $(By.xpath(ResultsSection.hotelsDayRelatedServicesREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         dailyServices25S = dailyServices25S.substring(1, dailyServices25S.length());
         if(dailyServices25S.equals(String.valueOf((int) new BigDecimal(dailyServices25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
@@ -463,8 +463,8 @@ public class AdvancedScenario1 {
         totalWE15 = totalWE15 / rubUsd;
         totalWE15 = totalWE15 / generalMarge;
         //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]")).scrollTo();
-        String totalWE15S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[1]")).getText();
+        $(By.xpath(ResultsSection.totalsREG)).scrollTo();
+        String totalWE15S = $(By.xpath(ResultsSection.totalsREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(1, totalWE15S.length());
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
@@ -481,8 +481,8 @@ public class AdvancedScenario1 {
         totalWE20 = totalWE20 / rubUsd;
         totalWE20 = totalWE20 / generalMarge;
         //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]")).scrollTo();
-        String totalWE20S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[2]")).getText();
+        $(By.xpath(ResultsSection.totalsREG)).scrollTo();
+        String totalWE20S = $(By.xpath(ResultsSection.totalsREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         totalWE20S = totalWE20S.substring(1, totalWE20S.length());
         if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
@@ -499,8 +499,8 @@ public class AdvancedScenario1 {
         totalWE25 = totalWE25 / rubUsd;
         totalWE25 = totalWE25 / generalMarge;
         //System.out.println("Total WE 15: " + (new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
-        $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]")).scrollTo();
-        String totalWE25S = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-totals\"]//tbody//tr//th/following-sibling::td[3]")).getText();
+        $(By.xpath(ResultsSection.totalsREG)).scrollTo();
+        String totalWE25S = $(By.xpath(ResultsSection.totalsREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         totalWE25S = totalWE25S.substring(1, totalWE25S.length());
         if(totalWE25S.equals(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
             System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
