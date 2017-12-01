@@ -169,11 +169,11 @@ public class AdvancedScenario1 {
         //Кликаем на кнопку Show All Prices
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
         //Считываем значения
-        Double priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)*2;
-        Double priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)*2;
+        Double priceSGLD = AccomodationsTable.GroupGetPriceSGLForCityForPeriod(1,1)*2;
+        Double priceDBLD = AccomodationsTable.GroupGetPriceDBLForCityForPeriod(1,1)*2;
 
-        priceSGLD = priceSGLD + AccomodationsTable.GetPriceSGLForCityForPeriod(2,1);
-        priceDBLD = priceDBLD + AccomodationsTable.GetPriceDBLForCityForPeriod(2,1);
+        priceSGLD = priceSGLD + AccomodationsTable.GroupGetPriceSGLForCityForPeriod(2,1);
+        priceDBLD = priceDBLD + AccomodationsTable.GroupGetPriceDBLForCityForPeriod(2,1);
         priceDBLD = priceDBLD / 2;
         Double priceSS = priceSGLD - (new BigDecimal(priceDBLD).setScale(0, RoundingMode.DOWN).floatValue());
         priceDBLD = priceDBLD + registrationFeeForSPB;

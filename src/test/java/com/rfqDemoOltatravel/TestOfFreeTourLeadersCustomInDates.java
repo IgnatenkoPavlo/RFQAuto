@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Properties;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -173,9 +172,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Кликаем на кнопку Show All Prices
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
         //Считываем значения
-        Double priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+        Double priceSGLD = AccomodationsTable.GroupGetPriceSGLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
-        Double priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+        Double priceDBLD = AccomodationsTable.GroupGetPriceDBLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
         //priceDBLD = priceDBLD / 2;
         Double priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());
@@ -493,9 +492,9 @@ public class TestOfFreeTourLeadersCustomInDates {
         //Кликаем на кнопку Show All Prices
         //$(By.cssSelector(NewQuotationPage.AccomodationsTable.showAllPricesButton)).scrollTo().click();
         //Считываем значения
-        priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+        priceSGLD = AccomodationsTable.GroupGetPriceSGLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
-        priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+        priceDBLD = AccomodationsTable.GroupGetPriceDBLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
         //priceDBLD = priceDBLD / 2;
         priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());

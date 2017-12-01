@@ -275,9 +275,9 @@ public class TestOfHotelPriceTypeInOptions {
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
         sleep(5000);
         //Считываем значения
-        Double priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)
+        Double priceSGLD = AccomodationsTable.IndividualGetPriceSGLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
-        Double priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)
+        Double priceDBLD = AccomodationsTable.IndividualGetPriceDBLForCityForPeriod(1,1)
                 *nightInOptionsCounter;
         //priceDBLD = priceDBLD / 2;
         Double priceSS = priceSGLD - (new BigDecimal(priceDBLD/2).setScale(0, RoundingMode.DOWN).floatValue());

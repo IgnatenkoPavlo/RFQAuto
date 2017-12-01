@@ -129,8 +129,8 @@ public class BaseScenario1 {
         //Кликаем на кнопку Show All Prices
         $(By.cssSelector(AccomodationsTable.showAllPricesButton)).click();
         //Считываем значения
-        Double priceSGLD = AccomodationsTable.GetPriceSGLForCityForPeriod(1,1)*3;
-        Double priceDBLD = AccomodationsTable.GetPriceDBLForCityForPeriod(1,1)*3;
+        Double priceSGLD = AccomodationsTable.GroupGetPriceSGLForCityForPeriod(1,1)*3;
+        Double priceDBLD = AccomodationsTable.GroupGetPriceDBLForCityForPeriod(1,1)*3;
         priceDBLD = priceDBLD / 2;
         Double priceSS = priceSGLD - (new BigDecimal(priceDBLD).setScale(0, RoundingMode.DOWN).floatValue());
         //System.out.println(priceDBLD);

@@ -2,10 +2,7 @@ package com.rfqDemoOltatravel;
 
 
 import com.codeborne.selenide.Condition;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -217,26 +214,61 @@ public class NewQuotationPage {
             return result;
         }
 
-        public static String PeriodByNumberREG(int periodCounter) {
+        public static String GroupPeriodByNumberREG(int periodCounter) {
 
             String result = "//td[@class=\"prices-group visibility-group\"]//table//tbody//tr["+String.valueOf(periodCounter)+"]";
 
             return result;
         }
 
-        public static double GetPriceSGLForCityForPeriod(int cityCounter, int periodCounter) {
+        public static double GroupGetPriceSGLForCityForPeriod(int cityCounter, int periodCounter) {
 
-            double result=Double.valueOf($(By.xpath(CityByNumberREG(cityCounter)+PeriodByNumberREG(periodCounter)
-                    + "//td[@class=\"editable editable-accommodation-date-price-sgl-group priceSglGroup\"]")).getText());
-            System.out.println(result);
+            String temp = $(By.xpath(CityByNumberREG(cityCounter)+ GroupPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-sgl-group priceSglGroup\"]")).getText();
+            if(temp.isEmpty()) temp = $(By.xpath(CityByNumberREG(cityCounter)+ GroupPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-sgl-group priceSglGroup\"]")).getValue();
+
+            double result=Double.valueOf(temp);
             return result;
         }
 
-        public static double GetPriceDBLForCityForPeriod(int cityCounter, int periodCounter) {
+        public static double GroupGetPriceDBLForCityForPeriod(int cityCounter, int periodCounter) {
 
-            double result=Double.valueOf($(By.xpath(CityByNumberREG(cityCounter)+PeriodByNumberREG(periodCounter)
-                    + "//td[@class=\"editable editable-accommodation-date-price-dbl-group priceDblGroup\"]")).getText());
-            System.out.println(result);
+            String temp = $(By.xpath(CityByNumberREG(cityCounter)+ GroupPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-dbl-group priceDblGroup\"]")).getText();
+            if(temp.isEmpty()) temp = $(By.xpath(CityByNumberREG(cityCounter)+ GroupPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-dbl-group priceDblGroup\"]")).getValue();
+
+            double result=Double.valueOf(temp);
+            return result;
+        }
+
+        public static String IndividualPeriodByNumberREG(int periodCounter) {
+
+            String result = "//td[@class=\"prices-individual visibility-individual\"]//table//tbody//tr["+String.valueOf(periodCounter)+"]";
+
+            return result;
+        }
+
+        public static double IndividualGetPriceSGLForCityForPeriod(int cityCounter, int periodCounter) {
+
+            String temp = $(By.xpath(CityByNumberREG(cityCounter)+ IndividualPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-sgl-individual priceSglIndividual\"]")).getText();
+            if(temp.isEmpty()) temp = $(By.xpath(CityByNumberREG(cityCounter)+ IndividualPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-sgl-individual priceSglIndividual\"]")).getValue();
+
+            double result=Double.valueOf(temp);
+            return result;
+        }
+
+        public static double IndividualGetPriceDBLForCityForPeriod(int cityCounter, int periodCounter) {
+
+            String temp = $(By.xpath(CityByNumberREG(cityCounter)+ IndividualPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-dbl-individual priceDblIndividual\"]")).getText();
+            if(temp.isEmpty()) temp = $(By.xpath(CityByNumberREG(cityCounter)+ IndividualPeriodByNumberREG(periodCounter)
+                    + "//td[@class=\"editable editable-accommodation-date-price-dbl-individual priceDblIndividual\"]")).getValue();
+
+            double result=Double.valueOf(temp);
             return result;
         }
 

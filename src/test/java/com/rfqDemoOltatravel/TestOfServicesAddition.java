@@ -1035,7 +1035,7 @@ public class TestOfServicesAddition {
                         + ProgrammSection.serviceCriteriaClassREG)).scrollTo().selectOptionContainingText("1st");
                 CommonCode.WaitForProgruzkaSilent();
             } catch (ElementNotFound e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 temp2 = false;
                 System.out.println(CommonCode.ANSI_RED + " - Не смог выставить 1st" + CommonCode.ANSI_RESET);
                 softAssertions.assertThat("No")
@@ -1060,7 +1060,7 @@ public class TestOfServicesAddition {
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                         + ProgrammSection.GetACityByNumberREG(1)
                         + ProgrammSection.GetMainServiceByNumberREG(1)
-                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("2nd");
+                        + ProgrammSection.serviceCriteriaClassREG)).scrollTo().selectOptionContainingText("2nd");
                 CommonCode.WaitForProgruzkaSilent();
             } catch (ElementNotFound e) {
                 //e.printStackTrace();
@@ -1122,7 +1122,7 @@ public class TestOfServicesAddition {
                     temp2 = false;
                     System.out.println(CommonCode.ANSI_RED + " - Не смог заполнить" + CommonCode.ANSI_RESET);
                     softAssertions.assertThat("No")
-                            .as("Try to fill Train Info")
+                            .as("Try to fill Flight Info")
                             .isEqualTo("Yes");
 
 
