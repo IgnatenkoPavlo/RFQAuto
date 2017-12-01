@@ -992,6 +992,7 @@ public class TestOfServicesAddition {
                     //System.out.println(e);
                 }
                 if (temp2 == true) {
+                    CommonCode.WaitForProgruzkaSilent();
                     System.out.println(CommonCode.OK);
                 }
             }
@@ -1005,19 +1006,19 @@ public class TestOfServicesAddition {
         System.out.print("[-] Добавляем сервис: Flight Tickets");
         NewQuotationPage.ProgrammSection.AddServiceByName(1,1, "Flight Tickets");
 
-        System.out.println("    - Пробуем выставить экскурсию: " + "Flight Moscow-Saint Petersburg");
+        System.out.println("    - Пробуем выставить экскурсию: " + "Custom");
         temp1 = true;
         try {
             $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                     + ProgrammSection.GetACityByNumberREG(1)
                     + ProgrammSection.GetMainServiceByNumberREG(1)
-                    + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Flight Moscow-Saint Petersburg");
+                    + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Custom");
         } catch (ElementNotFound e) {
             //e.printStackTrace();
             //System.out.println(CommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+CommonCode.ANSI_RESET);
-            System.out.println(CommonCode.ANSI_RED + "    - Не смог выбрать: " + "Flight Moscow-Saint Petersburg" + CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_RED + "    - Не смог выбрать: " + "Custom" + CommonCode.ANSI_RESET);
             softAssertions.assertThat("No")
-                    .as("Try to add service " + "Flight Moscow-Saint Petersburg")
+                    .as("Try to add service " + "Custom")
                     .isEqualTo("Yes");
             temp1 = false;
 
@@ -1079,7 +1080,7 @@ public class TestOfServicesAddition {
 
             } else {
                 System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
-            /*if(temp2 == true){
+            if(temp2 == true){
                 CommonCode.WaitForProgruzkaSilent();
                 System.out.print("        - Пробуем выставить - business");
                 temp2 = true;
@@ -1106,7 +1107,7 @@ public class TestOfServicesAddition {
 
                 } else {
                     System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
-            }*/
+            }
             if(temp2 == true){
                 CommonCode.WaitForProgruzkaSilent();
                 System.out.print("        - Пробуем заполнить Flight Info");

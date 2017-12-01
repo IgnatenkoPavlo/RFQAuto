@@ -2,6 +2,7 @@ package com.rfqDemoOltatravel;
 
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ex.ElementNotFound;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -430,15 +431,19 @@ public class NewQuotationPage {
                     +GetACityByNumberREG(cityCounter)
                     +"//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
 
+            /*$(By.xpath(GetADayByNumberREG(day)
+                            +GetACityByNumberREG(cityCounter)
+                            +GetMainServiceByNumberREG(servicesSize)
+                            +"/td[@class=\"actions\"]")).scrollTo().click();*/
             $(By.xpath(GetADayByNumberREG(day)
                     +GetACityByNumberREG(cityCounter)
                     +GetMainServiceByNumberREG(servicesSize)
                     +"/td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
-            $(By.xpath(GetADayByNumberREG(day)
-                    +GetACityByNumberREG(cityCounter)
-                    +GetMainServiceByNumberREG(servicesSize)
-                    +"/td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
+
             confirm();
+
+
+
             CommonCode.WaitForProgruzkaSilent();
         }
     }
