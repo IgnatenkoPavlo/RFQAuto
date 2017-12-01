@@ -104,6 +104,12 @@ public class TestOfHotelPriceTypeInOptions {
         //System.out.println(generalMarge);
         System.out.println(CommonCode.OK);
 
+        //Выставляем Individual в Groups
+        System.out.print("[-] Выставляем Individual в Groups");
+        int groupsNumber = $$(By.xpath(NewQuotationPage.groupsTableREG+"//tbody/tr")).size();
+        for(int counter=1;counter<=groupsNumber;counter++){
+            $(By.xpath(NewQuotationPage.GroupsTable.GroupByNumberREG(counter)+"//td[@class=\"hotelPriceType\"]/select")).selectOptionContainingText("Individual");
+        }
         //Выставляем дату
         Instant nowDate = Instant.now();
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
