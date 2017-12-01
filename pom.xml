@@ -98,8 +98,14 @@
                     <activeByDefault>true</activeByDefault>
                 </activation>
             </profile>
+            <profile>
+                <id>ak</id>
+                <properties>
+                    <baseUrl>http://ak.rfq.com</baseUrl>
+                </properties>
+            </profile>
         <profile>
-            <id>ak</id>
+            <id>prod</id>
             <properties>
                 <baseUrl>http://ak.rfq.com</baseUrl>
             </properties>

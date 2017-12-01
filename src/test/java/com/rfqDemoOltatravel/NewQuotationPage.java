@@ -434,6 +434,10 @@ public class NewQuotationPage {
                     +GetACityByNumberREG(cityCounter)
                     +GetMainServiceByNumberREG(servicesSize)
                     +"/td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
+            $(By.xpath(GetADayByNumberREG(day)
+                    +GetACityByNumberREG(cityCounter)
+                    +GetMainServiceByNumberREG(servicesSize)
+                    +"/td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
             confirm();
             CommonCode.WaitForProgruzkaSilent();
         }
