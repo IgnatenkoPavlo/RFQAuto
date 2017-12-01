@@ -92,7 +92,7 @@ public class TestOfGuidesLanguageSwitching {
 
         //Выбираем год - 2017
         System.out.print("[-] Выбираем год - 2017");
-        $(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-year\"] button[data-switch-value=\"2017\"]")).scrollTo().click();
+        $(By.xpath("//div[@id=\"title-bar\"]//div[@id=\"switch-year\"]//button[text()=\"2017\"]")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 

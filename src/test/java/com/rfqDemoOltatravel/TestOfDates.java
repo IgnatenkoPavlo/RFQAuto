@@ -167,7 +167,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        String resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[1]//th")).scrollTo().getText();
+        String resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[1]//th")).scrollTo().getText();
 
         if(nowDate.getMonth() == tillDate1.getMonth())
             composedPeriodValue = nowDate.format(formatDayOnly)+" - "+tillDate1.format(formatFull);
@@ -253,7 +253,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
@@ -328,7 +328,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {
@@ -390,7 +390,7 @@ public class TestOfDates {
         $(By.id("qbtn-execute")).scrollTo().click();
         CommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
-        resultsDates1 = $(By.xpath("//div[@id=\"results\"]//table[@id=\"table-result-hotels-wo-margin-we\"]//tbody//tr[2]//th")).scrollTo().getText();
+        resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
         } else {

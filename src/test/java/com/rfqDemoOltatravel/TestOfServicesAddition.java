@@ -1054,20 +1054,20 @@ public class TestOfServicesAddition {
         CommonCode.WaitForProgruzkaSilent();
         if (temp1 == true) {
             CommonCode.WaitForProgruzkaSilent();
-            System.out.print("    - Пробуем выставить - Custom");
+            System.out.print("    - Пробуем выставить - 2nd");
             temp2 = true;
             try {
                 $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                         + ProgrammSection.GetACityByNumberREG(1)
                         + ProgrammSection.GetMainServiceByNumberREG(1)
-                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("Custom");
+                        + ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText("2nd");
                 CommonCode.WaitForProgruzkaSilent();
             } catch (ElementNotFound e) {
                 //e.printStackTrace();
                 temp2 = false;
-                System.out.println(CommonCode.ANSI_RED + " - Не смог выставить Custom" + CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_RED + " - Не смог выставить 2nd" + CommonCode.ANSI_RESET);
                 softAssertions.assertThat("No")
-                        .as("Try to set class for tickets as Custom")
+                        .as("Try to set class for flight tickets as 2nd")
                         .isEqualTo("Yes");
 
 
@@ -1079,7 +1079,7 @@ public class TestOfServicesAddition {
 
             } else {
                 System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
-            if(temp2 == true){
+            /*if(temp2 == true){
                 CommonCode.WaitForProgruzkaSilent();
                 System.out.print("        - Пробуем выставить - business");
                 temp2 = true;
@@ -1106,7 +1106,7 @@ public class TestOfServicesAddition {
 
                 } else {
                     System.out.println(CommonCode.ANSI_RED + "    - При добавлении были ошибки." + CommonCode.ANSI_RESET); }
-            }
+            }*/
             if(temp2 == true){
                 CommonCode.WaitForProgruzkaSilent();
                 System.out.print("        - Пробуем заполнить Flight Info");
