@@ -287,7 +287,7 @@ public class TestOfPeriodsInDates {
         //Проверяем, что цены в Hotels (WE) w/o margin верные
         String priceDBLDS;
         System.out.println("[-] Проверяем, что цены в Hotels (WE) w/o margin верные:");
-        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+        for(int periodsCounter=2; periodsCounter <= periodsListSPB.size(); periodsCounter++){
             priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0
                     +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBLWE)/2.0).setScale(0, RoundingMode.HALF_UP).floatValue());
 
@@ -307,8 +307,8 @@ public class TestOfPeriodsInDates {
 
         //Проверяем, что цены в Hotels (WD) w/o margin верные
 
-        System.out.println("[-] Проверяем, что цены в Hotels (WE) w/o margin верные:");
-        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+        System.out.println("[-] Проверяем, что цены в Hotels (WD) w/o margin верные:");
+        for(int periodsCounter=2; periodsCounter <= periodsListSPB.size(); periodsCounter++){
             priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0
                     +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBL)/2.0).setScale(0, RoundingMode.HALF_UP).floatValue());
 
@@ -330,7 +330,7 @@ public class TestOfPeriodsInDates {
         //Проверяем, что цены в Hotels (WE) верные
         Double hotelsWE;
         System.out.println("[-] Проверяем, что цены в Hotels (WE) верные:");
-        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+        for(int periodsCounter=2; periodsCounter <= periodsListSPB.size(); periodsCounter++){
             hotelsWE = Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0
                     +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBLWE)/2.0;
             hotelsWE = hotelsWE / rubEur;
@@ -352,7 +352,7 @@ public class TestOfPeriodsInDates {
         }
 
         System.out.println("[-] Проверяем, что цены в Hotels (WD) верные:");
-        for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
+        for(int periodsCounter=2; periodsCounter <= periodsListSPB.size(); periodsCounter++){
             hotelsWE = Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0
                     +Double.valueOf(registrationFeeForSPB)+Double.valueOf(periodsListMSK.get(0).priceDBL)/2.0;
             hotelsWE = hotelsWE / rubEur;
