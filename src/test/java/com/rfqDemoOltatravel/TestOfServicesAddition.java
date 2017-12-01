@@ -978,8 +978,7 @@ public class TestOfServicesAddition {
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                             + ProgrammSection.GetACityByNumberREG(1)
                             + ProgrammSection.GetMainServiceByNumberREG(1)
-                            + ProgrammSection.serviceOptionsAddInfoREG)).scrollTo().setValue("Test info").pressEnter();
-                    CommonCode.WaitForProgruzkaSilent();
+                            + ProgrammSection.serviceOptionsAddInfoREG)).scrollTo().setValue("Test info");
                 } catch (ElementNotFound e) {
                     e.printStackTrace();
                     temp2 = false;
@@ -991,8 +990,8 @@ public class TestOfServicesAddition {
 
                     //System.out.println(e);
                 }
+                CommonCode.WaitForProgruzkaSilent();
                 if (temp2 == true) {
-                    CommonCode.WaitForProgruzkaSilent();
                     System.out.println(CommonCode.OK);
                 }
             }
@@ -1116,8 +1115,7 @@ public class TestOfServicesAddition {
                     $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                             + ProgrammSection.GetACityByNumberREG(1)
                             + ProgrammSection.GetMainServiceByNumberREG(1)
-                            + ProgrammSection.serviceOptionsAddInfoREG)).scrollTo().setValue("Test info").pressEnter();
-                    CommonCode.WaitForProgruzkaSilent();
+                            + ProgrammSection.serviceOptionsAddInfoREG)).scrollTo().setValue("Test info");
                 } catch (ElementNotFound e) {
                     e.printStackTrace();
                     temp2 = false;
@@ -1129,8 +1127,8 @@ public class TestOfServicesAddition {
 
                     //System.out.println(e);
                 }
+                CommonCode.WaitForProgruzkaSilent();
                 if (temp2 == true) {
-                    CommonCode.WaitForProgruzkaSilent();
                     System.out.println(CommonCode.OK);
                 }
             }
