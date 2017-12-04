@@ -6,6 +6,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.ElementNotFound;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.rfqDemoOltatravel.NewQuotationPage.ProgrammSection;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -993,6 +995,10 @@ public class TestOfServicesAddition {
                 CommonCode.WaitForProgruzkaSilent();
                 if (temp2 == true) {
                     System.out.println(CommonCode.OK);
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaClassREG)).click();
                 }
             }
 
@@ -1130,6 +1136,10 @@ public class TestOfServicesAddition {
                 CommonCode.WaitForProgruzkaSilent();
                 if (temp2 == true) {
                     System.out.println(CommonCode.OK);
+                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                            + ProgrammSection.GetACityByNumberREG(1)
+                            + ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.serviceCriteriaClassREG)).click();
                 }
             }
 
@@ -1776,32 +1786,44 @@ public class TestOfServicesAddition {
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldBe(Condition.visible);
 
+            String newSpecialServiceName = "тест_"+String.valueOf(nowDate);
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]" +
-                    "//input[@id=\"input-createcustomservice-name\"]")).setValue("тест");
+                    "//input[@id=\"input-createcustomservice-name\"]")).setValue(newSpecialServiceName);
 
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]" +
                     "//input[@id=\"input-createcustomservice-price\"]")).setValue("1000");
+            temp1 = true;
+            try{$(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+                    "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-primary\"]")).click();}
+            catch(Exception e){
+                System.out.println(CommonCode.ANSI_RED+" - Ошибка при добавлении новый Special Service"+CommonCode.ANSI_RESET);
+                softAssertions.assertThat("No")
+                        .as("Can`t add new special service - error occured")
+                        .isEqualTo("Yes");
+                temp1=false;
+            }
+            CommonCode.WaitForProgruzkaSilent();
 
-            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
-                    "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-primary\"]")).click();
-
-            String errorText = "";
-            errorText = commonCode.GetJSErrorText(driver);
-
-            $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
+            /*$(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-default btn-cancel\"]")).click();
 
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
-                    "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldNotBe(Condition.visible);
-            if(errorText.equals("Special service with the same name does already exist.")){
-            System.out.println(CommonCode.OK);}
-            else{
-                System.out.println(CommonCode.ANSI_RED+" - Не получилось добавить новый Special Service"+CommonCode.ANSI_RESET);
-                softAssertions.assertThat(errorText)
-                        .as("Can`t add new special service ")
-                        .isEqualTo("Yes");
+                    "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldNotBe(Condition.visible);*/
+            if(temp1==true) {
+                result=$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
+                        + ProgrammSection.GetACityByNumberREG(1)
+                        + ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).getSelectedText();
+                if (result.equals(newSpecialServiceName)) {
+                    System.out.println(CommonCode.OK);
+                } else {
+                    System.out.println(CommonCode.ANSI_RED + " - Новый Special Service добавился, но не с тем именем" + CommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("New special service added with wrong name")
+                            .isEqualTo(newSpecialServiceName);
+                }
             }
         }
 
