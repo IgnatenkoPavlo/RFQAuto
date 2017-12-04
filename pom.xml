@@ -104,11 +104,5 @@
                     <baseUrl>http://ak.rfq.com</baseUrl>
                 </properties>
             </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <baseUrl>http://ak.rfq.com</baseUrl>
-            </properties>
-        </profile>
     </profiles>
 </project>
