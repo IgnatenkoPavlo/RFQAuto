@@ -127,7 +127,7 @@ public class TestOfPeriodsInDates {
         }*/
 
         //Открываем Quotation приложение
-        System.out.print("[-] Открываем Quotation приложение");
+        System.out.print("[-] Открываем Quotation приложение ");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
