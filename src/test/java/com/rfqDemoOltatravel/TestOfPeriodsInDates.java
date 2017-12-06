@@ -131,7 +131,7 @@ public class TestOfPeriodsInDates {
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
-        $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
+        //$(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(" - готово");
 
         //Ждём доступности "Create New Quotation"
