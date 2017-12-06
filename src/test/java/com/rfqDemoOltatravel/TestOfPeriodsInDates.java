@@ -140,7 +140,6 @@ public class TestOfPeriodsInDates {
         System.out.println(" - готово");
 
         //Создаём новый Quotation
-        System.out.println("[-] Создаём новый Quotation:");
         NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
 
         NewQuotationPage newQuotationPage = new NewQuotationPage();
