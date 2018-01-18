@@ -60,7 +60,7 @@ public class AdvancedScenario1 {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("test");
+        $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);
@@ -180,6 +180,13 @@ public class AdvancedScenario1 {
 
         System.out.println(CommonCode.OK);
 
+        //Выбор первого класса для поезда Москва->Питер
+        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(3)
+                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(2)
+                + "//td[@class=\"criteria\"]//select[@name=\"class\"]")).scrollTo().selectOptionByValue("1st");
+        CommonCode.WaitForProgruzkaSilent();
+
         //Выставляем суммы для 3-х групп: 15, 20, 25
         commonCode.SetValuesForServicesInProgram(250, 200, 150);
 
@@ -199,7 +206,7 @@ public class AdvancedScenario1 {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 +ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
-                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
+                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("BUNKER-42");
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
@@ -219,7 +226,7 @@ public class AdvancedScenario1 {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(2)
                 +ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
-                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bolshoi theatre");
+                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("BOLSHOI THEATRE");
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 

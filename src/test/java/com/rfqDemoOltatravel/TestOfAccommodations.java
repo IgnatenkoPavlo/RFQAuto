@@ -67,7 +67,7 @@ public class TestOfAccommodations {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("test");
+        $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);
@@ -208,6 +208,7 @@ public class TestOfAccommodations {
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
             numberOfServices = 0;
             System.out.println("      - для дня номер " + dayCounter+":");
+            if(dayCounter==2){defaultNumberOfServices=defaultNumberOfServices+1;}
             int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 System.out.print("          - для города номер " + cityCounter+": ");
@@ -233,7 +234,7 @@ public class TestOfAccommodations {
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
-        //Добавляем MSK
+        //Добавляем VNG
         AddCityToAccomodationByName("VNG", 2);
 
         //Выставляем для него значение ночей в 1
@@ -305,6 +306,7 @@ public class TestOfAccommodations {
                 if (cityCounterMax > 1 & cityCounter<cityCounterMax){
                     defaultNumberOfServices += 1;
                 }
+                if(dayCounter==3){defaultNumberOfServices=defaultNumberOfServices+1;}
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                         + ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
@@ -383,6 +385,7 @@ public class TestOfAccommodations {
                 if (cityCounterMax > 1 & cityCounter<cityCounterMax){
                     defaultNumberOfServices += 1;
                 }
+                if(dayCounter==5){defaultNumberOfServices += 1;}
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                         + ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
@@ -483,6 +486,7 @@ public class TestOfAccommodations {
                     defaultNumberOfServices += 1;
                 }
                 if (dayCounter==3 & cityCounter==1){defaultNumberOfServices += 1;}
+                if (dayCounter==6 & cityCounter==1){defaultNumberOfServices += 1;}
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                         + ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
@@ -544,6 +548,7 @@ public class TestOfAccommodations {
                 defaultNumberOfServices=3;
                 if (cityCounterMax > 1 & cityCounter<cityCounterMax){ defaultNumberOfServices += 1; }
                 if (dayCounter==2 & cityCounter==1){ defaultNumberOfServices += 1; }
+                if (dayCounter==5 & cityCounter==1){ defaultNumberOfServices += 1; }
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                         + ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
@@ -610,6 +615,7 @@ public class TestOfAccommodations {
                 defaultNumberOfServices=3;
                 if (cityCounterMax > 1 & cityCounter<cityCounterMax){ defaultNumberOfServices += 1; }
                 if (dayCounter==3 & cityCounter==1){defaultNumberOfServices += 1;}
+                if (dayCounter==5 & cityCounter==1){defaultNumberOfServices += 1;}
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
                         + ProgrammSection.GetACityByNumberREG(cityCounter)+"//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();

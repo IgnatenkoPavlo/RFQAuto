@@ -69,7 +69,7 @@ public class TestOfBusAutoPickingInProgram {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("test");
+        $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);
@@ -172,7 +172,7 @@ public class TestOfBusAutoPickingInProgram {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
-                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
+                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("BUNKER-42");
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
