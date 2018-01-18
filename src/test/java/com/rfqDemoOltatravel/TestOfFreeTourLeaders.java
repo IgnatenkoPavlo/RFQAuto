@@ -70,7 +70,7 @@ public class TestOfFreeTourLeaders {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("test");
+        $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);

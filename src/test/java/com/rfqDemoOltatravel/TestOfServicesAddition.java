@@ -64,7 +64,7 @@ public class TestOfServicesAddition {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("test");
+        $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);
@@ -132,10 +132,10 @@ public class TestOfServicesAddition {
         //Добавляем Guide
         System.out.print("[-] Добавляем сервис: Guide");
         ProgrammSection.AddServiceByName(1,1, "Guide");
-        List dropDownValues = new ArrayList(Arrays.asList("1/2 day (4 hours)", "Aeroexpress", "City by night", "Day (24 hours)",
-                "Full day (8 hours)", "Golden Ring", "Transfer to the airport (no excursion)",
-                "Transfer to the airport + City tour", "Transfer to the dinner/theatre (no excursion)",
-                "Transfer to the railway station (no excursion)"));
+        List dropDownValues = new ArrayList(Arrays.asList("1/2 DAY (4 HOURS)", "AEROEXPRESS", "CITY BY NIGHT", "DAY (24 HOURS)",
+                "ESCORT FOR DINNER/THEATRE", "FULL DAY (8 HOURS)", "GOLDEN RING", "HOURLY PAYMENT", "TRANSFER TO THE AIRPORT (NO EXCURSION)",
+                "TRANSFER TO THE AIRPORT + CITY TOUR", "TRANSFER TO THE DINNER/THEATRE (NO EXCURSION)",
+                "TRANSFER TO THE RAILWAY STATION (NO EXCURSION)"));
         for (Object dropDownValue1 : dropDownValues) {
             System.out.println("    - Пробуем выставить: " + dropDownValue1);
             temp1 = true;

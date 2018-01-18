@@ -61,7 +61,7 @@ public class TestOfGuidesLanguageSwitching {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("test");
+        $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);
@@ -92,7 +92,7 @@ public class TestOfGuidesLanguageSwitching {
 
         //Выбираем год - 2017
         System.out.print("[-] Выбираем год - 2017");
-        $(By.xpath("//div[@id=\"title-bar\"]//div[@id=\"switch-year\"]//button[text()=\"2017\"]")).scrollTo().click();
+        $(By.xpath("//div[@id=\"title-bar\"]//div[@id=\"switch-year\"]//button[text()=\"2018\"]")).scrollTo().click();
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
@@ -103,7 +103,7 @@ public class TestOfGuidesLanguageSwitching {
         System.out.println(CommonCode.OK);
 
         System.out.print("[-] Сохраняем цену для 1/2 day (4 hours)");
-        String guidPriceForEnglish = $(By.xpath("//div[@id=\"content\"]//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 day (4 hours)')]//..//..//td[2]")).getText();
+        String guidPriceForEnglish = $(By.xpath("//div[@id=\"content\"]//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 DAY (4 HOURS)')]//..//..//td[3]")).getText();
         //System.out.println(guidPriceForEnglish);
         System.out.println(CommonCode.OK);
 
@@ -114,7 +114,7 @@ public class TestOfGuidesLanguageSwitching {
         System.out.println(CommonCode.OK);
 
         System.out.print("[-] Сохраняем цену для 1/2 day (4 hours)");
-        String guidPriceForRussian = $(By.xpath("//div[@id=\"content\"]//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 day (4 hours)')]//..//..//td[2]")).getText();
+        String guidPriceForRussian = $(By.xpath("//div[@id=\"content\"]//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 DAY (4 HOURS)')]//..//..//td[3]")).getText();
         //System.out.println(guidPriceForRussian);
         System.out.println(CommonCode.OK);
 
@@ -185,7 +185,7 @@ public class TestOfGuidesLanguageSwitching {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
-                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("Bunker-42");
+                + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("BUNKER-42");
         CommonCode.WaitForProgruzkaSilent();
         System.out.println(CommonCode.OK);
 
