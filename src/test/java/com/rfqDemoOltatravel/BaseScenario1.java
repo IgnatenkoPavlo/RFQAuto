@@ -32,7 +32,7 @@ public class BaseScenario1 {
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
