@@ -58,6 +58,11 @@ public class BaseScenario1 {
         commonCode.WaitForPageToLoad(driver);
         System.out.println(CommonCode.OK);*/
 
+        System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com");
+        open("http://rfq-demo.oltatravel.com");
+        commonCode.WaitForPageToLoad(driver);
+        System.out.println(CommonCode.OK);
+
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
         $(By.id("username")).setValue("alexkudrya91@gmail.com");
@@ -74,6 +79,7 @@ public class BaseScenario1 {
         System.out.println("[-] Открываем Quotation приложение");
         //open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
+        open("http://rfq-demo.oltatravel.com/application/olta.quotation");
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();
 
