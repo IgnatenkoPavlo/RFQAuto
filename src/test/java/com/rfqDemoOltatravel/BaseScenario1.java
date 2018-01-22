@@ -45,9 +45,9 @@ public class BaseScenario1 {
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
 
-        /*Properties props=new Properties();
+        Properties props=new Properties();
         try {
-            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+            props.load(new InputStreamReader(new FileInputStream("application.properties"), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class BaseScenario1 {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(CommonCode.OK);*/
+        System.out.println(CommonCode.OK);
 
         System.out.print("[-] Открываем URL: http://rfq-demo.oltatravel.com");
         open("http://rfq-demo.oltatravel.com");
