@@ -45,7 +45,7 @@ public class BaseScenario1 {
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
 
-        Properties props=new Properties();
+        /*Properties props=new Properties();
         try {
             props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
         } catch (IOException e) {
@@ -56,7 +56,7 @@ public class BaseScenario1 {
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         commonCode.WaitForPageToLoad(driver);
-        System.out.println(CommonCode.OK);
+        System.out.println(CommonCode.OK);*/
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
@@ -72,7 +72,7 @@ public class BaseScenario1 {
 
         //Открываем Quotation приложение
         System.out.println("[-] Открываем Quotation приложение");
-        open(props.getProperty("baseURL")+"/application/olta.quotation");
+        //open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         commonCode.WaitForPageToLoad(driver);
         CommonCode.WaitForProgruzkaSilent();
