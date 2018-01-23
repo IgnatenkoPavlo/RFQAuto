@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 
 import com.codeborne.selenide.Configuration;
@@ -26,8 +26,8 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
-import static com.rfqDemoOltatravel.NewQuotationPage.*;
-import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.*;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfFreeTourLeadersCustomInDates {
 
@@ -214,7 +214,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println("[-] Проверяем, что в Results кол-во в группе 15 отбражается как 15+1:");
         String numberOfPeopleInResult = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//tr[1]//th[2]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("15+1")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfPeopleInResult)
                     .as("Check that FTL for 15 in Results are set correctly")
@@ -225,7 +225,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println("[-] Проверяем, что в Results кол-во в группе 20 отбражается как 20+2:");
         numberOfPeopleInResult = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//tr[1]//th[3]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("20+2")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfPeopleInResult)
                     .as("Check that FTL for 20 in Results are set correctly")
@@ -236,7 +236,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println("[-] Проверяем, что в Results кол-во в группе 25 отбражается как 25+3:");
         numberOfPeopleInResult = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//tr[1]//th[4]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("25+3")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfPeopleInResult)
                     .as("Check that FTL for 20 in Results are set correctly")
@@ -261,39 +261,39 @@ public class TestOfFreeTourLeadersCustomInDates {
         String priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+CommonCode.ANSI_RESET);
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS)
                     .as("Check that value in Hotels w/o margin for 15 is correct")
                     .isEqualTo(hotelsWE15womS);
         }
         if(priceDBLDS20.equals(hotelsWE20womS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
-                + priceDBLDS20 + " не равен " + hotelsWE20womS + " -"+CommonCode.ANSI_RESET);
+                + priceDBLDS20 + " не равен " + hotelsWE20womS + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS20)
                     .as("Check that value in Hotels w/o margin for 20 is correct")
                     .isEqualTo(hotelsWE20womS);
         }
         if(priceDBLDS25.equals(hotelsWE25womS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 25 неверное: "
-                + priceDBLDS25 + " не равен " + hotelsWE25womS + " -"+CommonCode.ANSI_RESET);
+                + priceDBLDS25 + " не равен " + hotelsWE25womS + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS25)
                     .as("Check that value in Hotels w/o margin for 25 is correct")
                     .isEqualTo(hotelsWE25womS);
         }
         if(priceSGLDS.equals(hotelsWEwomSSS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для SS верное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для SS верное + "+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения SS неверное: "
                 + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
             softAssertions.assertThat(priceSGLDS)
-                    .as("Check that value in Hotels w/o margin for SS is correct"+CommonCode.ANSI_RESET)
+                    .as("Check that value in Hotels w/o margin for SS is correct"+ CommonCode.ANSI_RESET)
                     .isEqualTo(hotelsWEwomSSS);
         }
 
@@ -307,10 +307,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
         if(hotelsWE15S.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + hotelsWE15S + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
+                + hotelsWE15S + " не равен " + hotelsWER + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWE15S)
                     .as("Check that value in Hotels for 15 is correct")
                     .isEqualTo(hotelsWER);
@@ -324,10 +324,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
         if(hotelsWE20S.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
-                + hotelsWE20S + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
+                + hotelsWE20S + " не равен " + hotelsWER + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWE20S)
                     .as("Check that value in Hotels for 20 is correct")
                     .isEqualTo(hotelsWER);
@@ -341,10 +341,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
         if(hotelsWE25S.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 25 неверное: "
-                + hotelsWE25S + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
+                + hotelsWE25S + " не равен " + hotelsWER + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWE25S)
                     .as("Check that value in Hotels for 25 is correct")
                     .isEqualTo(hotelsWER);
@@ -359,10 +359,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[4]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));
         if(hotelsWESSS.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для SS верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для SS верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      - Значения для SS неверное: "
-                + hotelsWESSS + " не равен " + hotelsWER + " -"+CommonCode.ANSI_RESET);
+                + hotelsWESSS + " не равен " + hotelsWER + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWESSS)
                     .as("Check that value in Hotels for SS is correct")
                     .isEqualTo(hotelsWER);
@@ -379,10 +379,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String services15S = $(By.xpath(ResultsSection.servicesTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(0, services15S.indexOf('€'));
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(services15S)
                     .as("Check that value in Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -397,10 +397,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String services20S = $(By.xpath(ResultsSection.servicesTableREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         services20S = services20S.substring(0, services20S.indexOf('€'));
         if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(services20S)
                     .as("Check that value in Services for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -415,10 +415,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String services25S = $(By.xpath(ResultsSection.servicesTableREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         services25S = services25S.substring(0, services25S.indexOf('€'));
         if(services25S.equals(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(services25S)
                     .as("Check that value in Services for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -434,10 +434,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String totalWE15S = $(By.xpath(ResultsSection.totalsTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(0, totalWE15S.indexOf('€'));
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE15S)
                     .as("Check that value in Totals for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -452,10 +452,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String totalWE20S = $(By.xpath(ResultsSection.totalsTableREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         totalWE20S = totalWE20S.substring(0, totalWE20S.indexOf('€'));
         if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE20S)
                     .as("Check that value in Totals for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -470,10 +470,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         String totalWE25S = $(By.xpath(ResultsSection.totalsTableREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         totalWE25S = totalWE25S.substring(0, totalWE25S.indexOf('€'));
         if(totalWE25S.equals(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE25S)
                     .as("Check that value in Totals for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -530,7 +530,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println("[-] Проверяем, что в Results кол-во в группе 15 отбражается как 15+1:");
         numberOfPeopleInResult = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//tr[1]//th[2]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("15+1")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfPeopleInResult)
                     .as("Check that FTL for 15 in Results are set correctly")
@@ -541,7 +541,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println("[-] Проверяем, что в Results кол-во в группе 20 отбражается как 20+2:");
         numberOfPeopleInResult = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//tr[1]//th[3]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("20+2")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfPeopleInResult)
                     .as("Check that FTL for 20 in Results are set correctly")
@@ -552,7 +552,7 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.println("[-] Проверяем, что в Results кол-во в группе 25 отбражается как 25+3:");
         numberOfPeopleInResult = $(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//tr[1]//th[4]")).scrollTo().getText();
         if (numberOfPeopleInResult.equals("25+3")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество людей корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfPeopleInResult)
                     .as("Check that FTL for 20 in Results are set correctly")
@@ -577,39 +577,39 @@ public class TestOfFreeTourLeadersCustomInDates {
         priceSGLDS = String.valueOf((int) new BigDecimal(priceSS).setScale(0, RoundingMode.HALF_UP).floatValue());
         //Assert.assertEquals(priceDBLDS, hotelsWE15womS);
         if(priceDBLDS.equals(hotelsWE15womS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+CommonCode.ANSI_RESET);
+                + priceDBLDS + " не равен " + hotelsWE15womS + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS)
                     .as("Check that value in Hotels w/o margin for 15 is correct")
                     .isEqualTo(hotelsWE15womS);
         }
         if(priceDBLDS20.equals(hotelsWE20womS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
-                + priceDBLDS20 + " не равен " + hotelsWE20womS + " -"+CommonCode.ANSI_RESET);
+                + priceDBLDS20 + " не равен " + hotelsWE20womS + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS20)
                     .as("Check that value in Hotels w/o margin for 20 is correct")
                     .isEqualTo(hotelsWE20womS);
         }
         if(priceDBLDS25.equals(hotelsWE25womS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 25 неверное: "
-                + priceDBLDS25 + " не равен " + hotelsWE25womS + " -"+CommonCode.ANSI_RESET);
+                + priceDBLDS25 + " не равен " + hotelsWE25womS + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceDBLDS25)
                     .as("Check that value in Hotels w/o margin for 25 is correct")
                     .isEqualTo(hotelsWE25womS);
         }
         if(priceSGLDS.equals(hotelsWEwomSSS)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для SS верное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для SS верное + "+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения SS неверное: "
                 + priceSGLDS + " не равен " + hotelsWEwomSSS + " -");
             softAssertions.assertThat(priceSGLDS)
-                    .as("Check that value in Hotels w/o margin for SS is correct"+CommonCode.ANSI_RESET)
+                    .as("Check that value in Hotels w/o margin for SS is correct"+ CommonCode.ANSI_RESET)
                     .isEqualTo(hotelsWEwomSSS);
         }
 
@@ -623,10 +623,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
         if(hotelsWE15S.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 15 неверное: "
-                + hotelsWE15S + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
+                + hotelsWE15S + " не равен " + hotelsWER + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWE15S)
                     .as("Check that value in Hotels for 15 is correct")
                     .isEqualTo(hotelsWER);
@@ -640,10 +640,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
         if(hotelsWE20S.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 20 неверное: "
-                + hotelsWE20S + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
+                + hotelsWE20S + " не равен " + hotelsWER + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWE20S)
                     .as("Check that value in Hotels for 20 is correct")
                     .isEqualTo(hotelsWER);
@@ -657,10 +657,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));//€
         if(hotelsWE25S.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы 25 неверное: "
-                + hotelsWE25S + " не равен " + hotelsWER + "-"+CommonCode.ANSI_RESET);
+                + hotelsWE25S + " не равен " + hotelsWER + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWE25S)
                     .as("Check that value in Hotels for 25 is correct")
                     .isEqualTo(hotelsWER);
@@ -675,10 +675,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         hotelsWER = $(By.xpath(ResultsSection.hotelsTableREG+"//tbody//tr//th/following-sibling::td[4]")).getText();
         hotelsWER = hotelsWER.substring(0, hotelsWER.indexOf('€'));
         if(hotelsWESSS.equals(hotelsWER)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для SS верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      - Значения для SS верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      - Значения для SS неверное: "
-                + hotelsWESSS + " не равен " + hotelsWER + " -"+CommonCode.ANSI_RESET);
+                + hotelsWESSS + " не равен " + hotelsWER + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(hotelsWESSS)
                     .as("Check that value in Hotels for SS is correct")
                     .isEqualTo(hotelsWER);
@@ -695,10 +695,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         services15S = $(By.xpath(ResultsSection.servicesTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         services15S = services15S.substring(0, services15S.indexOf('€'));
         if(services15S.equals(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + services15S + " не равен " + String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(services15S)
                     .as("Check that value in Services for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -713,10 +713,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         services20S = $(By.xpath(ResultsSection.servicesTableREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         services20S = services20S.substring(0, services20S.indexOf('€'));
         if(services20S.equals(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + services20S + " не равен " + String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(services20S)
                     .as("Check that value in Services for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -731,10 +731,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         services25S = $(By.xpath(ResultsSection.servicesTableREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         services25S = services25S.substring(0, services25S.indexOf('€'));
         if(services25S.equals(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + services25S + " не равен " + String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(services25S)
                     .as("Check that value in Services for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(services25).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -750,10 +750,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         totalWE15S = $(By.xpath(ResultsSection.totalsTableREG+"//tbody//tr//th/following-sibling::td[1]")).getText();
         totalWE15S = totalWE15S.substring(0, totalWE15S.indexOf('€'));
         if(totalWE15S.equals(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 15 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 15 неверное: "
-                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + totalWE15S + " не равен " + String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE15S)
                     .as("Check that value in Totals for 15 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE15).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -768,10 +768,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         totalWE20S = $(By.xpath(ResultsSection.totalsTableREG+"//tbody//tr//th/following-sibling::td[2]")).getText();
         totalWE20S = totalWE20S.substring(0, totalWE20S.indexOf('€'));
         if(totalWE20S.equals(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 20 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 20 неверное: "
-                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + totalWE20S + " не равен " + String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE20S)
                     .as("Check that value in Totals for 20 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE20).setScale(0, RoundingMode.HALF_UP).floatValue()));
@@ -786,10 +786,10 @@ public class TestOfFreeTourLeadersCustomInDates {
         totalWE25S = $(By.xpath(ResultsSection.totalsTableREG+"//tbody//tr//th/following-sibling::td[3]")).getText();
         totalWE25S = totalWE25S.substring(0, totalWE25S.indexOf('€'));
         if(totalWE25S.equals(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()))) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Значение для группы 25 верное +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Значение для группы 25 неверное: "
-                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+CommonCode.ANSI_RESET);
+                + totalWE25S + " не равен " + String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()) + "-"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(totalWE25S)
                     .as("Check that value in Totals for 25 is correct")
                     .isEqualTo(String.valueOf((int) new BigDecimal(totalWE25).setScale(0, RoundingMode.HALF_UP).floatValue()));

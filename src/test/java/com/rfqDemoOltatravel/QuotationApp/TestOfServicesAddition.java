@@ -1,10 +1,10 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.ElementNotFound;
-import com.rfqDemoOltatravel.NewQuotationPage.ProgrammSection;
+import com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.ProgrammSection;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +22,7 @@ import java.util.*;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
-import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfServicesAddition {
 
@@ -657,7 +657,7 @@ public class TestOfServicesAddition {
                 +ProgrammSection.serviceCriteriaNameREG)).scrollTo().selectOptionContainingText(String.valueOf("Breakfast at the restaurant"));
         }catch (ElementNotFound e){
             //e.printStackTrace();
-            System.out.println(CommonCode.ANSI_RED+" - Не смог выстивить "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_RED+" - Не смог выстивить "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat("No")
                     .as("Try to add service "+"Breakfast at the restaurant")
                     .isEqualTo("Yes");
@@ -1769,7 +1769,7 @@ public class TestOfServicesAddition {
         }
         catch (ElementNotFound e) {
             //e.printStackTrace();
-            System.out.println(CommonCode.ANSI_RED+" - Нет кнопки Add"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_RED+" - Нет кнопки Add"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat("No")
                     .as("There is no button to add new special service " )
                     .isEqualTo("Yes");
@@ -1793,7 +1793,7 @@ public class TestOfServicesAddition {
             try{$(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-primary\"]")).click();}
             catch(Exception e){
-                System.out.println(CommonCode.ANSI_RED+" - Ошибка при добавлении новый Special Service"+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_RED+" - Ошибка при добавлении новый Special Service"+ CommonCode.ANSI_RESET);
                 softAssertions.assertThat("No")
                         .as("Can`t add new special service - error occured")
                         .isEqualTo("Yes");

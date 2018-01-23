@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -21,12 +21,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Properties;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
-import static com.rfqDemoOltatravel.NewQuotationPage.*;
-import static com.rfqDemoOltatravel.NewQuotationPage.AccomodationsTable.nightsCounterForCityREG;
-import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.*;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfAccommodations {
     public ChromeDriver driver;
@@ -132,7 +130,7 @@ public class TestOfAccommodations {
 
         if (nightsUsed.equals(String.valueOf(nightInOptionsCounter))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
@@ -143,7 +141,7 @@ public class TestOfAccommodations {
 
         if (nightsTotal.equals(String.valueOf(nightInOptionsCounter))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
@@ -164,7 +162,7 @@ public class TestOfAccommodations {
 
         if (nightsUsed.equals(String.valueOf(1))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
@@ -175,7 +173,7 @@ public class TestOfAccommodations {
 
         if (nightsTotal.equals(String.valueOf(5))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
@@ -191,7 +189,7 @@ public class TestOfAccommodations {
         int numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 2){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is incorrect")
@@ -249,7 +247,7 @@ public class TestOfAccommodations {
 
         if (nightsUsed.equals(String.valueOf(2))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
@@ -260,7 +258,7 @@ public class TestOfAccommodations {
 
         if (nightsTotal.equals(String.valueOf(5))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
@@ -285,7 +283,7 @@ public class TestOfAccommodations {
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 3){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is incorrect")
@@ -334,7 +332,7 @@ public class TestOfAccommodations {
 
         if (nightsUsed.equals(String.valueOf(4))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
@@ -345,7 +343,7 @@ public class TestOfAccommodations {
 
         if (nightsTotal.equals(String.valueOf(5))){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
@@ -360,7 +358,7 @@ public class TestOfAccommodations {
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 5){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
@@ -410,7 +408,7 @@ public class TestOfAccommodations {
         if ($(By.xpath(AccomodationsTable.CityByNumberREG(3)
                 +"//td[1]")).getText().equals("TRAIN")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, поезд на своём месте + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat($(By.xpath(AccomodationsTable.CityByNumberREG(3)
                     +"//td[1]")).getText())
@@ -442,7 +440,7 @@ public class TestOfAccommodations {
         if ($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                 +AccomodationsTable.hotelSelectionDropDownREG)).getSelectedValue().equals("134")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дни поменялись местами + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                     +"//td[@class=\"prices\"]//table//tbody//tr//select[@class=\"hotel\"]")).getSelectedValue())
@@ -459,7 +457,7 @@ public class TestOfAccommodations {
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 6){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
@@ -506,7 +504,7 @@ public class TestOfAccommodations {
         if ($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                 +AccomodationsTable.hotelSelectionDropDownREG)).getValue().equals("131")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, день удалён + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                     +AccomodationsTable.hotelSelectionDropDownREG)).getValue())
@@ -523,7 +521,7 @@ public class TestOfAccommodations {
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 5){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
@@ -570,7 +568,7 @@ public class TestOfAccommodations {
         if ($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                 +"//td[1]")).getText().equals("SPB")){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, SPB на своём месте + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                     +"//td[1]")).getText())
@@ -586,7 +584,7 @@ public class TestOfAccommodations {
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == 5){
             System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    +CommonCode.ANSI_RESET);
+                    + CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")

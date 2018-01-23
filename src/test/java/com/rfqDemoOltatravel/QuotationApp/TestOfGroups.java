@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -21,12 +21,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Properties;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.Selenide.open;
-import static com.rfqDemoOltatravel.NewQuotationPage.*;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.*;
 
 public class TestOfGroups {
 
@@ -128,7 +127,7 @@ public class TestOfGroups {
 
         //Проверяем что новая группа добавилась на 4-ю позицию
         if ($(By.xpath(groupsTableREG+"//tbody//tr[4]/td[@class=\"people\"]")).getText().equals("35")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(groupsTableREG+"//tbody//tr[4]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Groups table")
                     .isEqualTo(String.valueOf("35"));
@@ -146,7 +145,7 @@ public class TestOfGroups {
                 ProgrammSection.GetACityByNumberREG(1)+
                 ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[4]/td[@class=\"people\"]")).getText().equals("35")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                     ProgrammSection.GetACityByNumberREG(1)+
                     ProgrammSection.GetMainServiceByNumberREG(1)
@@ -168,7 +167,7 @@ public class TestOfGroups {
         System.out.println("[-] Проверяем что группа 35 человек в 4-ом столбце в Results:");
         //Проверяем что новая группа добавилась в 4-й столбец
         if ($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[5]")).scrollTo().getText().equals("35")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[5]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("35"));
@@ -188,7 +187,7 @@ public class TestOfGroups {
 
         //Проверяем что новая группа добавилась на 2-ю позицию
         if ($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("18")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Groups table")
                     .isEqualTo(String.valueOf("18"));
@@ -206,7 +205,7 @@ public class TestOfGroups {
                 ProgrammSection.GetACityByNumberREG(1)+
                 ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("18")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                     ProgrammSection.GetACityByNumberREG(1)+
                     ProgrammSection.GetMainServiceByNumberREG(1)
@@ -228,7 +227,7 @@ public class TestOfGroups {
         System.out.println("[-] Проверяем что группа 18 человек в 2-ом столбце в Results:");
         //Проверяем что новая группа добавилась в 4-й столбец
         if ($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).scrollTo().getText().equals("18")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("18"));
@@ -246,7 +245,7 @@ public class TestOfGroups {
         CommonCode.WaitForProgruzkaSilent();
         //Проверяем что теперь на 2-ой позиции группа 20
         if ($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена успешно "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена успешно "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).getText())
                     .as("Check that group was deleted, Groups table")
                     .isEqualTo(String.valueOf("20"));
@@ -264,7 +263,7 @@ public class TestOfGroups {
                 ProgrammSection.GetACityByNumberREG(1)+
                 ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                     ProgrammSection.GetACityByNumberREG(1)+
                     ProgrammSection.GetMainServiceByNumberREG(1)
@@ -286,7 +285,7 @@ public class TestOfGroups {
         System.out.println("[-] Проверяем что группа удалена из Results:");
         //Проверяем что новая группа 20 теперь вместо 18
         if ($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).scrollTo().getText().equals("20")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+ CommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("20"));

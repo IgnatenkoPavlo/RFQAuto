@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -19,12 +19,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -248,7 +246,7 @@ public class TestOfPeriodsInDates {
         int periodsFromPrices = periodsListSPB.size();
         System.out.println("[-] Проверяем, что колличество периодов в Results верное:");
         if (periodsInResult == periodsFromPrices){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение корректное + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение корректное + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(periodsInResult)
                     .as("Check that number of periods in Results is correct")
@@ -281,7 +279,7 @@ public class TestOfPeriodsInDates {
                 composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsFull)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
 
             if (result.equals(composedPeriodValue)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that dates of periods in Results is correct")
@@ -302,7 +300,7 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf(' '));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WE) w/o margin for 15, for period "+periodsCounter+",is correct")
@@ -323,7 +321,7 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf(' '));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WD) w/o margin for 15, for period "+periodsCounter+",is correct")
@@ -348,7 +346,7 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf('€'));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WE) for 15, for period "+periodsCounter+",is correct")
@@ -370,7 +368,7 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf('€'));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WD) for 15, for period "+periodsCounter+",is correct")

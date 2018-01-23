@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -20,7 +20,7 @@ import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static com.rfqDemoOltatravel.NewQuotationPage.*;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.*;
 
 public class TestOfGuidesLanguageSwitching {
 
@@ -203,10 +203,10 @@ public class TestOfGuidesLanguageSwitching {
         //Проверяем, что цена гида корректная
         System.out.print("[-] Проверяем, что цена гида корректная:");
         if(priceForGuideInProgram.equals(guidPriceForEnglish)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Цена для гида English верная +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Цена для гида English верная +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Цена для гида English неверная - "
-                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForEnglish + " -"+CommonCode.ANSI_RESET);
+                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForEnglish + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceForGuideInProgram)
                     .as("Check that price for english guide is correct")
                     .isEqualTo(guidPriceForEnglish);
@@ -232,10 +232,10 @@ public class TestOfGuidesLanguageSwitching {
         //Проверяем, что новая цена гида корректная
         System.out.print("[-] Проверяем, что новая цена гида корректная:");
         if(priceForGuideInProgram.equals(guidPriceForRussian)) {
-            System.out.println(CommonCode.ANSI_GREEN+"      -  Цена для гида Russian верная +"+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      -  Цена для гида Russian верная +"+ CommonCode.ANSI_RESET);
         }
         else {System.out.println(CommonCode.ANSI_RED+"      -  Цена для гида Russian неверная - "
-                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForRussian + " -"+CommonCode.ANSI_RESET);
+                + "" + priceForGuideInProgram + ", а ожадалось " + guidPriceForRussian + " -"+ CommonCode.ANSI_RESET);
             softAssertions.assertThat(priceForGuideInProgram)
                     .as("Check that price for english guide is correct")
                     .isEqualTo(guidPriceForRussian);

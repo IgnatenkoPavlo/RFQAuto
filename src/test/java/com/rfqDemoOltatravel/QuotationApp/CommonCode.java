@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;

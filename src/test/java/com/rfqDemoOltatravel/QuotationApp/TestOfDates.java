@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -19,12 +19,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Properties;
 
-import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.Selenide.open;
-import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.AddCityToAccomodationByName;
 
 public class TestOfDates {
 
@@ -153,7 +152,7 @@ public class TestOfDates {
 
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
@@ -178,7 +177,7 @@ public class TestOfDates {
             composedPeriodValue = nowDate.format(formatFull)+" - "+tillDate1.format(formatFull);
 
         if (resultsDates1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
@@ -206,7 +205,7 @@ public class TestOfDates {
         //Проверяем От в Dates
         String datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
         if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesFromDate)
                     .as("Check that From date is set correctly, in Dates")
@@ -216,7 +215,7 @@ public class TestOfDates {
         //Проверяем До в Dates
         String datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
         if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that Till date is set correctly, in Dates")
@@ -240,7 +239,7 @@ public class TestOfDates {
 
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
@@ -255,7 +254,7 @@ public class TestOfDates {
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
@@ -283,7 +282,7 @@ public class TestOfDates {
         //Проверяем От в Dates
         datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
         if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate2)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesFromDate)
                     .as("Check that From date is set correctly, in Dates")
@@ -293,7 +292,7 @@ public class TestOfDates {
         //Проверяем До в Dates
         datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
         if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate2)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that Till date is set correctly, in Dates")
@@ -315,7 +314,7 @@ public class TestOfDates {
             composedPeriodValue = fromDate2.format(formatFull)+" - "+tillDate2.format(formatFull);
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
@@ -330,7 +329,7 @@ public class TestOfDates {
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
@@ -351,7 +350,7 @@ public class TestOfDates {
         //Проверяем От в Dates
         datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
         if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesFromDate)
                     .as("Check that From date is set correctly, in Dates")
@@ -361,7 +360,7 @@ public class TestOfDates {
         //Проверяем До в Dates
         datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
         if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that Till date is set correctly, in Dates")
@@ -376,7 +375,7 @@ public class TestOfDates {
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
@@ -392,7 +391,7 @@ public class TestOfDates {
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+CommonCode.ANSI_RESET);
+            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")

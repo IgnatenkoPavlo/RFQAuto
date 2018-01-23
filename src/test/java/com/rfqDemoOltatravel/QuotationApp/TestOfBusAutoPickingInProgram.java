@@ -1,4 +1,4 @@
-package com.rfqDemoOltatravel;
+package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
@@ -24,10 +24,9 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.Selenide.open;
-import static com.rfqDemoOltatravel.NewQuotationPage.*;
-import static com.rfqDemoOltatravel.NewQuotationPage.AddCityToAccomodationByName;
-import static com.rfqDemoOltatravel.NewQuotationPage.CreateQuotation;
-import static com.rfqDemoOltatravel.NewQuotationPage.groupsTableREG;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.*;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.AddCityToAccomodationByName;
+import static com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.CreateQuotation;
 
 public class TestOfBusAutoPickingInProgram {
 
@@ -256,10 +255,10 @@ public class TestOfBusAutoPickingInProgram {
             //System.out.println("        К-во автобусов "+numberOfBuses+" тип автобуса "+busType+'\n');
 
             if(busType.equals(resBusType)) {
-                System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы "+numberOfPeople+" верное + "+CommonCode.ANSI_RESET);
+                System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы "+numberOfPeople+" верное + "+ CommonCode.ANSI_RESET);
             }
             else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы "+numberOfPeople+" неверное: "
-                    + busType + " не равен " + resBusType + " -"+CommonCode.ANSI_RESET);
+                    + busType + " не равен " + resBusType + " -"+ CommonCode.ANSI_RESET);
                 softAssertions.assertThat(busType)
                         .as("Check that bus autopicking for "+numberOfPeople+" is correct")
                         .isEqualTo(resBusType);
