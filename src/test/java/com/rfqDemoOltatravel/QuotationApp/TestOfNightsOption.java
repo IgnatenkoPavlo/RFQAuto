@@ -33,7 +33,7 @@ public class TestOfNightsOption {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    CommonCode commonCode = new CommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
 
     @Before
     public void setUp() {
@@ -62,8 +62,8 @@ public class TestOfNightsOption {
         System.out.println(props.getProperty("baseURL"));
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        commonCode.WaitForPageToLoad(driver);
-        System.out.println(CommonCode.OK);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        System.out.println(QuotationAppCommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -71,24 +71,24 @@ public class TestOfNightsOption {
         $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzka();
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Создаём новый Quotation
         CreateQuotation("PTestQuotation1", "Тест компания");
@@ -103,40 +103,40 @@ public class TestOfNightsOption {
         String temp = $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText();
         String errorText = "";
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("test").pressEnter();
-        errorText = commonCode.GetJSErrorText(driver);
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat(errorText)
                     .as("Check that Rub-Euro rate can`t be 'test'")
                     .isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
             $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue(temp).pressEnter();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
         } else {
-            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
+                    + QuotationAppCommonCode.ANSI_RESET + errorText);
         }*/
 
         //Выставляем колество ночей как "test"
         System.out.println("[-] Пробуем выставить количество ночей как 'test'");
         String temp = $(By.cssSelector(OptionsTable.numberOfNights)).getText();
         $(By.cssSelector(OptionsTable.numberOfNights)).setValue("test").pressEnter();
-        String errorText = commonCode.GetJSErrorText(driver);
+        String errorText = quotationAppCommonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         if (errorText.equals("none")){
             softAssertions.assertThat(errorText)
                     .as("Check that Night can`t be 'test'")
                     .isEqualTo(String.valueOf("Invalid argument ('value'). Must be positive integer."));
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "
+                    + QuotationAppCommonCode.ANSI_RESET);
             $(By.cssSelector(OptionsTable.numberOfNights)).setValue(temp);
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
         } else {
-            System.out.println(CommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Валидация отработала, текст ошибки: "
+                    + QuotationAppCommonCode.ANSI_RESET + errorText);
         }
 
         //Выставляем колество ночей - 2
@@ -158,7 +158,7 @@ public class TestOfNightsOption {
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Добавляем город
         AddCityToAccomodationByName("MSK", 1);
@@ -172,42 +172,42 @@ public class TestOfNightsOption {
         //Кликаем по кнопке с SPB
         $(By.xpath(GetCityNameButtonREG("SPB"))).shouldBe(visible);
         $(By.xpath(GetCityNameButtonREG("SPB"))).click();
-        errorText = commonCode.GetJSErrorText(driver);
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
 
         if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+ CommonCode.ANSI_RESET);
-            CommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+ QuotationAppCommonCode.ANSI_RESET);
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             softAssertions.assertThat(errorText)
                     .as("Check that city can`t be added if all night are filled")
                     .isEqualTo(String.valueOf("No more nights left."));
         } else {
-            System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
+                    + QuotationAppCommonCode.ANSI_RESET + errorText);
         }
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
 
 
         //Выставляем колество ночей 1 - получаем ошибку
         System.out.println("[-] Выставляем количество ночей - 1");
         temp=$(By.cssSelector(OptionsTable.numberOfNights)).getText();
         $(By.cssSelector(OptionsTable.numberOfNights)).click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(OptionsTable.numberOfNights)).setValue("1").pressEnter();
-        errorText = commonCode.GetJSErrorText(driver);
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
         //System.out.println(errorText);
 
         if (errorText.equals("none")){
-            System.out.println(CommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Ошибки нет, валидация не отработала - "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat(errorText)
                     .as("Check that night number can`t be decreased if all already used")
                     .isEqualTo(String.valueOf("Accommodations total nights number exceeds quotation nights number. " +
                             "Please, descrease nights number or delete some accommodation records first."));
             $(By.cssSelector(OptionsTable.numberOfNights)).setValue(temp).pressEnter();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
         } else {
-            System.out.println(CommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
-                    + CommonCode.ANSI_RESET + errorText);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN +"      Валидация отработала, текст ошибки: "
+                    + QuotationAppCommonCode.ANSI_RESET + errorText);
         }
 
         //Проверяем что даты в таблице Dates стоят правильные
@@ -219,12 +219,12 @@ public class TestOfNightsOption {
                 $(By.cssSelector(DatesPeriodsTable.tillDateInput)).scrollTo().getText();
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that To date is set correctly")
                     .isEqualTo(formatForDate.format(tillDate));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата До некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesTillDate);
         }
 
         //Проверяем значения Nights в таблице Accommodations
@@ -237,25 +237,25 @@ public class TestOfNightsOption {
         System.out.println("[-] Проверяем, что Night Total в таблице Accommodation посчитан корректно:");
 
         if (nightsUsed.equals(String.valueOf(nightInOptionsCounter))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
                     .isEqualTo(String.valueOf(nightInOptionsCounter));
-            System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsUsed);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ nightsUsed);
         }
 
         if (nightsTotal.equals(String.valueOf(nightInOptionsCounter))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
                     .isEqualTo(String.valueOf(nightInOptionsCounter));
-            System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsTotal);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ nightsTotal);
         }
 
         //Проверяем колличество дней в Program
@@ -263,14 +263,14 @@ public class TestOfNightsOption {
         System.out.println("[-] Проверяем, что количество дней в секции Program корректное:");
         int numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == nightInOptionsCounter+1){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
                     .isEqualTo(nightInOptionsCounter+1);
-            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
-                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
 
         //Выставляем колество ночей 3
@@ -285,12 +285,12 @@ public class TestOfNightsOption {
         datesTillDate = DatesPeriodsTable.GetTillDateByPeriodCounter(1);
         //System.out.println(datesTillDate);
         if (datesTillDate.equals(formatForDate.format(tillDate))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that To date is set correctly")
                     .isEqualTo(formatForDate.format(tillDate));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата До некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesTillDate);
         }
 
         //Проверяем значения Nights в таблице Accommodations
@@ -301,25 +301,25 @@ public class TestOfNightsOption {
         System.out.println("[-] Проверяем, что после изменений Night Total в таблице Accommodation посчитан корректно:");
 
         if (nightsUsed.equals(String.valueOf(nightInOptionsCounter-1))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
                     .isEqualTo(String.valueOf(nightInOptionsCounter-1));
-            System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsUsed);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ nightsUsed);
         }
 
         if (nightsTotal.equals(String.valueOf(nightInOptionsCounter))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
                     .isEqualTo(String.valueOf(nightInOptionsCounter));
-            System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsTotal);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ nightsTotal);
         }
 
         //Проверяем колличество дней в Program
@@ -328,14 +328,14 @@ public class TestOfNightsOption {
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == nightInOptionsCounter){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
                     .isEqualTo(nightInOptionsCounter);
-            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
-                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
 
         //Добавляем ещё один город
@@ -349,25 +349,25 @@ public class TestOfNightsOption {
         System.out.println("[-] Проверяем, что после добавления города Night Total в таблице Accommodation посчитан корректно:");
 
         if (nightsUsed.equals(String.valueOf(nightInOptionsCounter))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение использованных ночей корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsUsed)
                     .as("Check that number of total used night in Accommodation table is set correctly")
                     .isEqualTo(String.valueOf(nightInOptionsCounter));
-            System.out.println(CommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsUsed);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение использованных ночей некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ nightsUsed);
         }
 
         if (nightsTotal.equals(String.valueOf(nightInOptionsCounter))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение общего количества ночей корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(nightsTotal)
                     .as("Check that number of total number of night in Accommodation table is set correctly")
                     .isEqualTo(String.valueOf(nightInOptionsCounter));
-            System.out.println(CommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
-                    + CommonCode.ANSI_RESET+ nightsTotal);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение общего количества ночей некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ nightsTotal);
         }
 
         //Проверяем колличество дней в Program
@@ -376,14 +376,14 @@ public class TestOfNightsOption {
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         numberOfDaysInProgram = $$(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"]")).size();
         if (numberOfDaysInProgram == nightInOptionsCounter+1){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
-                    + CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, количество дней в секции Program корректное + "
+                    + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(numberOfDaysInProgram)
                     .as("Check that number of days in Program section is correct")
                     .isEqualTo(nightInOptionsCounter+1);
-            System.out.println(CommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
-                    + CommonCode.ANSI_RESET+ numberOfDaysInProgram);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
+                    + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
 
 

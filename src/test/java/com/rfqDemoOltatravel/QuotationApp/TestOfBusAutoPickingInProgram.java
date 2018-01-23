@@ -32,7 +32,7 @@ public class TestOfBusAutoPickingInProgram {
 
     public ChromeDriver driver;
 
-    CommonCode commonCode = new CommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
     private SoftAssertions softAssertions;
 
     @Before
@@ -73,32 +73,32 @@ public class TestOfBusAutoPickingInProgram {
         int popUpTimeOut = (int) (selenideConfig.timeout / 1000);
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        commonCode.WaitForPageToLoad(driver);
-        System.out.println(CommonCode.OK);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue(CommonCode.QUOTATIONAPPLOGIN);
-        $(By.id("password")).setValue(CommonCode.QUOTATIONAPPPASSWORD);
+        $(By.id("username")).setValue(QuotationAppCommonCode.QUOTATIONAPPLOGIN);
+        $(By.id("password")).setValue(QuotationAppCommonCode.QUOTATIONAPPPASSWORD);
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Создаём новый Quotation
         CreateQuotation("PTestQuotation1", "Тест компания");
@@ -119,16 +119,16 @@ public class TestOfBusAutoPickingInProgram {
         Alert alert = (new WebDriverWait(driver, popUpTimeOut))
                 .until(ExpectedConditions.alertIsPresent());
         confirm();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         System.out.print("[-] Удаляем группу - 20 человек:");
         $(By.xpath(GroupsTable.GetGroupByNumberDeleteButtonREG(1))).scrollTo().click();
         alert = (new WebDriverWait(driver, popUpTimeOut))
                 .until(ExpectedConditions.alertIsPresent());
         confirm();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         int[] groupsToAdd = {44, 45, 52, 57, 58, 78, 88, 89, 104, 114, 115, 124, 132, 133, 155, 171, 172, 174, 176, 193, 220, 228, 229, 333, 464};
 
@@ -141,8 +141,8 @@ public class TestOfBusAutoPickingInProgram {
                     .until(ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().sendKeys(String.valueOf(groupsToAdd[groupsCounter]));
             confirm();
-            CommonCode.WaitForProgruzkaSilent();
-            System.out.println(CommonCode.OK);
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
         }
 
         //Добавляем новую дату, дата берётся "сегодня"
@@ -160,7 +160,7 @@ public class TestOfBusAutoPickingInProgram {
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDateNow.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Добавляем новый Город MSK
         AddCityToAccomodationByName("MSK", 1);
@@ -170,20 +170,20 @@ public class TestOfBusAutoPickingInProgram {
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.addServiceButtonREG)).scrollTo().click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[3]//select[@class=\"serviceType\"]")).selectOptionContainingText("Excursion");
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                 + ProgrammSection.GetACityByNumberREG(1)
                 + ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[4]//select[@class=\"serviceName\"]")).selectOptionContainingText("BUNKER-42");
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Открываем цены на транспорт у экскурсии
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
@@ -255,10 +255,10 @@ public class TestOfBusAutoPickingInProgram {
             //System.out.println("        К-во автобусов "+numberOfBuses+" тип автобуса "+busType+'\n');
 
             if(busType.equals(resBusType)) {
-                System.out.println(CommonCode.ANSI_GREEN+"      -  Значения для группы "+numberOfPeople+" верное + "+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      -  Значения для группы "+numberOfPeople+" верное + "+ QuotationAppCommonCode.ANSI_RESET);
             }
-            else {System.out.println(CommonCode.ANSI_RED+"      -  Значения для группы "+numberOfPeople+" неверное: "
-                    + busType + " не равен " + resBusType + " -"+ CommonCode.ANSI_RESET);
+            else {System.out.println(QuotationAppCommonCode.ANSI_RED+"      -  Значения для группы "+numberOfPeople+" неверное: "
+                    + busType + " не равен " + resBusType + " -"+ QuotationAppCommonCode.ANSI_RESET);
                 softAssertions.assertThat(busType)
                         .as("Check that bus autopicking for "+numberOfPeople+" is correct")
                         .isEqualTo(resBusType);

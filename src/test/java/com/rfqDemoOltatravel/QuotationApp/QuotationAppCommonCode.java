@@ -5,7 +5,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class CommonCode extends com.rfqDemoOltatravel.CommonCode{
+public class QuotationAppCommonCode extends com.rfqDemoOltatravel.CommonCode{
 
     public static final String QUOTATIONAPPLOGIN = "alexkudrya91@gmail.com";
     public static final String QUOTATIONAPPPASSWORD = "password";
@@ -133,7 +133,7 @@ public class CommonCode extends com.rfqDemoOltatravel.CommonCode{
                             + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                             + NewQuotationPage.ProgrammSection.GetSumForUnitREG(1))).setValue(String.valueOf(values[0])).pressEnter();
 
-                    CommonCode.WaitForProgruzkaSilent();
+                    com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();
 
 
                     if(values.length>=2)
@@ -145,7 +145,7 @@ public class CommonCode extends com.rfqDemoOltatravel.CommonCode{
                             + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                             + NewQuotationPage.ProgrammSection.GetSumForUnitREG(2))).setValue(String.valueOf(values[1])).pressEnter();
 
-                    CommonCode.WaitForProgruzkaSilent();}
+                        com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();}
 
 
                     if(values.length>=3)
@@ -157,14 +157,14 @@ public class CommonCode extends com.rfqDemoOltatravel.CommonCode{
                             + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(serviceCounter)
                             + NewQuotationPage.ProgrammSection.GetSumForUnitREG(3))).setValue(String.valueOf(values[2])).pressEnter();
 
-                    CommonCode.WaitForProgruzkaSilent();}
+                        com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();}
                 }
 
                 $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(dayCounter) + NewQuotationPage.ProgrammSection.GetACityByNumberREG(cityCounter)
                         + "//tfoot//tr//td//a[@class=\"qbtn qbtn-hideallprices\"]")).shouldBe(visible).click();
 
             }
-            System.out.println(CommonCode.OK);
+            System.out.println(com.rfqDemoOltatravel.CommonCode.OK);
 
         }
 

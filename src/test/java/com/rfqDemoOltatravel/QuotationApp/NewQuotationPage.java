@@ -22,7 +22,7 @@ public class NewQuotationPage {
         $(By.xpath(QuotationListPage.newQuotationClientNameREG)).selectOptionContainingText(companyName);
         System.out.println("      Клиент - "+companyName);
         $(By.xpath(QuotationListPage.newQuotationPopapOkButtonREG)).click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово - ссылка квотации - "+url());
     }
 
@@ -48,13 +48,13 @@ public class NewQuotationPage {
 
             System.out.print("[-] Меняем количество ночей на "+String.valueOf(nightsCounter));
             $(By.cssSelector(OptionsTable.numberOfNights)).scrollTo().click();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             $(By.cssSelector(OptionsTable.numberOfNights)).setValue(String.valueOf(nightsCounter)).pressEnter();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             String result = $(By.cssSelector(OptionsTable.numberOfNights)).getText();
-            if(String.valueOf(nightsCounter).equals(result)) {System.out.println(CommonCode.OK); }
+            if(String.valueOf(nightsCounter).equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Колличество ночей в Options не установлено"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Колличество ночей в Options не установлено"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set number of nights in Options table as "+String.valueOf(nightsCounter)); }
         }
 
@@ -62,11 +62,11 @@ public class NewQuotationPage {
 
             System.out.print("[-] Выставляем валюту в "+currency);
             $(By.cssSelector(OptionsTable.currency)).scrollTo().selectOptionContainingText(currency);
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             String result = $(By.cssSelector(OptionsTable.currency)).getSelectedText();
-            if(currency.equals(result)) {System.out.println(CommonCode.OK); }
+            if(currency.equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Валюта в Options не установлена"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Валюта в Options не установлена"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set currency in Options table as "+currency); }
         }
 
@@ -74,11 +74,11 @@ public class NewQuotationPage {
 
             System.out.print("[-] Выставляем курс доллара - "+usdRate);
             $(By.cssSelector(OptionsTable.rubUsdRate)).scrollTo().setValue(String.valueOf(usdRate)).pressEnter();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             String result = $(By.cssSelector(OptionsTable.rubUsdRate)).getText();
-            if(String.valueOf(usdRate).equals(result)) {System.out.println(CommonCode.OK); }
+            if(String.valueOf(usdRate).equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Курс доллара в Options не установлен"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Курс доллара в Options не установлен"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set USD rate in Options table as "+usdRate); }
         }
 
@@ -86,11 +86,11 @@ public class NewQuotationPage {
 
             System.out.print("[-] Выставляем курс евро - "+eurRate);
             $(By.cssSelector(OptionsTable.rubEurRate)).scrollTo().setValue(String.valueOf(eurRate)).pressEnter();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             String result = $(By.cssSelector(OptionsTable.rubEurRate)).getText();
-            if(String.valueOf(eurRate).equals(result)) {System.out.println(CommonCode.OK); }
+            if(String.valueOf(eurRate).equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Курс евро в Options не установлен"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Курс евро в Options не установлен"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set EUR rate in Options table as "+eurRate); }
         }
 
@@ -98,14 +98,14 @@ public class NewQuotationPage {
 
             System.out.print("[-] Выставляем Free Tour Leaders в "+freeTourLeaders);
             $(By.cssSelector(OptionsTable.freeTourLeaders)).scrollTo().click();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             $(By.cssSelector(OptionsTable.freeTourLeaders)).sendKeys(String.valueOf(freeTourLeaders));
             $(By.cssSelector(OptionsTable.freeTourLeaders)).pressEnter();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             String result = $(By.cssSelector(OptionsTable.freeTourLeaders)).getText();
-            if(String.valueOf(freeTourLeaders).equals(result)) {System.out.println(CommonCode.OK); }
+            if(String.valueOf(freeTourLeaders).equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Free Tour Leaders в Options не установлено"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Free Tour Leaders в Options не установлено"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set Free Tour Leaders in Options table as "+freeTourLeaders); }
         }
     }
@@ -279,11 +279,11 @@ public class NewQuotationPage {
             $(By.xpath(CityByNumberREG(cityNumber)+nightsCounterForCityREG)).click();
             $(By.xpath(CityByNumberREG(cityNumber)+nightsCounterForCityREG)).setValue(nightsNumber).pressEnter();
             confirm();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
             String result = $(By.xpath(CityByNumberREG(cityNumber)+nightsCounterForCityREG)).getText();
-            if(nightsNumber.equals(result)) {System.out.println(CommonCode.OK); }
+            if(nightsNumber.equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Количество ночей не изменено"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Количество ночей не изменено"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t set nights value for a city"+ cityNumber+ " in Accommodations as "+nightsNumber); }
 
         }
@@ -309,11 +309,11 @@ public class NewQuotationPage {
         //Кликаем по кнопке с cityName
         $(By.xpath(GetCityNameButtonREG(cityName))).shouldBe(Condition.visible);
         $(By.xpath(GetCityNameButtonREG(cityName))).click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         String result = $(By.xpath(AccomodationsTable.CityByNumberREG(position)+"//td[@class=\"city\"]")).getText();
-        if(String.valueOf(cityName).equals(result)) {System.out.println(CommonCode.OK); }
+        if(String.valueOf(cityName).equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
         else {
-            System.out.println(CommonCode.ANSI_RED+" - Город не добавлен"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+" - Город не добавлен"+ QuotationAppCommonCode.ANSI_RESET);
             throw new IllegalArgumentException("Can`t add new city to Accommodations "+cityName); }
     }
     //Конец Попапа
@@ -406,21 +406,21 @@ public class NewQuotationPage {
                     +"//table[@class=\"services\"]//tbody[@class=\"main\"]//tr[@class=\"service\"]")).size();
 
             $(By.xpath(GetADayByNumberREG(day)+GetACityByNumberREG(cityCounter)+addServiceButtonREG)).scrollTo().click();
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
 
             $(By.xpath(GetADayByNumberREG(day)
                     +GetACityByNumberREG(cityCounter)
                     +GetMainServiceByNumberREG(servicesSize+1)
                     +serviceNameDropDownREG)).scrollTo().selectOptionContainingText(serviceName);
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
 
             String result = $(By.xpath(GetADayByNumberREG(day)
                     +GetACityByNumberREG(cityCounter)
                     +GetMainServiceByNumberREG(servicesSize+1)
                     +serviceNameDropDownREG)).getSelectedText();
-            if(serviceName.equals(result)) {System.out.println(CommonCode.OK); }
+            if(serviceName.equals(result)) {System.out.println(QuotationAppCommonCode.OK); }
             else {
-                System.out.println(CommonCode.ANSI_RED+" - Service не добавлен"+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_RED+" - Service не добавлен"+ QuotationAppCommonCode.ANSI_RESET);
                 throw new IllegalArgumentException("Can`t add new city to Accommodations "+serviceName+" get"+result); }
         }
 
@@ -440,10 +440,7 @@ public class NewQuotationPage {
                     +"/td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
 
             confirm();
-
-
-
-            CommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
         }
     }
 

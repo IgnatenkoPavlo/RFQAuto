@@ -2,6 +2,7 @@ package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
+import com.rfqDemoOltatravel.PricesApp.PricesAppCommonCode;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
@@ -17,25 +18,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.*;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class TestOfPeriodsInDates {
 
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    CommonCode commonCode = new CommonCode();
 
-
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
+    PricesAppCommonCode pricesAppCommonCode = new PricesAppCommonCode();
 
     @Before
     public void setUp() {
@@ -50,7 +49,6 @@ public class TestOfPeriodsInDates {
     public void testOfPeriodsInDates() {
 
         WebDriverRunner.setWebDriver(driver);
-        WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
 
@@ -64,7 +62,7 @@ public class TestOfPeriodsInDates {
         System.out.println(props.getProperty("baseURL"));
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        commonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         System.out.println(" - готово");
 
 
@@ -76,15 +74,15 @@ public class TestOfPeriodsInDates {
         System.out.println(" - готово");
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем приложение Prices");
         open(props.getProperty("baseURL")+"/application/olta.prices");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Открываем групповые цены
@@ -92,7 +90,7 @@ public class TestOfPeriodsInDates {
         $(By.cssSelector("li[id=\"group\"]")).click();
         /*System.out.print("[-] Открываем средне-индивидуальные цены");
         $(By.cssSelector("li[id=\"individualAverage\"]")).click();*/
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Открываем текущий день
@@ -105,12 +103,12 @@ public class TestOfPeriodsInDates {
         //System.out.println(ldt.format(formatForPrices));
 
         System.out.println("[-] Сохраняем значения для периодов для SPB, Hotel 4* central");
-        List<CommonCode.PeriodsCollection> periodsListSPB
-                = commonCode.SavePeriodsForACityAndHotelType("SPB", "Hotel 4* central");
+        List<PricesAppCommonCode.PeriodsCollection> periodsListSPB;
+        periodsListSPB = pricesAppCommonCode.SavePeriodsForACityAndHotelType("SPB", "Hotel 4* central");
 
         System.out.println("[-] Сохраняем значения для периодов для MSK, Hotel 4* central");
-        List<CommonCode.PeriodsCollection> periodsListMSK
-                = commonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");;
+        List<PricesAppCommonCode.PeriodsCollection> periodsListMSK
+                = pricesAppCommonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");;
 
 
         /*System.out.println("For SPB");
@@ -129,8 +127,8 @@ public class TestOfPeriodsInDates {
         System.out.print("[-] Открываем Quotation приложение ");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Ждём доступности "Create New Quotation"
@@ -144,12 +142,12 @@ public class TestOfPeriodsInDates {
         NewQuotationPage newQuotationPage = new NewQuotationPage();
 
         //Ждём пока страница прогрузится
-        commonCode.WaitForProgruzka();
+        quotationAppCommonCode.WaitForProgruzka();
 
         //Выставляем курс Евро
         System.out.print("[-] Выставляем курс евро 70");
         $(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).setValue("70").pressEnter();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
         Double rubEur = 0.0;
         rubEur = Double.valueOf($(By.cssSelector(NewQuotationPage.OptionsTable.rubEurRate)).getText());
@@ -176,7 +174,7 @@ public class TestOfPeriodsInDates {
         $(By.cssSelector("span#qbtn-periods")).click();
         driver.switchTo().alert().accept();
         driver.switchTo().alert().accept();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выставляем период с 01-01-2017 до 31-12-2017
@@ -191,7 +189,7 @@ public class TestOfPeriodsInDates {
 
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.savePeriodButton)).click();
 
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Добавляем город
@@ -203,7 +201,7 @@ public class TestOfPeriodsInDates {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("MSK"))).click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Меняем для MSK к-во ночей на 1
@@ -213,7 +211,7 @@ public class TestOfPeriodsInDates {
         Alert alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().accept();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - Готово");
 
         //Добавляем город
@@ -225,7 +223,7 @@ public class TestOfPeriodsInDates {
         //Кликаем по кнопке с MSK
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).shouldBe(visible);
         $(By.xpath(newQuotationPage.GetCityNameButtonREG("SPB"))).click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Выбор первого класса для поезда Москва->Питер
@@ -233,11 +231,11 @@ public class TestOfPeriodsInDates {
                 + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[@class=\"criteria\"]//select[@name=\"class\"]")).scrollTo().selectOptionByValue("1st");
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         System.out.print("[-] Запускаем расчёт ");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
         //Проверяем, что колличество периодов верное
@@ -246,12 +244,12 @@ public class TestOfPeriodsInDates {
         int periodsFromPrices = periodsListSPB.size();
         System.out.println("[-] Проверяем, что колличество периодов в Results верное:");
         if (periodsInResult == periodsFromPrices){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение корректное + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение корректное + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(periodsInResult)
                     .as("Check that number of periods in Results is correct")
                     .isEqualTo(periodsFromPrices);
-            System.out.println(CommonCode.ANSI_RED +"      Значение не некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение не некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + periodsInResult + " -");
         }
 
@@ -279,12 +277,12 @@ public class TestOfPeriodsInDates {
                 composedPeriodValue = periodsListSPB.get(periodsCounter-1).dateFrom.format(formatForResultsFull)+" - "+periodsListSPB.get(periodsCounter-1).dateTo.format(formatForResultsFull);
 
             if (result.equals(composedPeriodValue)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ QuotationAppCommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that dates of periods in Results is correct")
                         .isEqualTo(composedPeriodValue);
-                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + QuotationAppCommonCode.ANSI_RESET
                         + result + " -");
             }
         }
@@ -300,12 +298,12 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf(' '));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ QuotationAppCommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WE) w/o margin for 15, for period "+periodsCounter+",is correct")
                         .isEqualTo(priceDBLDS);
-                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + QuotationAppCommonCode.ANSI_RESET
                         + result + " -");
             }
         }
@@ -321,12 +319,12 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf(' '));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ QuotationAppCommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WD) w/o margin for 15, for period "+periodsCounter+",is correct")
                         .isEqualTo(priceDBLDS);
-                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + QuotationAppCommonCode.ANSI_RESET
                         + result + " -");
             }
         }
@@ -346,12 +344,12 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf('€'));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ QuotationAppCommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WE) for 15, for period "+periodsCounter+",is correct")
                         .isEqualTo(priceDBLDS);
-                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + QuotationAppCommonCode.ANSI_RESET
                         + result + " -");
             }
         }
@@ -368,12 +366,12 @@ public class TestOfPeriodsInDates {
             result = result.substring(0, result.indexOf('€'));
 
             if (result.equals(priceDBLDS)){
-                System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ CommonCode.ANSI_RESET);
+                System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, значение у периода "+periodsCounter+" корректное + "+ QuotationAppCommonCode.ANSI_RESET);
             } else {
                 softAssertions.assertThat(result)
                         .as("Check that value in Hotels (WD) for 15, for period "+periodsCounter+",is correct")
                         .isEqualTo(priceDBLDS);
-                System.out.println(CommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + CommonCode.ANSI_RESET
+                System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение у периода "+periodsCounter+" не некорректные: " + QuotationAppCommonCode.ANSI_RESET
                         + result + " -");
             }
         }

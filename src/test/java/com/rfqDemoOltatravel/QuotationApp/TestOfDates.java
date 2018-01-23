@@ -30,7 +30,7 @@ public class TestOfDates {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    CommonCode commonCode = new CommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
 
     @Before
     public void setUp() {
@@ -58,8 +58,8 @@ public class TestOfDates {
         selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        commonCode.WaitForPageToLoad(driver);
-        System.out.println(CommonCode.OK);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        System.out.println(QuotationAppCommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -67,24 +67,24 @@ public class TestOfDates {
         $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzka();
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Создаём новый Quotation
         NewQuotationPage.CreateQuotation("PTestQuotation1", "Тест компания");
@@ -122,8 +122,8 @@ public class TestOfDates {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         DateTimeFormatter formatDayOnly = DateTimeFormatter.ofPattern("d")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
@@ -152,19 +152,19 @@ public class TestOfDates {
 
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
                     .isEqualTo(composedPeriodValue);
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата До некорректна: " + QuotationAppCommonCode.ANSI_RESET
                     + accommodationDate1);
         }
 
         //Проверяем, что в Results даты тоже корректные
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         String resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[1]//th")).scrollTo().getText();
 
@@ -177,12 +177,12 @@ public class TestOfDates {
             composedPeriodValue = nowDate.format(formatFull)+" - "+tillDate1.format(formatFull);
 
         if (resultsDates1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
                     .isEqualTo(composedPeriodValue);
-            System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Даты в Results некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + String.valueOf(composedPeriodValue));
         }
 
@@ -197,30 +197,30 @@ public class TestOfDates {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate3));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Проверяем Dates
         System.out.println("[-] Проверяем, что промежуток дат в таблице Date на своём месте:");
         //Проверяем От в Dates
         String datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
         if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesFromDate)
                     .as("Check that From date is set correctly, in Dates")
                     .isEqualTo(String.valueOf(formatForDate.format(fromDate3)));
-            System.out.println(CommonCode.ANSI_RED +"      Дата От некорректна: " + CommonCode.ANSI_RESET+ datesFromDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата От некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesFromDate);
         }
         //Проверяем До в Dates
         String datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
         if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that Till date is set correctly, in Dates")
                     .isEqualTo(String.valueOf(formatForDate.format(tillDate3)));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата До некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesTillDate);
         }
 
         //Проверяем Accommodations
@@ -239,27 +239,27 @@ public class TestOfDates {
 
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
                     .isEqualTo(composedPeriodValue3);
-            System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + accommodationDate1);
         }
         //Проверяем, что в Results даты тоже корректные
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
                     .isEqualTo(composedPeriodValue3);
-            System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Даты в Results некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + resultsDates1);
         }
 
@@ -274,30 +274,30 @@ public class TestOfDates {
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(fromDate2));
         //Кликаем кнопку сохранить
         $(By.cssSelector(NewQuotationPage.DatesPeriodsTable.saveDateButton)).click();
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Проверяем Dates
         System.out.println("[-] Проверяем, что промежуток дат в таблице Date на своём месте:");
         //Проверяем От в Dates
         datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
         if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate2)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesFromDate)
                     .as("Check that From date is set correctly, in Dates")
                     .isEqualTo(String.valueOf(formatForDate.format(fromDate2)));
-            System.out.println(CommonCode.ANSI_RED +"      Дата От некорректна: " + CommonCode.ANSI_RESET+ datesFromDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата От некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesFromDate);
         }
         //Проверяем До в Dates
         datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
         if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate2)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that Till date is set correctly, in Dates")
                     .isEqualTo(String.valueOf(formatForDate.format(tillDate2)));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата До некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesTillDate);
         }
 
         //Проверяем Accommodations
@@ -314,27 +314,27 @@ public class TestOfDates {
             composedPeriodValue = fromDate2.format(formatFull)+" - "+tillDate2.format(formatFull);
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
                     .isEqualTo(composedPeriodValue);
-            System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + accommodationDate1);
         }
         //Проверяем Results
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
                     .isEqualTo(composedPeriodValue);
-            System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Даты в Results некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + resultsDates1);
         }
 
@@ -343,29 +343,29 @@ public class TestOfDates {
         $(By.xpath(NewQuotationPage.DatesPeriodsTable.datesTableREG
                 + "//tbody//tr[2]//a[@class=\"qbtn qbtn-delete\"]")).scrollTo().click();
         confirm();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
 
         //Проверяем Dates
         System.out.println("[-] Проверяем, что третий промежуток дат в таблице Date стал вторым:");
         //Проверяем От в Dates
         datesFromDate = NewQuotationPage.DatesPeriodsTable.GetFromDateByPeriodCounter(2);
         if (datesFromDate.equals(String.valueOf(formatForDate.format(fromDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата От корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesFromDate)
                     .as("Check that From date is set correctly, in Dates")
                     .isEqualTo(String.valueOf(formatForDate.format(fromDate3)));
-            System.out.println(CommonCode.ANSI_RED +"      Дата От некорректна: " + CommonCode.ANSI_RESET+ datesFromDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата От некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesFromDate);
         }
         //Проверяем До в Dates
         datesTillDate = NewQuotationPage.DatesPeriodsTable.GetTillDateByPeriodCounter(2);
         if (datesTillDate.equals(String.valueOf(formatForDate.format(tillDate3)))){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, дата До корректная + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(datesTillDate)
                     .as("Check that Till date is set correctly, in Dates")
                     .isEqualTo(String.valueOf(formatForDate.format(tillDate3)));
-            System.out.println(CommonCode.ANSI_RED +"      Дата До некорректна: " + CommonCode.ANSI_RESET+ datesTillDate);
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата До некорректна: " + QuotationAppCommonCode.ANSI_RESET+ datesTillDate);
         }
 
         //Проверяем Accommodations
@@ -375,28 +375,28 @@ public class TestOfDates {
                         .scrollTo().getText();
         //System.out.println(datesTillDate);
         if (accommodationDate1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(accommodationDate1)
                     .as("Check that dates in Accommodation are set correctly")
                     .isEqualTo(composedPeriodValue3);
-            System.out.println(CommonCode.ANSI_RED +"      Дата некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Дата некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + accommodationDate1);
         }
 
         //Проверяем Results
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что даты в Results верные:");
         resultsDates1 = $(By.xpath(NewQuotationPage.ResultsSection.hotelsWOMTableREG+"//tbody//tr[2]//th")).scrollTo().getText();
         if (resultsDates1.equals(composedPeriodValue3)){
-            System.out.println(CommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, даты корректные + "+ QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(resultsDates1)
                     .as("Check that dates in Results are set correctly")
                     .isEqualTo(composedPeriodValue3);
-            System.out.println(CommonCode.ANSI_RED +"      Даты в Results некорректные: " + CommonCode.ANSI_RESET
+            System.out.println(QuotationAppCommonCode.ANSI_RED +"      Даты в Results некорректные: " + QuotationAppCommonCode.ANSI_RESET
                     + resultsDates1);
         }
     }

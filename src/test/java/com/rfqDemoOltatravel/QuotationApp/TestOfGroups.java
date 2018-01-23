@@ -32,7 +32,7 @@ public class TestOfGroups {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    CommonCode commonCode = new CommonCode();
+    QuotationAppCommonCode quotationAppQuotationAppCommonCode = new QuotationAppCommonCode();
 
     @Before
     public void setUp() {
@@ -60,8 +60,8 @@ public class TestOfGroups {
         System.out.println(props.getProperty("baseURL"));
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        commonCode.WaitForPageToLoad(driver);
-        System.out.println(CommonCode.OK);
+        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        System.out.println(QuotationAppCommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
@@ -69,24 +69,24 @@ public class TestOfGroups {
         $(By.id("username")).setValue("alexkudrya91@gmail.com");
         $(By.id("password")).setValue("password");
         $(By.cssSelector("button[type=\"submit\"]")).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzka();
+        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        commonCode.WaitForPageToLoad(driver);
-        CommonCode.WaitForProgruzkaSilent();
-        System.out.println(CommonCode.OK);
+        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём доступности "Create New Quotation"
         System.out.print("[-] Ждём доступности кнопки Create New Quotation");
         $(By.id("qbtn-create")).shouldBe(visible);
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Создаём новый Quotation
         CreateQuotation("PTestQuotation1", "Тест компания");
@@ -111,7 +111,7 @@ public class TestOfGroups {
         $(By.cssSelector(DatesPeriodsTable.newDateInputField)).setValue(formatForDate.format(nowDate));
         //Кликаем кнопку сохранить
         $(By.cssSelector(DatesPeriodsTable.saveDateButton)).click();
-        System.out.println(CommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Добавляем город
         AddCityToAccomodationByName("MSK", 1);
@@ -123,16 +123,16 @@ public class TestOfGroups {
                     .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().sendKeys("35");
         confirm();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         //Проверяем что новая группа добавилась на 4-ю позицию
         if ($(By.xpath(groupsTableREG+"//tbody//tr[4]/td[@class=\"people\"]")).getText().equals("35")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(groupsTableREG+"//tbody//tr[4]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Groups table")
                     .isEqualTo(String.valueOf("35"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не на своём месте"+ QuotationAppCommonCode.ANSI_RESET);
         }
 
         //Проверяем что в секции Program группа также на своём месте
@@ -145,7 +145,7 @@ public class TestOfGroups {
                 ProgrammSection.GetACityByNumberREG(1)+
                 ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[4]/td[@class=\"people\"]")).getText().equals("35")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                     ProgrammSection.GetACityByNumberREG(1)+
                     ProgrammSection.GetMainServiceByNumberREG(1)
@@ -153,7 +153,7 @@ public class TestOfGroups {
                     .as("Check that group is right place, Program section")
                     .isEqualTo(String.valueOf("35"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не на своём месте"+ QuotationAppCommonCode.ANSI_RESET);
         }
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                 ProgrammSection.GetACityByNumberREG(1)+
@@ -163,16 +163,16 @@ public class TestOfGroups {
         //Проверяем что в результатах группа на всоём месте
         System.out.println("[-] Запускаем Расчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что группа 35 человек в 4-ом столбце в Results:");
         //Проверяем что новая группа добавилась в 4-й столбец
         if ($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[5]")).scrollTo().getText().equals("35")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[5]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("35"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не на своём месте"+ QuotationAppCommonCode.ANSI_RESET);
         }
 
 
@@ -183,16 +183,16 @@ public class TestOfGroups {
                 .until(ExpectedConditions.alertIsPresent());
         driver.switchTo().alert().sendKeys("18");
         confirm();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         //Проверяем что новая группа добавилась на 2-ю позицию
         if ($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("18")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).getText())
                     .as("Check that group is right place, Groups table")
                     .isEqualTo(String.valueOf("18"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не на своём месте"+ QuotationAppCommonCode.ANSI_RESET);
         }
 
         //Проверяем что в секции Program группа также на своём месте
@@ -205,7 +205,7 @@ public class TestOfGroups {
                 ProgrammSection.GetACityByNumberREG(1)+
                 ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("18")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                     ProgrammSection.GetACityByNumberREG(1)+
                     ProgrammSection.GetMainServiceByNumberREG(1)
@@ -213,7 +213,7 @@ public class TestOfGroups {
                     .as("Check that group is right place, Program section")
                     .isEqualTo(String.valueOf("18"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не на своём месте"+ QuotationAppCommonCode.ANSI_RESET);
         }
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                 ProgrammSection.GetACityByNumberREG(1)+
@@ -223,16 +223,16 @@ public class TestOfGroups {
         //Проверяем что в результатах группа 18 на всоём месте
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что группа 18 человек в 2-ом столбце в Results:");
         //Проверяем что новая группа добавилась в 4-й столбец
         if ($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).scrollTo().getText().equals("18")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа добавлена на своё место "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("18"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не на своём месте"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не на своём месте"+ QuotationAppCommonCode.ANSI_RESET);
         }
 
 
@@ -242,15 +242,15 @@ public class TestOfGroups {
         alert = (new WebDriverWait(driver, 4))
                 .until(ExpectedConditions.alertIsPresent());
         confirm();
-        CommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         //Проверяем что теперь на 2-ой позиции группа 20
         if ($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена успешно "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа удалена успешно "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(groupsTableREG+"//tbody//tr[2]/td[@class=\"people\"]")).getText())
                     .as("Check that group was deleted, Groups table")
                     .isEqualTo(String.valueOf("20"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не удалилась корректно"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не удалилась корректно"+ QuotationAppCommonCode.ANSI_RESET);
         }
 
         //Проверяем что гркппа удалилась из Program
@@ -263,7 +263,7 @@ public class TestOfGroups {
                 ProgrammSection.GetACityByNumberREG(1)+
                 ProgrammSection.GetMainServiceByNumberREG(1)
                 +"//td[@class=\"featureds\"]//table//tbody//tr[2]/td[@class=\"people\"]")).scrollTo().getText().equals("20")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа удалена корректно "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                     ProgrammSection.GetACityByNumberREG(1)+
                     ProgrammSection.GetMainServiceByNumberREG(1)
@@ -271,7 +271,7 @@ public class TestOfGroups {
                     .as("Check that group is right place, Program section")
                     .isEqualTo(String.valueOf("20"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не удалена"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не удалена"+ QuotationAppCommonCode.ANSI_RESET);
         }
         $(By.xpath(ProgrammSection.GetADayByNumberREG(1)+
                 ProgrammSection.GetACityByNumberREG(1)+
@@ -281,16 +281,16 @@ public class TestOfGroups {
         //Проверяем что группа удалилась из Results
         System.out.println("[-] Запускаем перерасчёт");
         $(By.id("qbtn-execute")).scrollTo().click();
-        CommonCode.WaitForProgruzka();
+        QuotationAppCommonCode.WaitForProgruzka();
         System.out.println("[-] Проверяем что группа удалена из Results:");
         //Проверяем что новая группа 20 теперь вместо 18
         if ($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).scrollTo().getText().equals("20")){
-            System.out.println(CommonCode.ANSI_GREEN+"      Группа удалена корректно "+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Группа удалена корректно "+ QuotationAppCommonCode.ANSI_RESET);
             softAssertions.assertThat($(By.xpath(ResultsSection.hotelsWOMTableREG+"//thead//th[3]")).getText())
                     .as("Check that group is right place, Results section")
                     .isEqualTo(String.valueOf("20"));
         } else {
-            System.out.println(CommonCode.ANSI_RED+"      Группа не удалена"+ CommonCode.ANSI_RESET);
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Группа не удалена"+ QuotationAppCommonCode.ANSI_RESET);
         }
 
     }

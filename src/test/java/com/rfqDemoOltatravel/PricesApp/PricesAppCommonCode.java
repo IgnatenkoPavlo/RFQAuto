@@ -12,7 +12,7 @@ import java.util.Locale;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class CommonCode extends com.rfqDemoOltatravel.CommonCode{
+public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
 
     public class PeriodsCollection{
         public LocalDate dateFrom;
@@ -50,8 +50,8 @@ public class CommonCode extends com.rfqDemoOltatravel.CommonCode{
         //Открываем текущий год
         System.out.print("[-] Открываем текущий год");
         $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
-        com.rfqDemoOltatravel.QuotationApp.CommonCode.WaitForProgruzkaSilent();
-        System.out.println(com.rfqDemoOltatravel.QuotationApp.CommonCode.OK);
+        com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();
+        System.out.println(com.rfqDemoOltatravel.CommonCode.OK);
 
         //Выбираем тип отеля
         System.out.print("[-] Выбираем "+hotelType);
