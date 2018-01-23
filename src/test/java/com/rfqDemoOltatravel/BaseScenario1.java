@@ -55,8 +55,8 @@ public class BaseScenario1 {
 
 
         String propertiesPath;
-        if(isWindows){propertiesPath="target//test-classes//application.properties";}
-        else{propertiesPath="target\\test-classes\\application.properties";}
+        if(isWindows){propertiesPath="target\\test-classes\\application.properties";}
+        else{propertiesPath="target//test-classes//application.properties";}
         Properties props=new Properties();
         try {
             props.load(new InputStreamReader(new FileInputStream(propertiesPath), "UTF-8"));
