@@ -78,8 +78,8 @@ public class TestOfBusAutoPickingInProgram {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("alexkudrya91@gmail.com");
-        $(By.id("password")).setValue("password");
+        $(By.id("username")).setValue(CommonCode.QUOTATIONAPPLOGIN);
+        $(By.id("password")).setValue(CommonCode.QUOTATIONAPPPASSWORD);
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(CommonCode.OK);
 
