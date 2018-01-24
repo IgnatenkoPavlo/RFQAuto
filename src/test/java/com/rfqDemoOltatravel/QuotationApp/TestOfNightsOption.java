@@ -60,10 +60,12 @@ public class TestOfNightsOption {
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
 
-
+        String propertiesPath;
+        if(isWindows){propertiesPath="target\\test-classes\\application.properties";}
+        else{propertiesPath="target//test-classes//application.properties";}
         Properties props=new Properties();
         try {
-            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+            props.load(new InputStreamReader(new FileInputStream(propertiesPath), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
