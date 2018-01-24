@@ -50,6 +50,7 @@ public class TestOfHotelPriceTypeInOptions {
     @Test
     public void testOfHotelPriceTypeInOptions() {
         isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;

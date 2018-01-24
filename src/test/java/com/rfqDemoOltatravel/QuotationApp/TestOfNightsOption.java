@@ -34,12 +34,18 @@ public class TestOfNightsOption {
 
     private SoftAssertions softAssertions;
     QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
+    boolean isWindows=false;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
+
+        if(isWindows){
+            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();}
+        else{driver = new ChromeDriver();}
 
         softAssertions = new SoftAssertions();
 
@@ -48,9 +54,12 @@ public class TestOfNightsOption {
     @Test
     public void testOfNightsOption(){
 
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
+
 
         Properties props=new Properties();
         try {

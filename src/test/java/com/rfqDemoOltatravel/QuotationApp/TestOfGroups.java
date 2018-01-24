@@ -58,7 +58,6 @@ public class TestOfGroups {
 
         isWindows=false;
         if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
-        WebDriverRunner.setWebDriver(driver);
 
         String propertiesPath;
         if(isWindows){propertiesPath="target\\test-classes\\application.properties";}

@@ -58,6 +58,8 @@ public class TestOfFreeTourLeadersCustomInDates {
         isWindows=false;
         if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
         WebDriverRunner.setWebDriver(driver);
+        Configuration selenideConfig = new Configuration();
+        selenideConfig.timeout = 30000;
 
         String propertiesPath;
         if(isWindows){propertiesPath="target\\test-classes\\application.properties";}
@@ -71,8 +73,6 @@ public class TestOfFreeTourLeadersCustomInDates {
         System.out.print("Получил проперти ");
         System.out.println(props.getProperty("baseURL"));
 
-        Configuration selenideConfig = new Configuration();
-        selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
         quotationAppCommonCode.WaitForPageToLoad(driver);
