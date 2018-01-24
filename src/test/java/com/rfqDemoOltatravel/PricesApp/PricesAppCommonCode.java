@@ -14,6 +14,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
 
+    public static final String PRICESAPPLOGIN = "alexkudrya91@gmail.com";
+    public static final String PRICESAPPPASSWORD = "password";
+
     public class PeriodsCollection{
         public LocalDate dateFrom;
         public LocalDate dateTo;
