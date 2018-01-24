@@ -31,12 +31,18 @@ public class TestOfAccommodations {
 
     private SoftAssertions softAssertions;
     QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
+    boolean isWindows=false;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
+
+        if(isWindows){
+            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();}
+        else{driver = new ChromeDriver();}
 
         softAssertions = new SoftAssertions();
     }
@@ -44,12 +50,17 @@ public class TestOfAccommodations {
     @Test
     public void testOfAccommodations() {
 
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
 
+        String propertiesPath;
+        if(isWindows){propertiesPath="target\\test-classes\\application.properties";}
+        else{propertiesPath="target//test-classes//application.properties";}
         Properties props=new Properties();
         try {
-            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+            props.load(new InputStreamReader(new FileInputStream(propertiesPath), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,8 +76,8 @@ public class TestOfAccommodations {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("alexkudrya91@gmail.com");
-        $(By.id("password")).setValue("password");
+        $(By.id("username")).setValue(QuotationAppCommonCode.QUOTATIONAPPLOGIN);
+        $(By.id("password")).setValue(QuotationAppCommonCode.QUOTATIONAPPPASSWORD);
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -198,7 +209,7 @@ public class TestOfAccommodations {
                     + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
 
-        System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
+        System.out.println("[-] Проверяем, что количество сервисов в днях корректное : 1");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         int dayCounterMax = 2;
         int numberOfServices;
@@ -291,7 +302,7 @@ public class TestOfAccommodations {
             System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
-        System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
+        System.out.println("[-] Проверяем, что количество сервисов в днях корректное : 2");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         dayCounterMax = 3;
         defaultNumberOfServices = 3;
@@ -366,7 +377,7 @@ public class TestOfAccommodations {
             System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
-        System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
+        System.out.println("[-] Проверяем, что количество сервисов в днях корректное : 3");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         dayCounterMax = 5;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
@@ -465,7 +476,7 @@ public class TestOfAccommodations {
             System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
-        System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
+        System.out.println("[-] Проверяем, что количество сервисов в днях корректное : 4");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         dayCounterMax = 6;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
@@ -529,7 +540,7 @@ public class TestOfAccommodations {
             System.out.println(QuotationAppCommonCode.ANSI_RED +"      Значение количества дней в секции Program некорректное: "
                     + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
-        System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
+        System.out.println("[-] Проверяем, что количество сервисов в днях корректное 5 :");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         dayCounterMax = 5;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
@@ -539,6 +550,7 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 defaultNumberOfServices=3;
+                if (dayCounter==1 & cityCounter==1){ defaultNumberOfServices -= 1; }
                 if (dayCounter==2 & cityCounter==1){ defaultNumberOfServices += 2; }
                 if (dayCounter==5 & cityCounter==1){ defaultNumberOfServices += 1; }
                 System.out.print("          - для города номер " + cityCounter+": ");
@@ -593,7 +605,7 @@ public class TestOfAccommodations {
                     + QuotationAppCommonCode.ANSI_RESET+ numberOfDaysInProgram);
         }
 
-        System.out.println("[-] Проверяем, что количество сервисов в днях корректное :");
+        System.out.println("[-] Проверяем, что количество сервисов в днях корректное 6:");
         $(By.xpath("//div[@id=\"program\"]//div[@class=\"day\"][1]")).scrollTo();
         dayCounterMax = 5;
         for (int dayCounter = 1; dayCounter <= dayCounterMax; dayCounter++) {
@@ -603,7 +615,9 @@ public class TestOfAccommodations {
             int cityCounterMax = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter) + "//div[@class=\"cities\"]//div[@class=\"city\"]")).size();
             for (int cityCounter = 1; cityCounter <= cityCounterMax; cityCounter++) {
                 defaultNumberOfServices=3;
+                if (dayCounter==1 & cityCounter==1){defaultNumberOfServices += 1;}
                 if (dayCounter==3 & cityCounter==1){defaultNumberOfServices += 2;}
+                if (dayCounter==4 & cityCounter==1){defaultNumberOfServices -= 1;}
                 if (dayCounter==5 & cityCounter==1){defaultNumberOfServices += 1;}
                 System.out.print("          - для города номер " + cityCounter+": ");
                 numberOfServices = $$(By.xpath(ProgrammSection.GetADayByNumberREG(dayCounter)
