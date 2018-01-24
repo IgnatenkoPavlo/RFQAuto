@@ -2,6 +2,7 @@ package com.rfqDemoOltatravel.QuotationApp;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
+import com.rfqDemoOltatravel.RFQApp.RFQAppCommonCode;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
 import org.junit.Before;
@@ -28,12 +29,18 @@ public class TestOfGuidesLanguageSwitching {
 
     QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
     private SoftAssertions softAssertions;
+    boolean isWindows=false;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
+
+        if(isWindows){
+            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();}
+        else{driver = new ChromeDriver();}
 
         softAssertions = new SoftAssertions();
     }
@@ -41,13 +48,18 @@ public class TestOfGuidesLanguageSwitching {
     @Test
     public void testOfGuidesLanguageSwitching() {
 
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
         selenideConfig.timeout = 30000;
 
+        String propertiesPath;
+        if(isWindows){propertiesPath="target\\test-classes\\application.properties";}
+        else{propertiesPath="target//test-classes//application.properties";}
         Properties props=new Properties();
         try {
-            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+            props.load(new InputStreamReader(new FileInputStream(propertiesPath), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,8 +73,8 @@ public class TestOfGuidesLanguageSwitching {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("alexkudrya91@gmail.com");
-        $(By.id("password")).setValue("password");
+        $(By.id("username")).setValue(QuotationAppCommonCode.QUOTATIONAPPLOGIN);
+        $(By.id("password")).setValue(QuotationAppCommonCode.QUOTATIONAPPPASSWORD);
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(QuotationAppCommonCode.OK);
 
