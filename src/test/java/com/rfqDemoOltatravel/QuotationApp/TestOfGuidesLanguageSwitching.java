@@ -102,7 +102,7 @@ public class TestOfGuidesLanguageSwitching {
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
-        //Выбираем год - 2017
+        //Выбираем год - 2018
         System.out.print("[-] Выбираем год - 2018");
         $(By.xpath("//div[@id=\"title-bar\"]//div[@id=\"switch-year\"]//button[text()=\"2018\"]")).scrollTo().click();
         QuotationAppCommonCode.WaitForProgruzkaSilent();
