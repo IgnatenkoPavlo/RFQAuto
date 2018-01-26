@@ -335,7 +335,7 @@ public class BaseScenario1 {
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
-        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).click();
+        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
         $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible);
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();
@@ -346,7 +346,7 @@ public class BaseScenario1 {
 
         //Выставляем Nights
         System.out.print("[-] Выставляем 1 ночь: ");
-        $(By.xpath(NewQuotationPage.Options.nightsButtonXP)).click();
+        $(By.xpath(NewQuotationPage.Options.nightsButtonXP)).scrollTo().click();
         $(By.xpath(NewQuotationPage.Options.nightsInputXP)).shouldBe(Condition.visible);
         $(By.xpath(NewQuotationPage.Options.nightsInputXP)).setValue("1");
         RFQAppCommonCode.WaitForProgruzkaSilent();
@@ -354,7 +354,7 @@ public class BaseScenario1 {
 
         //Выбираем Present Meal Service
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).scrollTo().click();
         $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).click();
         $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.Options.presentMealServiceFullBoard)).click();
@@ -400,7 +400,7 @@ public class BaseScenario1 {
 
         //Выбираем Москву
         System.out.print("[-] Добавляем размещение - Москва: ");
-        $(By.cssSelector(NewQuotationPage.Accommodations.cityAddButton)).click();
+        $(By.cssSelector(NewQuotationPage.Accommodations.cityAddButton)).scrollTo().click();
         $(By.cssSelector(NewQuotationPage.Accommodations.cityList)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.Accommodations.moscowButton)).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
