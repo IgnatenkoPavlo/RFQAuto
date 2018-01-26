@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.ElementNotFound;
+import com.rfqDemoOltatravel.PricesApp.PricesAppCommonCode;
 import com.rfqDemoOltatravel.QuotationApp.NewQuotationPage.ProgrammSection;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.After;
@@ -29,13 +30,19 @@ public class TestOfServicesAddition {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    QuotationAppCommonCode quotationAppQuotationAppCommonCode = new QuotationAppCommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
+    boolean isWindows=false;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
+
+        if(isWindows){
+            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();}
+        else{driver = new ChromeDriver();}
 
         softAssertions = new SoftAssertions();
     }
@@ -43,12 +50,17 @@ public class TestOfServicesAddition {
     @Test
     public void test1() {
 
+        isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
         WebDriverRunner.setWebDriver(driver);
         Configuration selenideConfig = new Configuration();
 
-        Properties props = new Properties();
+        String propertiesPath;
+        if(isWindows){propertiesPath="target\\test-classes\\application.properties";}
+        else{propertiesPath="target//test-classes//application.properties";}
+        Properties props=new Properties();
         try {
-            props.load(new InputStreamReader(new FileInputStream("target\\test-classes\\application.properties"), "UTF-8"));
+            props.load(new InputStreamReader(new FileInputStream(propertiesPath), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,26 +70,229 @@ public class TestOfServicesAddition {
         selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: " + props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         System.out.println(QuotationAppCommonCode.OK);
 
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue("alexkudrya91@gmail.com");
-        $(By.id("password")).setValue("password");
+        $(By.id("username")).setValue(QuotationAppCommonCode.QUOTATIONAPPLOGIN);
+        $(By.id("password")).setValue(QuotationAppCommonCode.QUOTATIONAPPPASSWORD);
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
-        System.out.print("[-] Открываем Quotation приложение");
+        System.out.print("[-] Открываем Prices приложение");
+        open(props.getProperty("baseURL") + "/application/olta.prices");
+        //Ждём пока загрузится страница и проподёт "Loading..."
+        quotationAppCommonCode.WaitForPageToLoad(driver);
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
+        
+        String errorText;
+        
+        //Открываем Открываем сервисы Guides
+        System.out.println("[-] Открываем сервисы Guides:");
+        $(By.cssSelector("li[id=\"guides\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Guides list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Guides пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+            //Выбираем город - MSK
+            System.out.print("[-] Выбираем город - MSK");
+            $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Выбираем год - 2018
+            System.out.print("[-] Выбираем год - 2018");
+            $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Выбираем язык - English
+            System.out.print("[-] Выбираем язык - English");
+            $(By.cssSelector(PricesAppCommonCode.LanguageSelection.englishButton)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Intercity Guides
+        System.out.print("[-] Открываем сервисы Intercity Guides:");
+        $(By.cssSelector("li[id=\"guides\"]:nth-of-type(2)")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Intercity Guides list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Intercity Guides пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Excursions
+        System.out.print("[-] Открываем сервисы Excursions:");
+        $(By.cssSelector("li[id=\"excursions\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Excursions list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Excursions пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Shows
+        System.out.print("[-] Открываем сервисы Shows:");
+        $(By.cssSelector("li[id=\"shows\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Shows list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Shows пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Wow Services
+        System.out.print("[-] Открываем сервисы Wow Services:");
+        $(By.cssSelector("li[id=\"wow-services\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Wow Services list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Wow Services пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Meal
+        System.out.print("[-] Открываем сервисы Meal:");
+        $(By.cssSelector("li[id=\"meal\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Meal list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Meal пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Train Tickets
+        System.out.print("[-] Открываем сервисы Train Tickets:");
+        $(By.cssSelector("li[id=\"train-tickets\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Train Tickets list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Train Tickets пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Flight Tickets
+        System.out.print("[-] Открываем сервисы Flight Tickets:");
+        $(By.cssSelector("li[id=\"flight-tickets\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Flight Tickets list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Flight Tickets пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Transfers
+        System.out.print("[-] Открываем сервисы Transfers:");
+        $(By.cssSelector("li[id=\"transfers\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Transfers list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Transfers пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Transport
+        System.out.print("[-] Открываем сервисы Transport:");
+        $(By.cssSelector("li[id=\"transport\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Transport list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Transport пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Special
+        System.out.print("[-] Открываем сервисы Special:");
+        $(By.cssSelector("li[id=\"custom\"]")).click();
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Special list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Special пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(" - готово");
+
+
+        //Открываем Quotation приложение
+        /*System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL") + "/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -1799,14 +2014,14 @@ public class TestOfServicesAddition {
                         .isEqualTo("Yes");
                 temp1=false;
             }
-            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();*/
 
             /*$(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-footer\"]//button[@class=\"btn btn-default btn-cancel\"]")).click();
 
             $(By.xpath("//div[@id=\"modal-createcustomservice\"]//div[@class=\"modal-content\"]" +
                     "//div[@class=\"modal-body\"]/form//div[@class=\"form-group\"]")).shouldNotBe(Condition.visible);*/
-            if(temp1) {
+            /*if(temp1) {
                 result=$(By.xpath(ProgrammSection.GetADayByNumberREG(1)
                         + ProgrammSection.GetACityByNumberREG(1)
                         + ProgrammSection.GetMainServiceByNumberREG(1)
@@ -3337,7 +3552,7 @@ public class TestOfServicesAddition {
                         .isEqualTo(String.valueOf("10"));}
         }
         ProgrammSection.DeleteLastMainService(1,1);
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();*/
 
     }
 
