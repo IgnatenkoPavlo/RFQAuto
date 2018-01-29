@@ -400,9 +400,10 @@ public class BaseScenario1 {
 
         //Выбираем Москву
         System.out.print("[-] Добавляем размещение - Москва: ");
-        $(By.cssSelector(NewQuotationPage.Accommodations.cityAddButton)).scrollTo().click();
-        $(By.cssSelector(NewQuotationPage.Accommodations.cityList)).shouldBe(Condition.visible);
-        $(By.cssSelector(NewQuotationPage.Accommodations.moscowButton)).click();
+        $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]")).scrollTo().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]")).shouldBe(Condition.visible);
+        $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]/div/div/div/div/div")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -495,13 +496,13 @@ public class BaseScenario1 {
                 + 3000.0/15.0 + 3000.0/15.0;*/
         double hotelsWE15 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/15.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf((new BigDecimal(transportPriceHourly18/15.0).setScale(0, RoundingMode.DOWN).floatValue()));
+                + Double.valueOf((new BigDecimal(transportPriceHourly18/15.0*4.0).setScale(0, RoundingMode.DOWN).floatValue()));
         double hotelsWE20 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/20.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf((new BigDecimal(transportPriceHourly44/20.0).setScale(0, RoundingMode.DOWN).floatValue()));
+                + Double.valueOf((new BigDecimal(transportPriceHourly44/20.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()));
         double hotelsWE25 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/25.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf((new BigDecimal(transportPriceHourly44/25.0).setScale(0, RoundingMode.DOWN).floatValue()));
+                + Double.valueOf((new BigDecimal(transportPriceHourly44/25.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()));
 
         //hotelsWE = Double.valueOf(new BigDecimal(hotelsWE).setScale(0, RoundingMode.DOWN).floatValue());
         //hotelsWE = hotelsWE / rubEur;

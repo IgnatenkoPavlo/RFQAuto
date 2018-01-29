@@ -98,7 +98,7 @@ public class NewQuotationPage extends QuotationListPage{
         }
 
         public static final String ServiceAddButton = "//div[2]/div[@class=\"dayCityServices ui-sortable\"]"
-                +"//div[@class=\"hover-area\"]/div[@class=\"add-btn\"]";
+                +"//div[@class=\"hover-area\"]/div[@class=\"add-btn has-hover-block\"]";
 
         public static String serviceByNumberXP(int serviceCounter){
 
