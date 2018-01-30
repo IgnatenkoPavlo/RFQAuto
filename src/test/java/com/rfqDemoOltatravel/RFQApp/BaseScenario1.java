@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.url;
 
@@ -589,7 +590,7 @@ public class BaseScenario1 {
         result = $(By.xpath("//div[@class=\"footer-olta-rfq\"]//a[text()='Export to Word']")).getAttribute("href");
         //System.out.println("Из Prices получили:"+priceDBLDS15+" в Totals:"+ result);
         if (!result.equals("none")){
-            System.out.println(RFQAppCommonCode.ANSI_GREEN+"      Ошибки нет, кнопка включена + "+RFQAppCommonCode.ANSI_RESET);
+            System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Ошибки нет, кнопка включена + "+RFQAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(result)
                     .as("Check that Export to Word button is enabled")
@@ -598,6 +599,33 @@ public class BaseScenario1 {
                     + result + " -");
         }
 
+        //Кликаем Book This Program
+        System.out.println("[-] Кликаем Book This Program: ");
+        $(By.xpath("//div[@class=\"footer-olta-rfq\"]//a[text()='Book This Program']")).click();
+        confirm();
+        result = rfqAppCommonCode.GetJSErrorText(driver);
+        /*Quotation has been submitted for approval. Your manager will contact you soon.*/
+        if (result.equals("Quotation has been submitted for approval. Your manager will contact you soon.")){
+            System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Попап появился + "+RFQAppCommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(result)
+                    .as("Check that popup with text \"Quotation has been submitted for approval. Your manager will contact you soon.\" appears.")
+                    .isEqualTo(priceDBLDSSS);
+            System.out.println(RFQAppCommonCode.ANSI_RED +"      - Появлся не тот попап: " + RFQAppCommonCode.ANSI_RESET
+                    + result + " -");
+        }
+        //Проверяем что у квотации появился статус
+        System.out.println("[-] Проверяем что у квотации появился статус submitted: ");
+        result=$(By.xpath("//div[@id=\"content\"]/div[@class=\"submited-info\"]")).scrollTo().getText();
+        if (result.equals("This program has been submitted for approval. Our manager will contact you soon.")){
+            System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Статус появился + "+RFQAppCommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(result)
+                    .as("Check submitted status appears.")
+                    .isEqualTo(priceDBLDSSS);
+            System.out.println(RFQAppCommonCode.ANSI_RED +"      - Статус не появился: " + RFQAppCommonCode.ANSI_RESET
+                    + result + " -");
+        }
     }
 
 
