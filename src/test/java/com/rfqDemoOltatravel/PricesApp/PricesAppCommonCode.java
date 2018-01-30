@@ -29,6 +29,13 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         public static final String englishButton = languageSelectors + " button[data-switch-value=\"English\"]";
     }
 
+    public static final String servicesPriceTableXP = "//table[@id=\"service-prices\"]";
+    public static class ServicesPriceTable{
+        public static final String ServiceStringByNumber(int number){
+            return String.valueOf("//tbody//tr"+"["+number+"]");
+        }
+
+    }
 
     public static final String PRICESAPPLOGIN = "alexkudrya91@gmail.com";
     public static final String PRICESAPPPASSWORD = "password";

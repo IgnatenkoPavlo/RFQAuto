@@ -457,7 +457,19 @@ public class BaseScenario1 {
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);*/
 
-
+        System.out.println("[-] Проверяем, что Export to Word отключена: ");
+        //$(By.xpath(NewQuotationPage.Results.calculateButton)).scrollTo().click();
+        String result = $(By.xpath("//div[@class=\"footer-olta-rfq\"]//a[text()='Export to Word']")).getAttribute("class");
+        //System.out.println("Из Prices получили:"+priceDBLDS15+" в Totals:"+ result);
+        if (result.equals("disabled")){
+            System.out.println(RFQAppCommonCode.ANSI_GREEN+"      Ошибки нет, кнопка отключена + "+RFQAppCommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(result)
+                    .as("Check that Export to Word button is disabled")
+                    .isEqualTo("disabled");
+            System.out.println(RFQAppCommonCode.ANSI_RED +"      Кнопка не отключена: " + RFQAppCommonCode.ANSI_RESET
+                    + result + " -");
+        }
 
         //Запускаем расчёт
         System.out.print("[-] Запускаем расчёт: ");
@@ -516,7 +528,7 @@ public class BaseScenario1 {
         String priceDBLDSSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
 
         //Проверяем для группы 15 человек
-        String result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(2)")).getText();
+        result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(2)")).getText();
         result = result.substring(0, result.indexOf(' '));
         //System.out.println("Из Prices получили:"+priceDBLDS15+" в Totals:"+ result);
         if (result.equals(priceDBLDS15)){
@@ -571,6 +583,20 @@ public class BaseScenario1 {
                     + result + " -");
         }
 
+        System.out.println("[-] Проверяем, что Export to Word включена: ");
+        //$(By.xpath(NewQuotationPage.Results.calculateButton)).scrollTo().click();
+        result = "none";
+        result = $(By.xpath("//div[@class=\"footer-olta-rfq\"]//a[text()='Export to Word']")).getAttribute("href");
+        //System.out.println("Из Prices получили:"+priceDBLDS15+" в Totals:"+ result);
+        if (!result.equals("none")){
+            System.out.println(RFQAppCommonCode.ANSI_GREEN+"      Ошибки нет, кнопка включена + "+RFQAppCommonCode.ANSI_RESET);
+        } else {
+            softAssertions.assertThat(result)
+                    .as("Check that Export to Word button is enabled")
+                    .isNotEqualTo("none");
+            System.out.println(RFQAppCommonCode.ANSI_RED +"      Кнопка не включена: " + RFQAppCommonCode.ANSI_RESET
+                    + result + " -");
+        }
 
     }
 
