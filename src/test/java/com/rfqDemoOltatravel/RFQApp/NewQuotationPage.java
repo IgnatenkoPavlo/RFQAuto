@@ -7,9 +7,11 @@ import static com.codeborne.selenide.Selenide.$;
 public class NewQuotationPage extends QuotationListPage{
 
     public final static String quotationId = "#content span[class=\"grey-title\"] span";
+    public final static String quotationIdXP = "//div[@id=\"content\"]//span[@class=\"grey-title\"]//span";
     //public final static String clientName = "#content div[class=\"container-olta title-row\"] div[class=\"left-col\"] #clientName div[class=\"hover-block\"]";
     public final static String clientName = "#clientName";
     public final static String chooseClientNamePopup = "#clientName div[class=\"clients-list check-wrapper\"]";
+    public final static String chooseClientNamePopupXP = "//div[@id=\"clientName\"]//div[@class=\"clients-list check-wrapper\"]";
 
     public static class ChooseClientNamePopup{
 

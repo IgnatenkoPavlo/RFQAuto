@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
@@ -327,15 +328,32 @@ public class BaseScenario1 {
         System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
         $(By.cssSelector(NewQuotationPage.clientName)).click();
         $(By.cssSelector(NewQuotationPage.chooseClientNamePopup)).shouldBe(Condition.visible);
-        //$(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("Test Client\n");
-        $(By.cssSelector(NewQuotationPage.chooseClientNamePopup
+        $(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("test client");
+        /*try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        /*$(By.cssSelector(NewQuotationPage.chooseClientNamePopup
                 + " div[class=\"check-list scroll-pane\"] div[class=\"jspContainer\"] div[class=\"jspPane\"]"
-                + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).click();
+                + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).scrollTo().click();*/
+        $(By.xpath(NewQuotationPage.chooseClientNamePopupXP
+                + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
+                + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).shouldBe(Condition.visible).click();
+        $(By.xpath(NewQuotationPage.chooseClientNamePopupXP
+                + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
+                + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
         $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible);
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();
@@ -584,13 +602,29 @@ public class BaseScenario1 {
                     + result + " -");
         }
 
-        System.out.println("[-] Проверяем, что Export to Word включена: ");
+        System.out.println("[-] Проверяем, Export to Word: ");
         //$(By.xpath(NewQuotationPage.Results.calculateButton)).scrollTo().click();
         result = "none";
         result = $(By.xpath("//div[@class=\"footer-olta-rfq\"]//a[text()='Export to Word']")).getAttribute("href");
         //System.out.println("Из Prices получили:"+priceDBLDS15+" в Totals:"+ result);
         if (!result.equals("none")){
             System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Ошибки нет, кнопка включена + "+RFQAppCommonCode.ANSI_RESET);
+
+            //Проверяем, что можно скачать сформированную программу
+            System.out.println("[-] Проверяем, что можно скачать сформированную программу: ");
+            //Кликаем по линке
+            boolean fileIsDownloaded=true;
+            try {
+                $(By.xpath("//div[@class=\"footer-olta-rfq\"]//a[text()='Export to Word']")).download();
+            } catch (FileNotFoundException e) {
+                fileIsDownloaded=false;
+                softAssertions.assertThat("Yes")
+                        .as("Try to download exported to Word program")
+                        .isNotEqualTo("No");
+                System.out.println(RFQAppCommonCode.ANSI_RED +"      Не смог скачать программу: " + RFQAppCommonCode.ANSI_RESET
+                        + result + " -");
+                }
+            if(fileIsDownloaded){System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Програма скачана + "+RFQAppCommonCode.ANSI_RESET);}
         } else {
             softAssertions.assertThat(result)
                     .as("Check that Export to Word button is enabled")
@@ -598,6 +632,7 @@ public class BaseScenario1 {
             System.out.println(RFQAppCommonCode.ANSI_RED +"      Кнопка не включена: " + RFQAppCommonCode.ANSI_RESET
                     + result + " -");
         }
+
 
         //Кликаем Book This Program
         System.out.println("[-] Кликаем Book This Program: ");
