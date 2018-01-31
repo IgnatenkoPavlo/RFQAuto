@@ -93,7 +93,7 @@ public class OptionsPresentMealServices {
         System.out.println(RFQAppCommonCode.ANSI_GREEN+newQuotationID+RFQAppCommonCode.ANSI_RESET);
 
         //Выставляем имя клиента
-        System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
+        /*System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
         $(By.cssSelector(NewQuotationPage.clientName)).click();
         $(By.cssSelector(NewQuotationPage.chooseClientNamePopup)).shouldBe(Condition.visible);
         //$(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("Test Client\n");
@@ -101,7 +101,7 @@ public class OptionsPresentMealServices {
                 + " div[class=\"check-list scroll-pane\"] div[class=\"jspContainer\"] div[class=\"jspPane\"]"
                 + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(RFQAppCommonCode.OK);
+        System.out.println(RFQAppCommonCode.OK);*/
 
         //Выставляем Nights
         System.out.print("[-] Выставляем 1 ночь: ");

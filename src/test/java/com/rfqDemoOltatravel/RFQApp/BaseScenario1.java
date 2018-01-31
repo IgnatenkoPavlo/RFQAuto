@@ -325,7 +325,7 @@ public class BaseScenario1 {
         System.out.println(RFQAppCommonCode.ANSI_GREEN+newQuotationID+RFQAppCommonCode.ANSI_RESET);
 
         //Выставляем имя клиента
-        System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
+        /*System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
         $(By.cssSelector(NewQuotationPage.clientName)).click();
         $(By.cssSelector(NewQuotationPage.chooseClientNamePopup)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("test client");
@@ -333,18 +333,18 @@ public class BaseScenario1 {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         /*$(By.cssSelector(NewQuotationPage.chooseClientNamePopup
                 + " div[class=\"check-list scroll-pane\"] div[class=\"jspContainer\"] div[class=\"jspPane\"]"
                 + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).scrollTo().click();*/
-        $(By.xpath(NewQuotationPage.chooseClientNamePopupXP
+        /*$(By.xpath(NewQuotationPage.chooseClientNamePopupXP
                 + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
                 + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).shouldBe(Condition.visible).click();
         $(By.xpath(NewQuotationPage.chooseClientNamePopupXP
                 + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
                 + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(RFQAppCommonCode.OK);
+        System.out.println(RFQAppCommonCode.OK);*/
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
