@@ -348,12 +348,6 @@ public class BaseScenario1 {
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
         $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible);
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();
