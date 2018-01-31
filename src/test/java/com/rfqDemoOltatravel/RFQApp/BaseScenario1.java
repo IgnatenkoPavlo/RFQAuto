@@ -329,11 +329,11 @@ public class BaseScenario1 {
         $(By.cssSelector(NewQuotationPage.clientName)).click();
         $(By.cssSelector(NewQuotationPage.chooseClientNamePopup)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("test client");
-        /*try {
-            Thread.sleep(1000);
+        try {
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
         /*$(By.cssSelector(NewQuotationPage.chooseClientNamePopup
                 + " div[class=\"check-list scroll-pane\"] div[class=\"jspContainer\"] div[class=\"jspPane\"]"
                 + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).scrollTo().click();*/
