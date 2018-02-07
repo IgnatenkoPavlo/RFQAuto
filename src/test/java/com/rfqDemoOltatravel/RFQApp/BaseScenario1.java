@@ -370,7 +370,7 @@ public class BaseScenario1 {
         //Выбираем Present Meal Service
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
         $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).scrollTo().click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).hover().click();
         $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.Options.presentMealServiceFullBoard)).click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
