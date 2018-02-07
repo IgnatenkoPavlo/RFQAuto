@@ -352,8 +352,8 @@ public class BaseScenario1 {
         System.out.print("[-] Выставляем валюту - RUB: ");
         $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
         $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible);
-        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();
-        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();
+        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).hover().click();
+        //if(isWindows){$(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();}
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldNotBe(Condition.visible);
         RFQAppCommonCode.WaitForProgruzkaSilent();
 
