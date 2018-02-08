@@ -31,9 +31,13 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
 
     public static final String servicesPriceTableXP = "//table[@id=\"service-prices\"]";
     public static class ServicesPriceTable{
+        //public static final String firstServiceWithFixedPrice = servicesPriceTableXP + "//tbody//tr//";
+
         public static final String ServiceStringByNumber(int number){
             return String.valueOf("//tbody//tr"+"["+number+"]");
         }
+
+
 
     }
 
