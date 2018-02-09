@@ -106,6 +106,12 @@
             </properties>
         </profile>
         <profile>
+            <id>dk</id>
+            <properties>
+                <baseUrl>http://dk.rfq.com</baseUrl>
+            </properties>
+        </profile>
+        <profile>
             <id>prod</id>
             <properties>
                 <baseUrl>http://ak.rfq.com</baseUrl>
