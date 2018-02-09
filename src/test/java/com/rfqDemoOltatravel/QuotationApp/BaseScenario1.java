@@ -34,17 +34,7 @@ public class BaseScenario1 {
     @Before
     public void setUp() {
 
-        boolean isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
-
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{
-            driver = new ChromeDriver();
-            driver.manage().window().setSize(new Dimension(1920, 1080));
-        }
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }

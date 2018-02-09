@@ -1,9 +1,6 @@
 package com.rfqDemoOltatravel;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -75,6 +72,22 @@ public class CommonCode {
         }
 
         return result;
+    }
+
+    public ChromeDriver InitializeChromeDriver(){
+        ChromeDriver driver;
+        boolean isWindows=false;
+        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
+
+        if(isWindows){
+            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
+            driver = new ChromeDriver();
+            driver.manage().window().maximize();}
+        else{
+            driver = new ChromeDriver();
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+        }
+        return driver;
     }
 
 }
