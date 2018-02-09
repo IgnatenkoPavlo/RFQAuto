@@ -533,11 +533,31 @@ public class TestOfServicesAddition {
         String result2;
 
         //Удаляем лишние Service из дня 1
-        /*for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             ProgrammSection.DeleteLastMainService(1, 1);
         }
 
-        String[] dayNight = {"Night", "Day"};
+        //Проверка сервиса Guid
+        System.out.print("[-] Проверяем сервис: Guide");
+        if(!giudFixedPrice.equals("none") | !giudFixedPrice.equals("none")){
+            System.out.println();
+            //Добавляем Guide
+            System.out.print("[-] Добавляем сервис: Guide");
+            ProgrammSection.AddServiceByName(1, 1, "Guide");
+
+            if(!giudFixedPrice.equals("none")){
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).selectOptionContainingText(giudFixedPrice);
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+            }
+
+            NewQuotationPage.ProgrammSection.DeleteLastMainService(1, 1);
+        }
+        else {System.out.println(QuotationAppCommonCode.ANSI_RED+" - Значения для Гида получить не удалось"+QuotationAppCommonCode.ANSI_RESET);}
+
+        /*String[] dayNight = {"Night", "Day"};
         if(guidesValuesList.size()>0) {
             //Добавляем Guide
             System.out.print("[-] Добавляем сервис: Guide");
