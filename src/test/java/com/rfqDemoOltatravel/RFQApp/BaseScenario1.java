@@ -137,13 +137,13 @@ public class BaseScenario1 {
 
         //Открываем Москву
         System.out.print("[-] Открываем Москву");
-        $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\"MSK\"]")).click();
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем текущий год
         System.out.print("[-] Открываем текущий год");
-        $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -191,25 +191,25 @@ public class BaseScenario1 {
 
         //Открываем Москву
         System.out.print("[-] Открываем Москву");
-        $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\"MSK\"]")).click();
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем текущий год
         System.out.print("[-] Открываем текущий год");
-        $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Сохраняем цену за экскурсию - Бункер 42
         System.out.print("[-] Сохраняем цену за экскурсию - Бункер 42");
-        String priceForBunker42 = $(By.xpath("//table[@id=\"service-prices\"]//tbody//tr[@data-excursion-id=\"3\"]" +
+        String priceForBunker42 = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP+"//tbody//tr[@data-excursion-id=\"3\"]" +
                 "//td[@class=\"editable editable-service-price price\"]")).getText();
-        System.out.println(" "+priceForBunker42+" ");
+        //System.out.println(" "+priceForBunker42+" ");
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем Шоу
-        System.out.print("[-] Открываем Шоу");
+        /*System.out.print("[-] Открываем Шоу");
         $(By.id("shows")).click();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -230,7 +230,7 @@ public class BaseScenario1 {
         String priceForBolshoiTheatre = $(By.xpath("//table[@id=\"service-prices\"]//tbody//tr[@data-excursion-id=\"75\"]" +
                 "//td[@class=\"editable editable-service-price price\"]")).getText();
         System.out.println(" "+priceForBolshoiTheatre+" ");
-        System.out.println(RFQAppCommonCode.OK);
+        System.out.println(RFQAppCommonCode.OK);*/
 
         //Сохраняем цену за Гида
         System.out.print("[-] Открываем Цены для Гида");
@@ -239,23 +239,24 @@ public class BaseScenario1 {
 
         //Открываем Москву
         System.out.print("[-] Открываем Москву");
-        $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\"MSK\"]")).click();
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем текущий год
         System.out.print("[-] Открываем текущий год");
-        $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         System.out.print("[-] Открываем язык Английский:");
-        $(By.xpath("//div[@id=\"switch-lang\"]//button[@data-switch-value=\"English\"]")).click();
+        $(By.cssSelector(PricesAppCommonCode.LanguageSelection.englishButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         System.out.print("[-] Сохраняем сумму за - 1/2 DAY (4 HOURS):");
-        double guidePriceforHalfDay = Double.valueOf($(By.xpath("//table[@id=\"service-prices\"]//tbody//tr//td//a[contains(text(),'1/2 DAY (4 HOURS)')]/../../td[3]")).getText());
+        double guidePriceforHalfDay = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                +"//tbody//tr//td//a[contains(text(),'1/2 DAY (4 HOURS)')]/../../td[3]")).getText());
         //System.out.println(guidePriceforHalfDay);
         System.out.println(RFQAppCommonCode.OK);
 
@@ -266,23 +267,27 @@ public class BaseScenario1 {
 
         //Открываем Москву
         System.out.print("[-] Открываем Москву");
-        $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\"MSK\"]")).click();
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем текущий год
         System.out.print("[-] Открываем текущий год");
-        $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         System.out.print("[-] Сохраняем сумму за 1 час для автобуса до 18 человек:");
-        double transportPriceHourly18 = Double.valueOf($(By.xpath("//table[@id=\"service-prices\"]//tbody//tr[@data-max-load=\"18\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
+        double transportPriceHourly18 = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                + "//tbody//tr[@data-max-load=\"18\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]"
+                + "/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
         //System.out.println(transportPriceHourly18);
         System.out.println(RFQAppCommonCode.OK);
 
         System.out.print("[-] Сохраняем сумму за 1 час для автобуса до 44 человек:");
-        double transportPriceHourly44 = Double.valueOf($(By.xpath("//table[@id=\"service-prices\"]//tbody//tr[@data-max-load=\"44\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
+        double transportPriceHourly44 = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                + "//tbody//tr[@data-max-load=\"44\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]"
+                + "/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
         //System.out.println(transportPriceHourly44);
         System.out.println(RFQAppCommonCode.OK);
 
