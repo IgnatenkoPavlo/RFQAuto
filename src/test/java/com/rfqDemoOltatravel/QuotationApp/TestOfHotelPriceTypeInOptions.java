@@ -30,19 +30,13 @@ public class TestOfHotelPriceTypeInOptions {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    QuotationAppCommonCode quotationAppQuotationAppCommonCode = new QuotationAppCommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
     boolean isWindows=false;
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }
@@ -68,7 +62,7 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.println(props.getProperty("baseURL"));
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         System.out.println(QuotationAppCommonCode.OK);
 
 
@@ -80,14 +74,14 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         $(By.xpath("//span[contains(text(),'Loading')]")).shouldNot(exist);
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -112,6 +106,11 @@ public class TestOfHotelPriceTypeInOptions {
         Double generalMarge = 0.0;
         generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
+        System.out.println(QuotationAppCommonCode.OK);
+
+        //Сохраняем значение комиссии за бронь в SPB
+        System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");
+        Double registrationFeeForSPB = Double.valueOf($(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText());
         System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем Individual в Groups
@@ -303,17 +302,17 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем суммы для 3-х групп: 15, 20, 25
-        quotationAppQuotationAppCommonCode.SetValuesForServicesInProgram(150, 140, 130);
+        quotationAppCommonCode.SetValuesForServicesInProgram(150, 140, 130);
 
         double programServices[] = {0.0, 0.0, 0.0};
         double programDailyServices[] = {0.0, 0.0, 0.0};
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         System.out.println("[-] Считаем для Services:");
-        quotationAppQuotationAppCommonCode.GetSumsForServices(programServices);
+        quotationAppCommonCode.GetSumsForServices(programServices);
         System.out.println(QuotationAppCommonCode.OK);
         System.out.println("[-] Считаем для Daily Services:");
-        quotationAppQuotationAppCommonCode.GetSumsForDailyServices(programDailyServices);
+        quotationAppCommonCode.GetSumsForDailyServices(programDailyServices);
         System.out.println(QuotationAppCommonCode.OK);
 
         programServices[0] = programServices[0]/15.0;

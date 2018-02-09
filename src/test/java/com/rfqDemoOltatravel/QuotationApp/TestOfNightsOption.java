@@ -38,14 +38,8 @@ public class TestOfNightsOption {
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
 
@@ -108,6 +102,12 @@ public class TestOfNightsOption {
         //Выставляем курс Евро - 70.0
         Double rubEur = 70.0;
         OptionsTable.SetCurrencyRateForEUR(rubEur);
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем курс евро как "test" - получаем ошибку
         /*System.out.println("[-] Пробуем выставить курс евро как 'test'");

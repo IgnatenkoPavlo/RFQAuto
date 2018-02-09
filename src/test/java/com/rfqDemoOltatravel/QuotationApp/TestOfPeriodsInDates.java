@@ -39,14 +39,8 @@ public class TestOfPeriodsInDates {
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }
@@ -174,6 +168,12 @@ public class TestOfPeriodsInDates {
         generalMarge = Double.valueOf(($(By.cssSelector(NewQuotationPage.OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
         System.out.println(" - готово");
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Сохраняем значение комиссии за бронь в SPB
         System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");

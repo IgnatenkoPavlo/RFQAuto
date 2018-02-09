@@ -32,19 +32,13 @@ public class TestOfGroups {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    QuotationAppCommonCode quotationAppQuotationAppCommonCode = new QuotationAppCommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
     boolean isWindows=false;
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }
@@ -72,7 +66,7 @@ public class TestOfGroups {
         System.out.println(props.getProperty("baseURL"));
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         System.out.println(QuotationAppCommonCode.OK);
 
 
@@ -84,14 +78,14 @@ public class TestOfGroups {
         System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -107,6 +101,11 @@ public class TestOfGroups {
         //Выставляем курс Евро - 70.0
         Double rubEur = 70.0;
         OptionsTable.SetCurrencyRateForEUR(rubEur);
+
+        //Сохраняем значение комиссии за бронь в SPB
+        System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");
+        Double registrationFeeForSPB = Double.valueOf($(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText());
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем дату
         Instant nowDate = Instant.now();

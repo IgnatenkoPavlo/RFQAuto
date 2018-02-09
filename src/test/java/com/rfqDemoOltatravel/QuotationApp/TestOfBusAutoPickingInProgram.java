@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,14 +38,8 @@ public class TestOfBusAutoPickingInProgram {
 
     @Before
     public void setUp() {
-        boolean isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }
@@ -113,6 +108,12 @@ public class TestOfBusAutoPickingInProgram {
         //Меняем колличество ночей на 1
         final int nightNumber = 1;
         OptionsTable.SetNumberOfNightsInOptions(nightNumber);
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         System.out.print("[-] Удаляем группу - 15 человек:");
         $(By.xpath(GroupsTable.GetGroupByNumberDeleteButtonREG(1))).scrollTo().click();

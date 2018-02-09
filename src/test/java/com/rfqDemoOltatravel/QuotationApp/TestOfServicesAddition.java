@@ -35,14 +35,8 @@ public class TestOfServicesAddition {
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }
@@ -112,25 +106,25 @@ public class TestOfServicesAddition {
         } else {
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             //Выбираем город - MSK
-            System.out.print("[-] Выбираем город - MSK");
+            System.out.print("        Выбираем город - MSK");
             $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             System.out.println(QuotationAppCommonCode.OK);
 
             //Выбираем год - 2018
-            System.out.print("[-] Выбираем год - 2018");
+            System.out.print("        Выбираем год - 2018");
             $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             System.out.println(QuotationAppCommonCode.OK);
 
             //Выбираем язык - English
-            System.out.print("[-] Выбираем язык - English");
+            System.out.print("        Выбираем язык - English");
             $(By.cssSelector(PricesAppCommonCode.LanguageSelection.englishButton)).scrollTo().click();
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             System.out.println(QuotationAppCommonCode.OK);
 
             //Сохраняем позицию для Guid с fixed price
-            System.out.print("[-] Сохраняем позицию для Guid с fixed price ");
+            System.out.print("        Сохраняем позицию для Guid с fixed price ");
             $(By.xpath(PricesAppCommonCode.ServicesPriceTable.ServiceStringByNumber(1))).scrollTo();
             numberOfValues = $$(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                     +"//tbody//tr")).size();
@@ -148,7 +142,7 @@ public class TestOfServicesAddition {
             System.out.println(PricesAppCommonCode.OK);
 
             //Сохраняем позицию для Guid с hourly price
-            System.out.print("[-] Сохраняем позицию для Guid с hourly price ");
+            System.out.print("        Сохраняем позицию для Guid с hourly price ");
             $(By.xpath(PricesAppCommonCode.ServicesPriceTable.ServiceStringByNumber(1))).scrollTo();
             numberOfValues = $$(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                     +"//tbody//tr")).size();
@@ -183,19 +177,19 @@ public class TestOfServicesAddition {
         } else {
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             //Выбираем город - MSK
-            System.out.print("[-] Выбираем город - MSK");
+            System.out.print("        Выбираем город - MSK");
             $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             System.out.println(QuotationAppCommonCode.OK);
 
             //Выбираем год - 2018
-            System.out.print("[-] Выбираем год - 2018");
+            System.out.print("        Выбираем год - 2018");
             $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
             QuotationAppCommonCode.WaitForProgruzkaSilent();
             System.out.println(QuotationAppCommonCode.OK);
 
             //Сохраняем позицию для Excursion с Headphones
-            System.out.print("[-] Сохраняем позицию для Excursion с Headphones ");
+            System.out.print("        Сохраняем позицию для Excursion с Headphones ");
             $(By.xpath(PricesAppCommonCode.ServicesPriceTable.ServiceStringByNumber(1))).scrollTo();
             numberOfValues = $$(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                     +"//tbody//tr")).size();
@@ -218,7 +212,7 @@ public class TestOfServicesAddition {
             System.out.println(PricesAppCommonCode.OK);
 
             //Сохраняем позицию для Excursion без Headphones
-            System.out.print("[-] Сохраняем позицию для Excursion без Headphones ");
+            System.out.print("        Сохраняем позицию для Excursion без Headphones ");
             $(By.xpath(PricesAppCommonCode.ServicesPriceTable.ServiceStringByNumber(1))).scrollTo();
             numberOfValues = $$(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                     +"//tbody//tr")).size();
@@ -240,11 +234,165 @@ public class TestOfServicesAddition {
             }
             //System.out.println(excurtionWithoutHeadphones);
             System.out.println(PricesAppCommonCode.OK);
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
+        //Открываем Открываем сервисы Meal
+        System.out.println("[-] Открываем сервисы Meal:");
+        $(By.cssSelector("li[id=\"meal\"]")).click();
+        String mealTypeHotelType = "none";
+        String mealTypeWorldKitchenType = "none";
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Meal list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Meal пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+            //Выбираем город - MSK
+            System.out.print("        Выбираем город - MSK");
+            $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Выбираем год - 2018
+            System.out.print("        Выбираем год - 2018");
+            $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Сохраняем Meal с типом питания аналогично типам отелей
+            System.out.print("        Сохраняем Meal с типом питания аналогично типам отелей ");
+            mealTypeHotelType = "BREAKFAST AT THE HOTEL";
+            System.out.print(" хардкод ");
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Сохраняем Meal с типом питания - кухни мира
+            System.out.print("        Сохраняем Meal с типом питания - кухни мира ");
+            mealTypeWorldKitchenType = "BREAKFAST AT THE RESTAURANT";
+            System.out.print(" хардкод ");
+            System.out.println(QuotationAppCommonCode.OK);
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+
+        //Открываем Открываем сервисы Train Tickets
+        System.out.println("[-] Открываем сервисы Train Tickets:");
+        $(By.cssSelector("li[id=\"train-tickets\"]")).click();
+        String trainTicketsCustom = "none";
+        String trainTicketsRegular = "none";
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Train Tickets list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Train Tickets пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+            //Выбираем город - MSK
+            System.out.print("        Выбираем город - MSK");
+            $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Выбираем год - 2018
+            System.out.print("        Выбираем год - 2018");
+            $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Сохраняем Train Tickets с типом питания аналогично типам отелей
+            System.out.print("        Сохраняем Train Tickets с типом Custom ");
+            trainTicketsCustom = "CUSTOM";
+            System.out.print(" хардкод ");
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Сохраняем Train Tickets с типом питания - кухни мира
+            System.out.print("        Сохраняем Train Tickets с типом Night Train ");
+            trainTicketsRegular = "NIGHT TRAIN MOSCOW - SAINT PETERSBURG";
+            System.out.print(" хардкод ");
+            System.out.println(QuotationAppCommonCode.OK);
 
         }
         QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+
+        //Открываем Открываем сервисы Flight Tickets
+        System.out.println("[-] Открываем сервисы Flight Tickets:");
+        $(By.cssSelector("li[id=\"flight-tickets\"]")).click();
+        String flightTicketsRegular = "none";
+        String flightTicketsCustom = "none";
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Flight Tickets list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Flight Tickets пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+            //Выбираем город - MSK
+            System.out.print("        Выбираем город - MSK");
+            $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Выбираем год - 2018
+            System.out.print("        Выбираем год - 2018");
+            $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Сохраняем Flight Tickets с типом питания аналогично типам отелей
+            //System.out.print("[-] Сохраняем Train Tickets с типом Custom ");
+            //flightTicketsCustom = "CUSTOM";
+            //System.out.println("хардкод");
+            //System.out.println(" - готово");
+
+            //Сохраняем Flight Tickets с типом питания - кухни мира
+            System.out.print("        Сохраняем Flight Tickets с типом FLIGHT MOSCOW ");
+            flightTicketsRegular = "FLIGHT MOSCOW-SAINT PETERSBURG";
+            System.out.print(" хардкод ");
+            System.out.println(QuotationAppCommonCode.OK);
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+
+        //Открываем Открываем сервисы Shows
+        System.out.println("[-] Открываем сервисы Shows:");
+        $(By.cssSelector("li[id=\"shows\"]")).click();
+        String showWithHeadphones = "none";
+        String showWithoutheadphones = "none";
+        errorText = quotationAppCommonCode.GetJSErrorText(driver);
+        if (!errorText.equals("none")){
+            softAssertions.assertThat(errorText)
+                    .as("Try to open Shows list")
+                    .isEqualTo("none");
+            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Shows пуст, или ошибка при открытии - "
+                    + QuotationAppCommonCode.ANSI_RESET);
+        } else {
+
+            //Выбираем город - MSK
+            System.out.print("        Выбираем город - MSK");
+            $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Выбираем год - 2018
+            System.out.print("        Выбираем год - 2018");
+            $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+            System.out.println(QuotationAppCommonCode.OK);
+
+            //Сохраняем позицию для Excursion без Headphones
+            System.out.print("        Сохраняем позицию для Excursion без Headphones ");
+            showWithoutheadphones = "BOLSHOI THEATRE (BALLET)";
+            System.out.print(" хардкод ");
+            System.out.println(QuotationAppCommonCode.OK);
+
+        }
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         String tempValue;
         //Открываем Intercity Guides
@@ -258,32 +406,6 @@ public class TestOfServicesAddition {
             System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Intercity Guides пуст, или ошибка при открытии - "
                     + QuotationAppCommonCode.ANSI_RESET);
         } else {
-
-        }
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
-
-        //Открываем Открываем сервисы Shows
-        System.out.print("[-] Открываем сервисы Shows:");
-        $(By.cssSelector("li[id=\"shows\"]")).click();
-        errorText = quotationAppCommonCode.GetJSErrorText(driver);
-        List<String> showsValuesList = new ArrayList<>();
-        if (!errorText.equals("none")){
-            softAssertions.assertThat(errorText)
-                    .as("Try to open Shows list")
-                    .isEqualTo("none");
-            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Shows пуст, или ошибка при открытии - "
-                    + QuotationAppCommonCode.ANSI_RESET);
-        } else {
-            $(By.xpath(PricesAppCommonCode.ServicesPriceTable.ServiceStringByNumber(1))).scrollTo();
-            numberOfValues = $$(By.xpath(PricesAppCommonCode.servicesPriceTableXP
-                    +"//tbody//tr")).size();
-            //System.out.println(numberOfValues);
-            for(int i=1;i<=numberOfValues;i++){
-                showsValuesList.add(String.valueOf($(By.xpath(PricesAppCommonCode.ServicesPriceTable.ServiceStringByNumber(i)
-                        +"//td[@class=\"name\"]//a")).getText()));
-            }
-            System.out.println(showsValuesList);
 
         }
         QuotationAppCommonCode.WaitForProgruzkaSilent();
@@ -305,56 +427,8 @@ public class TestOfServicesAddition {
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");
 
-        //Открываем Открываем сервисы Meal
-        System.out.print("[-] Открываем сервисы Meal:");
-        $(By.cssSelector("li[id=\"meal\"]")).click();
-        errorText = quotationAppCommonCode.GetJSErrorText(driver);
-        if (!errorText.equals("none")){
-            softAssertions.assertThat(errorText)
-                    .as("Try to open Meal list")
-                    .isEqualTo("none");
-            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Meal пуст, или ошибка при открытии - "
-                    + QuotationAppCommonCode.ANSI_RESET);
-        } else {
-
-        }
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
-
-        //Открываем Открываем сервисы Train Tickets
-        System.out.print("[-] Открываем сервисы Train Tickets:");
-        $(By.cssSelector("li[id=\"train-tickets\"]")).click();
-        errorText = quotationAppCommonCode.GetJSErrorText(driver);
-        if (!errorText.equals("none")){
-            softAssertions.assertThat(errorText)
-                    .as("Try to open Train Tickets list")
-                    .isEqualTo("none");
-            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Train Tickets пуст, или ошибка при открытии - "
-                    + QuotationAppCommonCode.ANSI_RESET);
-        } else {
-
-        }
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
-
-        //Открываем Открываем сервисы Flight Tickets
-        System.out.print("[-] Открываем сервисы Flight Tickets:");
-        $(By.cssSelector("li[id=\"flight-tickets\"]")).click();
-        errorText = quotationAppCommonCode.GetJSErrorText(driver);
-        if (!errorText.equals("none")){
-            softAssertions.assertThat(errorText)
-                    .as("Try to open Flight Tickets list")
-                    .isEqualTo("none");
-            System.out.println(QuotationAppCommonCode.ANSI_RED+"      Список Flight Tickets пуст, или ошибка при открытии - "
-                    + QuotationAppCommonCode.ANSI_RESET);
-        } else {
-
-        }
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
-
         //Открываем Открываем сервисы Transfers
-        System.out.print("[-] Открываем сервисы Transfers:");
+        System.out.println("[-] Открываем сервисы Transfers:");
         $(By.cssSelector("li[id=\"transfers\"]")).click();
         errorText = quotationAppCommonCode.GetJSErrorText(driver);
         if (!errorText.equals("none")){
@@ -386,7 +460,7 @@ public class TestOfServicesAddition {
         System.out.println(" - готово");
 
         //Открываем Открываем сервисы Special
-        System.out.print("[-] Открываем сервисы Special:");
+        System.out.println("[-] Открываем сервисы Special:");
         $(By.cssSelector("li[id=\"custom\"]")).click();
         errorText = quotationAppCommonCode.GetJSErrorText(driver);
         if (!errorText.equals("none")){
@@ -403,7 +477,7 @@ public class TestOfServicesAddition {
 
 
         //Открываем Quotation приложение
-        /*System.out.print("[-] Открываем Quotation приложение");
+        System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL") + "/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
         quotationAppCommonCode.WaitForPageToLoad(driver);
@@ -426,6 +500,12 @@ public class TestOfServicesAddition {
         //Выставляем колество ночей - 1
         int nightInOptionsCounter = 1;
         NewQuotationPage.OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем дату
         Instant nowDate = Instant.now();
@@ -452,8 +532,8 @@ public class TestOfServicesAddition {
         String result;
         String result2;
 
-        //Удаляем лишние Service из дня
-        for (int i = 1; i <= 3; i++) {
+        //Удаляем лишние Service из дня 1
+        /*for (int i = 1; i <= 3; i++) {
             ProgrammSection.DeleteLastMainService(1, 1);
         }
 

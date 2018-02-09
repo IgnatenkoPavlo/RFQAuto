@@ -33,14 +33,8 @@ public class TestOfGuidesLanguageSwitching {
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
     }
@@ -154,6 +148,11 @@ public class TestOfGuidesLanguageSwitching {
         //Выставляем колество ночей - 2
         int nightInOptionsCounter = 2;
         OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
+
+        //Сохраняем значение комиссии за бронь в SPB
+        System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");
+        Double registrationFeeForSPB = Double.valueOf($(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText());
+        System.out.println(QuotationAppCommonCode.OK);
 
         System.out.print("[-] Сохраняем маржу");
         Double generalMarge = 0.0;

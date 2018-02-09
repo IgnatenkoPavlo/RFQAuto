@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.FileInputStream;
@@ -33,19 +34,13 @@ public class TestOfFreeTourLeaders {
     public ChromeDriver driver;
 
     private SoftAssertions softAssertions;
-    QuotationAppCommonCode quotationAppQuotationAppCommonCode = new QuotationAppCommonCode();
+    QuotationAppCommonCode quotationAppCommonCode = new QuotationAppCommonCode();
     boolean isWindows=false;
 
     @Before
     public void setUp() {
-        isWindows=false;
-        if(System.getProperty("os.name").toLowerCase().indexOf("win")>=0){isWindows=true;}
 
-        if(isWindows){
-            System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        driver = quotationAppCommonCode.InitializeChromeDriver();
 
         softAssertions = new SoftAssertions();
 
@@ -75,7 +70,7 @@ public class TestOfFreeTourLeaders {
         selenideConfig.timeout = 30000;
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL"));
         open(props.getProperty("baseURL"));
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         System.out.println(QuotationAppCommonCode.OK);
 
 
@@ -87,14 +82,14 @@ public class TestOfFreeTourLeaders {
         System.out.println(QuotationAppCommonCode.OK);
 
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzka();
 
         //Открываем Quotation приложение
         System.out.print("[-] Открываем Quotation приложение");
         open(props.getProperty("baseURL")+"/application/olta.quotation");
         //Ждём пока загрузится страница и проподёт "Loading..."
-        quotationAppQuotationAppCommonCode.WaitForPageToLoad(driver);
+        quotationAppCommonCode.WaitForPageToLoad(driver);
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -127,6 +122,12 @@ public class TestOfFreeTourLeaders {
         Double generalMarge = 0.0;
         generalMarge = Double.valueOf(($(By.cssSelector(OptionsTable.generalMarge)).getText()).replace(',', '.'));
         //System.out.println(generalMarge);
+        System.out.println(QuotationAppCommonCode.OK);
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем дату
@@ -193,17 +194,17 @@ public class TestOfFreeTourLeaders {
         Double programServicesFor25 = 25.0;
 
         //Выставляем суммы для 3-х групп: 15, 20, 25
-        quotationAppQuotationAppCommonCode.SetValuesForServicesInProgram(150, 140, 25);
+        quotationAppCommonCode.SetValuesForServicesInProgram(150, 140, 25);
 
         double programServices[] = {0.0, 0.0, 0.0};
         double programDailyServices[] = {0.0, 0.0, 0.0};
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         System.out.println("[-] Считаем для Services:");
-        quotationAppQuotationAppCommonCode.GetSumsForServices(programServices);
+        quotationAppCommonCode.GetSumsForServices(programServices);
         System.out.println(QuotationAppCommonCode.OK);
         System.out.println("[-] Считаем для Daily Services:");
-        quotationAppQuotationAppCommonCode.GetSumsForDailyServices(programDailyServices);
+        quotationAppCommonCode.GetSumsForDailyServices(programDailyServices);
         System.out.println(QuotationAppCommonCode.OK);
 
         programServices[0] = programServices[0]/15.0;
@@ -405,17 +406,17 @@ public class TestOfFreeTourLeaders {
         programServicesFor25 = 25.0;
 
         //Выставляем суммы для 3-х групп: 15, 20, 25
-        quotationAppQuotationAppCommonCode.SetValuesForServicesInProgram(250, 200, 150);
+        quotationAppCommonCode.SetValuesForServicesInProgram(250, 200, 150);
 
         Arrays.fill(programServices, 0.0);
         Arrays.fill(programDailyServices, 0.0);
 
         System.out.println("[-] Считаем суммы для 3-х групп: 15, 20, 25");
         System.out.println("[-] Считаем для Services:");
-        quotationAppQuotationAppCommonCode.GetSumsForServices(programServices);
+        quotationAppCommonCode.GetSumsForServices(programServices);
         System.out.println(QuotationAppCommonCode.OK);
         System.out.println("[-] Считаем для Daily Services:");
-        quotationAppQuotationAppCommonCode.GetSumsForDailyServices(programDailyServices);
+        quotationAppCommonCode.GetSumsForDailyServices(programDailyServices);
         System.out.println(QuotationAppCommonCode.OK);
 
         programServices[0] = programServices[0]/15.0;
