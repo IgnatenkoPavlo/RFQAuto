@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.FileInputStream;
@@ -40,7 +41,10 @@ public class BaseScenario1 {
             System.setProperty("webdriver.chrome.driver", "C:\\Automation\\chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().window().maximize();}
-        else{driver = new ChromeDriver();}
+        else{
+            driver = new ChromeDriver();
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+        }
 
         softAssertions = new SoftAssertions();
     }
@@ -114,6 +118,12 @@ public class BaseScenario1 {
 
         //Меняем колличество ночей в Options на 3
         OptionsTable.SetNumberOfNightsInOptions(3);
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
 
         //Добавляем новую дату, дата берётся "сегодня"
         //Получаем текущую дату
