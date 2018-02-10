@@ -105,8 +105,8 @@ public class BaseScenario1 {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue(PricesAppCommonCode.PRICESAPPLOGIN);
-        $(By.id("password")).setValue(PricesAppCommonCode.PRICESAPPPASSWORD);
+        $(By.id("username")).setValue(props.getProperty("pricesAppLogin"));
+        $(By.id("password")).setValue(props.getProperty("pricesAppPassword"));
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -305,8 +305,8 @@ public class BaseScenario1 {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue(RFQAppCommonCode.RFQAPPLOGIN);
-        $(By.id("password")).setValue(RFQAppCommonCode.RFQAPPPASSWORD);
+        $(By.id("username")).setValue(props.getProperty("rfqAppLogin"));
+        $(By.id("password")).setValue(props.getProperty("rfqAppPassword"));
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(RFQAppCommonCode.OK);
 
