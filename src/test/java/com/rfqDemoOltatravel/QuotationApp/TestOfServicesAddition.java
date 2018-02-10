@@ -70,8 +70,8 @@ public class TestOfServicesAddition {
 
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
-        $(By.id("username")).setValue(QuotationAppCommonCode.QUOTATIONAPPLOGIN);
-        $(By.id("password")).setValue(QuotationAppCommonCode.QUOTATIONAPPPASSWORD);
+        $(By.id("username")).setValue(props.getProperty("quotationAppLogin"));
+        $(By.id("password")).setValue(props.getProperty("quotationAppPassword"));
         $(By.cssSelector("button[type=\"submit\"]")).click();
         System.out.println(QuotationAppCommonCode.OK);
 

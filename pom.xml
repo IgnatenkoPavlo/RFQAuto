@@ -94,6 +94,12 @@
             <id>demo</id>
             <properties>
                 <baseUrl>http://rfq-demo.oltatravel.com</baseUrl>
+                <quotationAppLogin>alexkudrya91@gmail.com</quotationAppLogin>
+                <quotationAppPassword>password</quotationAppPassword>
+                <pricesAppLogin>alexkudrya91@gmail.com</pricesAppLogin>
+                <pricesAppPassword>password</pricesAppPassword>
+                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppPassword>password</rfqAppPassword>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -103,18 +109,36 @@
             <id>ak</id>
             <properties>
                 <baseUrl>http://ak.rfq.com</baseUrl>
+                <quotationAppLogin></quotationAppLogin>
+                <quotationAppPassword>password</quotationAppPassword>
+                <pricesAppLogin></pricesAppLogin>
+                <pricesAppPassword>password</pricesAppPassword>
+                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppPassword>password</rfqAppPassword>
             </properties>
         </profile>
         <profile>
             <id>dk</id>
             <properties>
                 <baseUrl>http://dk.rfq.com</baseUrl>
+                <quotationAppLogin>alexander.babayev@oltatravel.ru</quotationAppLogin>
+                <quotationAppPassword>password</quotationAppPassword>
+                <pricesAppLogin>alexander.babayev@oltatravel.ru</pricesAppLogin>
+                <pricesAppPassword>password</pricesAppPassword>
+                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppPassword>password</rfqAppPassword>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
                 <baseUrl>http://ak.rfq.com</baseUrl>
+                <quotationAppLogin></quotationAppLogin>
+                <quotationAppPassword>password</quotationAppPassword>
+                <pricesAppLogin></pricesAppLogin>
+                <pricesAppPassword>password</pricesAppPassword>
+                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppPassword>password</rfqAppPassword>
             </properties>
         </profile>
     </profiles>
