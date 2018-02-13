@@ -69,7 +69,6 @@ public class TestOfGroups {
         quotationAppCommonCode.WaitForPageToLoad(driver);
         System.out.println(QuotationAppCommonCode.OK);
 
-
         //Вводим логин с паролем и кликаем Логин
         System.out.print("[-] Вводим логин с паролем и кликаем Логин");
         $(By.id("username")).setValue(props.getProperty("quotationAppLogin"));
@@ -105,6 +104,12 @@ public class TestOfGroups {
         //Сохраняем значение комиссии за бронь в SPB
         System.out.print("[-] Сохраняем значение комиссии за бронь в SPB");
         Double registrationFeeForSPB = Double.valueOf($(By.cssSelector(OptionsTable.registrationFeeForSPB)).getText());
+        System.out.println(QuotationAppCommonCode.OK);
+
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
         //Выставляем дату

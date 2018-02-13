@@ -396,7 +396,7 @@ public class TestOfServicesAddition {
 
         String tempValue;
         //Открываем Intercity Guides
-        System.out.println("[-] Открываем сервисы Intercity Guides:");
+        /*System.out.println("[-] Открываем сервисы Intercity Guides:");
         $(By.cssSelector("li[id=\"guides\"]:nth-of-type(2)")).click();
         errorText = quotationAppCommonCode.GetJSErrorText(driver);
         if (!errorText.equals("none")){
@@ -473,7 +473,7 @@ public class TestOfServicesAddition {
 
         }
         QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(" - готово");*/
 
 
         //Открываем Quotation приложение
@@ -546,75 +546,137 @@ public class TestOfServicesAddition {
             ProgrammSection.AddServiceByName(1, 1, "Guide");
 
             if(!giudFixedPrice.equals("none")){
+                System.out.print("    Выставляем Guide fixed price");
                 $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                         + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                         + ProgrammSection.serviceCriteriaNameREG)).selectOptionContainingText(giudFixedPrice);
                 QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+
+                //Выставляем rate - night
+                System.out.print("        Выставляем rate - night");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaRateREG)).selectOptionContainingText("Night");
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+
+                //Выставляем rate - day
+                System.out.print("        Выставляем rate - day");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaRateREG)).selectOptionContainingText("Day");
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+
+                //Проверяем что поле hours скрыто
+                System.out.print("        Проверяем что поле hours скрыто");
+                result="none1";
+                result = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("style");
+                //System.out.println("result= "+result);
+                if(result.toLowerCase().indexOf("display: none")>=0){
+                    System.out.println(QuotationAppCommonCode.OK);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+" Поле hours не скрыто"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that hours field is hidden for "+ giudFixedPrice)
+                            .isEqualTo("none");
+                }
             }
 
+            if(!guidHourlyPrice.equals("none")){
+                System.out.print("    Выставляем Guide hourly price");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).selectOptionContainingText(guidHourlyPrice);
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+
+                //Выставляем rate - night
+                System.out.print("        Выставляем rate - night");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaRateREG)).selectOptionContainingText("Night");
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+
+                //Выставляем rate - day
+                System.out.print("        Выставляем rate - day");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaRateREG)).selectOptionContainingText("Day");
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+
+                //Проверяем что поле hours доступно
+                System.out.print("        Проверяем что поле hours доступно");
+                result="none";
+                result = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getAttribute("style");
+                if(result.toLowerCase().indexOf("display: inline-block")>=0){
+                    System.out.println(QuotationAppCommonCode.OK);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+" Поле hours скрыто"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check that hours field is enabled for "+ giudFixedPrice)
+                            .isEqualTo("inline-block");
+                }
+            }
             NewQuotationPage.ProgrammSection.DeleteLastMainService(1, 1);
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
         }
         else {System.out.println(QuotationAppCommonCode.ANSI_RED+" - Значения для Гида получить не удалось"+QuotationAppCommonCode.ANSI_RESET);}
 
-        /*String[] dayNight = {"Night", "Day"};
-        if(guidesValuesList.size()>0) {
-            //Добавляем Guide
-            System.out.print("[-] Добавляем сервис: Guide");
-            ProgrammSection.AddServiceByName(1, 1, "Guide");
-            for (Object dropDownValue1 : guidesValuesList) {
-                System.out.println("    - Пробуем выставить: " + dropDownValue1);
-                temp1 = true;
-                try {
-                    $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
-                            + ProgrammSection.GetACityByNumberREG(1)
-                            + ProgrammSection.GetMainServiceByNumberREG(1)
-                            + "/td[@class=\"criteria\"]/select[@class=\"serviceName\"]")).scrollTo().selectOptionContainingText(String.valueOf(dropDownValue1));
-                } catch (ElementNotFound e) {
-                    //e.printStackTrace();
-                    //System.out.println(QuotationAppCommonCode.ANSI_RED+" - Не смог выбрать "+dropDownValues[dropDownValuesCounter]+QuotationAppCommonCode.ANSI_RESET);
-                    softAssertions.assertThat("No")
-                            .as("Try to add service " + dropDownValue1)
-                            .isEqualTo("Yes");
-                    temp1 = false;
+        // excurtionWithHeadphones = "none";
+        //String excurtionWithoutHeadphones = "none";
 
-                    //System.out.println(e);
-                }
+        //Проверка сервиса Excursion
+        System.out.println("[-] Проверяем сервис: Excursion");
+        if(!excurtionWithHeadphones.equals("none") | !excurtionWithoutHeadphones.equals("none")){
+            System.out.print("[-] Добавляем сервис: Excursion");
+            ProgrammSection.AddServiceByName(1, 1, "Excursion");
 
-                if (temp1) {
-                    QuotationAppCommonCode.WaitForProgruzkaSilent();
-                    for (String aDayNight : dayNight) {
-                        System.out.print("        - Пробуем выставить: " + aDayNight);
-                        temp2 = true;
-                        try {
-                            $(By.xpath(ProgrammSection.GetADayByNumberREG(1)
-                                    + ProgrammSection.GetACityByNumberREG(1)
-                                    + ProgrammSection.GetMainServiceByNumberREG(1)
-                                    + "/td[@class=\"criteria\"]/select[@class=\"rate2\"]")).scrollTo().selectOptionContainingText(aDayNight);
-                        } catch (ElementNotFound e) {
-                            //e.printStackTrace();
-                            temp2 = false;
-                            System.out.println(QuotationAppCommonCode.ANSI_RED + " - Не смог выбрать " + aDayNight + QuotationAppCommonCode.ANSI_RESET);
-                            softAssertions.assertThat("No")
-                                    .as("Try to add service " + aDayNight)
-                                    .isEqualTo("Yes");
+            if(!excurtionWithHeadphones.equals("none")){
+                System.out.print("    Выставляем Excursion c обязательным Headphones");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).selectOptionContainingText(excurtionWithHeadphones);
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
 
+                //Проверяем что добавились автосервисы
+                //Проверяем что количество часов в автотсервисах соответствует Duration экскурси
+                //Ролверяем что при изменении Duration меняется hours у guid и transport
+                //Проверяем что автосервисы можно отключить
 
-                            //System.out.println(e);
-                        }
-                        if (temp2) {
-                            QuotationAppCommonCode.WaitForProgruzkaSilent();
-                            System.out.println(QuotationAppCommonCode.OK);
-                        } else {
-                            System.out.println(QuotationAppCommonCode.ANSI_RED + "    - При добавлении были ошибки." + QuotationAppCommonCode.ANSI_RESET);
-                        }
-                    }
-
-                } else {
-                    System.out.println(QuotationAppCommonCode.ANSI_RED + "    - Не смог выбрать " + dropDownValue1 + QuotationAppCommonCode.ANSI_RESET);
-                }
             }
-        }*/
+
+            if(!excurtionWithoutHeadphones.equals("none")){
+                System.out.print("    Выставляем Excursion без обязательного Headphones");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaNameREG)).selectOptionContainingText(excurtionWithoutHeadphones);
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                System.out.println(QuotationAppCommonCode.OK);
+            }
+
+            NewQuotationPage.ProgrammSection.DeleteLastMainService(1, 1);
+            QuotationAppCommonCode.WaitForProgruzkaSilent();
+        }
+        else {System.out.println(QuotationAppCommonCode.ANSI_RED+" - Значения для Экскурсии получить не удалось"+QuotationAppCommonCode.ANSI_RESET);}
 
     }
 

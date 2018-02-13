@@ -105,6 +105,12 @@ public class TestOfAccommodations {
         int nightInOptionsCounter = 5;
         OptionsTable.SetNumberOfNightsInOptions(nightInOptionsCounter);
 
+        //Выставляем Present Meal Services = FB
+        System.out.print("[-] Выставляем Present Meal Services = FB ");
+        $(By.cssSelector(NewQuotationPage.OptionsTable.presentMealServices)).selectOptionContainingText("FB");
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);
+
         //Выставляем дату
         Instant nowDate = Instant.now();
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
