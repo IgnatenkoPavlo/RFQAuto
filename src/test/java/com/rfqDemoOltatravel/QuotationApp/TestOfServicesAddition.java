@@ -94,7 +94,7 @@ public class TestOfServicesAddition {
         String guidHourlyPrice = "none";
         
         //Открываем Открываем сервисы Guides
-        System.out.println("[-] Открываем сервисы Guides:");
+        /*System.out.println("[-] Открываем сервисы Guides:");
         $(By.cssSelector("li[id=\"guides\"]")).click();
         errorText = quotationAppCommonCode.GetJSErrorText(driver);
         if (!errorText.equals("none")){
@@ -158,7 +158,7 @@ public class TestOfServicesAddition {
             }
             System.out.println(PricesAppCommonCode.OK);
         }
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();*/
         //System.out.println(PricesAppCommonCode.OK);
 
         //Открываем Открываем сервисы Excursions
@@ -238,7 +238,7 @@ public class TestOfServicesAddition {
         QuotationAppCommonCode.WaitForProgruzkaSilent();
 
         //Открываем Открываем сервисы Meal
-        System.out.println("[-] Открываем сервисы Meal:");
+        /*System.out.println("[-] Открываем сервисы Meal:");
         $(By.cssSelector("li[id=\"meal\"]")).click();
         String mealTypeHotelType = "none";
         String mealTypeWorldKitchenType = "none";
@@ -392,7 +392,7 @@ public class TestOfServicesAddition {
             System.out.println(QuotationAppCommonCode.OK);
 
         }
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        */
 
         String tempValue;
         //Открываем Intercity Guides
@@ -644,7 +644,7 @@ public class TestOfServicesAddition {
         //Проверка сервиса Excursion
         System.out.println("[-] Проверяем сервис: Excursion");
         if(!excurtionWithHeadphones.equals("none") | !excurtionWithoutHeadphones.equals("none")){
-            System.out.print("[-] Добавляем сервис: Excursion");
+            System.out.print("    Добавляем сервис: Excursion");
             ProgrammSection.AddServiceByName(1, 1, "Excursion");
 
             if(!excurtionWithHeadphones.equals("none")){
@@ -657,20 +657,199 @@ public class TestOfServicesAddition {
                 System.out.println(QuotationAppCommonCode.OK);
 
                 //Проверяем что добавились автосервисы
+                System.out.print("        Считаем колличество автосервисов:");
+                result = String.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + "//table[@class=\"services\"]/tbody[@class=\"auto\"]/tr")).size());
+                //System.out.println(result);
+                if(result.equals("3")){
+                    System.out.println(QuotationAppCommonCode.OK);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+" Колличество автосервисов не верно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check number of autoservices of excursion with headphones")
+                            .isEqualTo("3");
+                }
                 //Проверяем что количество часов в автотсервисах соответствует Duration экскурси
-                //Ролверяем что при изменении Duration меняется hours у guid и transport
+                System.out.println("        Проверяем что количество часов в автотсервисах соответствует Duration экскурси:");
+                result = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).getValue();
+
+                result2 = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getValue();
+                String autoServiceName = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                //System.out.println("res1 "+result+" res2 "+result2);
+                if(result2.equals(result)){
+                    System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            Часы для "+autoServiceName+" подгрузились корректно"+QuotationAppCommonCode.ANSI_RESET);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+"            Часы для "+autoServiceName+" подгрузились некорректно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result2)
+                            .as("Check number of hours of "+autoServiceName+" is equal to main service")
+                            .isEqualTo(result);
+                }
+
+                result2 = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(2)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getValue();
+                autoServiceName = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(2)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                //System.out.println("res1 "+result+" res2 "+result2);
+                if(result2.equals(result)){
+                    System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            Часы для "+autoServiceName+" подгрузились корректно"+QuotationAppCommonCode.ANSI_RESET);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+"            Часы для "+autoServiceName+" подгрузились некорректно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result2)
+                            .as("Check number of hours of "+autoServiceName+" is equal to main service")
+                            .isEqualTo(result);
+                }
+
+                //Проверяем что при изменении Duration меняется hours у guid и transport
+                System.out.println("        Проверяем что при изменении Duration меняется hours у guid и transport:");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.serviceOptionsDurationREG)).sendKeys("3\n");
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+
+                result = "13";
+                result2 = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getValue();
+                autoServiceName = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(1)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                //System.out.println("res1 "+result+" res2 "+result2);
+                if(result2.equals(result)){
+                    System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            Часы для "+autoServiceName+" подгрузились корректно"+QuotationAppCommonCode.ANSI_RESET);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+"            Часы для "+autoServiceName+" подгрузились некорректно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result2)
+                            .as("Check number of hours of "+autoServiceName+" is equal to main service")
+                            .isEqualTo(result);
+                }
+
+                result2 = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(3)
+                        + ProgrammSection.serviceCriteriaDurationREG)).getValue();
+                autoServiceName = $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetAutoServiceByNumberREG(3)
+                        + ProgrammSection.serviceNameDropDownREG)).getSelectedText();
+                //System.out.println("res1 "+result+" res2 "+result2);
+                if(result2.equals(result)){
+                    System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            Часы для "+autoServiceName+" подгрузились корректно"+QuotationAppCommonCode.ANSI_RESET);}
+                else{
+                    System.out.print(QuotationAppCommonCode.ANSI_RED+"            Часы для "+autoServiceName+" подгрузились некорректно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result2)
+                            .as("Check number of hours of "+autoServiceName+" is equal to main service")
+                            .isEqualTo(result);
+                }
+
                 //Проверяем что автосервисы можно отключить
+                System.out.println("        Проверяем что автосервисы можно отключить:");
+                $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                        + ProgrammSection.mainServiceGuideCheckbox)).click();
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
+                //System.out.println(QuotationAppCommonCode.OK);
+                result = String.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + "//table[@class=\"services\"]/tbody[@class=\"auto\"]/tr")).size());
+                //System.out.println(result);
+                if(result.equals("2")){
+                    System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            - Guide отключен"+QuotationAppCommonCode.ANSI_RESET);
+
+                    $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                            + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                            + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                            + ProgrammSection.mainServiceTransportCheckbox)).click();
+                    QuotationAppCommonCode.WaitForProgruzkaSilent();
+                    result = String.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                            + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                            + "//table[@class=\"services\"]/tbody[@class=\"auto\"]/tr")).size());
+                    if(result.equals("1")){
+                        System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            - Transport отключен"+QuotationAppCommonCode.ANSI_RESET);
+
+                        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                                + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
+                                + ProgrammSection.mainServiceHeadphonesCheckbox)).click();
+                        QuotationAppCommonCode.WaitForProgruzkaSilent();
+                        result = String.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                                + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                                + "//table[@class=\"services\"]/tbody[@class=\"auto\"]/tr")).size());
+                        if(result.equals("0")){
+                            System.out.println(QuotationAppCommonCode.ANSI_GREEN+"            - Headphones отключен"+QuotationAppCommonCode.ANSI_RESET);}
+                        else{
+                            System.out.println(QuotationAppCommonCode.ANSI_RED+"            - Автосервисы не отключаются корректно"+QuotationAppCommonCode.ANSI_RESET);
+                            softAssertions.assertThat(result)
+                                    .as("Check number of autoservices of excursion with headphones, try to uncheck Headphones")
+                                    .isEqualTo("0");
+                        }
+                    }
+                    else{
+                        System.out.println(QuotationAppCommonCode.ANSI_RED+"            - Автосервисы не отключаются корректно"+QuotationAppCommonCode.ANSI_RESET);
+                        softAssertions.assertThat(result)
+                                .as("Check number of autoservices of excursion with headphones, try to uncheck Transport")
+                                .isEqualTo("1");
+                    }
+                }
+                else{
+                    System.out.println(QuotationAppCommonCode.ANSI_RED+"            - Автосервисы не отключаются корректно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check number of autoservices of excursion with headphones, try to uncheck Guide")
+                            .isEqualTo("2");
+                }
+
+                NewQuotationPage.ProgrammSection.DeleteLastMainService(1, 1);
+                QuotationAppCommonCode.WaitForProgruzkaSilent();
 
             }
 
             if(!excurtionWithoutHeadphones.equals("none")){
-                System.out.print("    Выставляем Excursion без обязательного Headphones");
+                System.out.print("    Выставляем Excursion c обязательным Headphones");
+                ProgrammSection.AddServiceByName(1, 1, "Excursion");
                 $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
                         + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                         + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(1)
                         + ProgrammSection.serviceCriteriaNameREG)).selectOptionContainingText(excurtionWithoutHeadphones);
                 QuotationAppCommonCode.WaitForProgruzkaSilent();
                 System.out.println(QuotationAppCommonCode.OK);
+
+                //Проверяем что добавились автосервисы
+                System.out.print("        Считаем колличество автосервисов:");
+                result = String.valueOf($$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(1)
+                        + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
+                        + "//table[@class=\"services\"]/tbody[@class=\"auto\"]/tr")).size());
+                //System.out.println(result);
+                if(result.equals("2")){
+                    System.out.println(QuotationAppCommonCode.OK);}
+                else{
+                    System.out.println(QuotationAppCommonCode.ANSI_RED+" Колличество автосервисов не верно"+QuotationAppCommonCode.ANSI_RESET);
+                    softAssertions.assertThat(result)
+                            .as("Check number of autoservices of excursion without headphones"+ giudFixedPrice)
+                            .isEqualTo("2");
+                }
+
+                //Проверяем что количество часов в автотсервисах соответствует Duration экскурси
+
+                //Ролверяем что при изменении Duration меняется hours у guid и transport
+
+                //Проверяем что автосервисы можно отключить
             }
 
             NewQuotationPage.ProgrammSection.DeleteLastMainService(1, 1);

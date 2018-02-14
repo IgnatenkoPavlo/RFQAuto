@@ -340,6 +340,9 @@ public class NewQuotationPage {
         public static final String serviceCriteriaClassREG = "/td[@class=\"criteria\"]//select[@name=\"class\"]";
         public static final String serviceOptionsAddInfoREG = "/td[@class=\"options\"]//span/input[@name=\"customData\"]";
         public static final String serviceOptionsDurationREG = "/td[@class=\"options\"]/span//input[@name=\"duration\"]";
+        public static final String mainServiceGuideCheckbox = "/td[@class=\"options\"]/span//input[@name=\"guide\"]";
+        public static final String mainServiceTransportCheckbox = "/td[@class=\"options\"]/span//input[@name=\"transport\"]";
+        public static final String mainServiceHeadphonesCheckbox = "/td[@class=\"options\"]/span//input[@name=\"headphones\"]";
 
 
 
