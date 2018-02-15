@@ -209,19 +209,19 @@ public class BaseScenario1 {
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем Шоу
-        /*System.out.print("[-] Открываем Шоу");
+        System.out.print("[-] Открываем Шоу");
         $(By.id("shows")).click();
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем Москву
         System.out.print("[-] Открываем Москву");
-        $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\"MSK\"]")).click();
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем текущий год
         System.out.print("[-] Открываем текущий год");
-        $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -230,7 +230,7 @@ public class BaseScenario1 {
         String priceForBolshoiTheatre = $(By.xpath("//table[@id=\"service-prices\"]//tbody//tr[@data-excursion-id=\"75\"]" +
                 "//td[@class=\"editable editable-service-price price\"]")).getText();
         System.out.println(" "+priceForBolshoiTheatre+" ");
-        System.out.println(RFQAppCommonCode.OK);*/
+        System.out.println(RFQAppCommonCode.OK);
 
         //Сохраняем цену за Гида
         System.out.print("[-] Открываем Цены для Гида");
@@ -326,11 +326,11 @@ public class BaseScenario1 {
         System.out.println(RFQAppCommonCode.ANSI_GREEN+newQuotationID+RFQAppCommonCode.ANSI_RESET);
 
         //Выставляем имя клиента
-        /*System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
+        System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
         $(By.cssSelector(NewQuotationPage.clientName)).click();
         $(By.cssSelector(NewQuotationPage.chooseClientNamePopup)).shouldBe(Condition.visible);
         $(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("test client");
-        try {
+        /*try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -338,20 +338,20 @@ public class BaseScenario1 {
         /*$(By.cssSelector(NewQuotationPage.chooseClientNamePopup
                 + " div[class=\"check-list scroll-pane\"] div[class=\"jspContainer\"] div[class=\"jspPane\"]"
                 + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).scrollTo().click();*/
-        /*$(By.xpath(NewQuotationPage.chooseClientNamePopupXP
-                + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
-                + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).shouldBe(Condition.visible).click();
         $(By.xpath(NewQuotationPage.chooseClientNamePopupXP
                 + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
-                + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).click();
+                + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).shouldBe(Condition.visible).hover().click();
+        /*$(By.xpath(NewQuotationPage.chooseClientNamePopupXP
+                + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
+                + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).click();*/
         RFQAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(RFQAppCommonCode.OK);*/
+        System.out.println(RFQAppCommonCode.OK);
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
         $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
-        $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible);
-        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).hover().click();
+        $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible).click();
+        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldBe(Condition.visible).hover().click();
         //if(isWindows){$(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();}
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldNotBe(Condition.visible);
         RFQAppCommonCode.WaitForProgruzkaSilent();
