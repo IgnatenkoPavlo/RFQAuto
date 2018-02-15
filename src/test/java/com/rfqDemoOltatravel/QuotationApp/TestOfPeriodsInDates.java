@@ -113,7 +113,7 @@ public class TestOfPeriodsInDates {
 
         System.out.println("[-] Сохраняем значения для периодов для MSK, Hotel 4* central");
         List<PricesAppCommonCode.PeriodsCollection> periodsListMSK
-                = pricesAppCommonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");;
+                = pricesAppCommonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");
 
 
         /*System.out.println("For SPB");

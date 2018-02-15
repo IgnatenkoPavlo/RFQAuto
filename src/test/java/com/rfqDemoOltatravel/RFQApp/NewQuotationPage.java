@@ -52,9 +52,19 @@ public class NewQuotationPage extends QuotationListPage{
     }
 
     public final static String datesArea = "#datesBlock";
-    public static class Dates{
+    public final static String datesAreaXP = "//div[@id=\"datesBlock\"]";
+    public final static String periodsArea = "#periodsBlock";
+    public final static String periodsAreaXP = "//div[@id=\"periodsBlock\"]";
+    public static class DatesPeriods{
+
+        public final static String periodsSwitchButton = datesAreaXP + "//div[@class=\"top-row\"]//a[contains(text(), 'Periods')]";
 
         public final static String firstIntervalFromInput = datesArea+ " div[style=\"cursor: pointer;\"] div[class=\"info-col\"] input[type=\"text\"]";
+        public final static String firstIntervalPeriodsFromInput = periodsArea+ " div[style=\"cursor: pointer;\"] div[class=\"info-col\"] input[type=\"text\"]";
+
+        public final static String firstIntervalToInput = datesArea+ " div[style=\"cursor: pointer;\"] div[class=\"info-col\"]:nth-child(2) input[type=\"text\"]";
+        public final static String firstIntervalPeriodsToInput = periodsArea+ " div[style=\"cursor: pointer;\"] div[class=\"info-col\"]:nth-child(2) input[type=\"text\"]";
+
 
     }
 

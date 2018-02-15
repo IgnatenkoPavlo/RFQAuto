@@ -312,7 +312,7 @@ public class BaseScenario1 {
         String breakfast4Central = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                     + "//tbody//tr[@data-name=\"BREAKFAST AT THE HOTEL\"]//td[@data-restaurant-type=\"Hotel 4*\"]"
                     + "//table//tbody/tr/td[@class=\"editable editable-service-price price number\"]")).getText();
-        System.out.println("breakfast4Central "+breakfast4Central);
+        //System.out.println("breakfast4Central "+breakfast4Central);
         System.out.println(RFQAppCommonCode.OK);
 
         //Выходим из Prices
@@ -379,7 +379,6 @@ public class BaseScenario1 {
         //if(isWindows){$(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();}
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldNotBe(Condition.visible);
         RFQAppCommonCode.WaitForProgruzkaSilent();
-
         System.out.println(RFQAppCommonCode.OK);
 
         //Выставляем Nights
