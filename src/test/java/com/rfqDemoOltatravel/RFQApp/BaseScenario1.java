@@ -178,7 +178,7 @@ public class BaseScenario1 {
         prices.add(new PeriodsCollection(dateFrom, dateTo, priceSGL, priceDBL, priceSGLWE, priceDBLWE));
 
 
-        //System.out.println(dateFrom+" "+dateTo+" "+priceSGL+" "+priceDBL+" "+priceSGLWE+" "+priceDBLWE);
+        //System.out.println("from: "+dateFrom+" to: "+dateTo+" SGL: "+priceSGL+" DBL: "+priceDBL+" SGLWE:"+priceSGLWE+" DBLWE"+priceDBLWE);
         //Закрываем попап
         $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]//div[@class=\"modal-footer\"]//button[3]")).click();
         $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldNotBe(visible);
@@ -205,11 +205,11 @@ public class BaseScenario1 {
         System.out.print("[-] Сохраняем цену за экскурсию - Бункер 42");
         String priceForBunker42 = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP+"//tbody//tr[@data-excursion-id=\"3\"]" +
                 "//td[@class=\"editable editable-service-price price\"]")).getText();
-        //System.out.println(" "+priceForBunker42+" ");
+        //System.out.println(" priceForBunker42: "+priceForBunker42+" ");
         System.out.println(RFQAppCommonCode.OK);
 
         //Открываем Шоу
-        System.out.print("[-] Открываем Шоу");
+        /*System.out.print("[-] Открываем Шоу");
         $(By.id("shows")).click();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -229,8 +229,8 @@ public class BaseScenario1 {
         System.out.print("[-] Сохраняем цену за Шоу - Большой Театр");
         String priceForBolshoiTheatre = $(By.xpath("//table[@id=\"service-prices\"]//tbody//tr[@data-excursion-id=\"75\"]" +
                 "//td[@class=\"editable editable-service-price price\"]")).getText();
-        System.out.println(" "+priceForBolshoiTheatre+" ");
-        System.out.println(RFQAppCommonCode.OK);
+        //System.out.println(" priceForBolshoiTheatre "+priceForBolshoiTheatre+" ");
+        System.out.println(RFQAppCommonCode.OK);*/
 
         //Сохраняем цену за Гида
         System.out.print("[-] Открываем Цены для Гида");
@@ -257,7 +257,7 @@ public class BaseScenario1 {
         System.out.print("[-] Сохраняем сумму за - 1/2 DAY (4 HOURS):");
         double guidePriceforHalfDay = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                 +"//tbody//tr//td//a[contains(text(),'1/2 DAY (4 HOURS)')]/../../td[3]")).getText());
-        //System.out.println(guidePriceforHalfDay);
+        //System.out.println("guidePriceforHalfDay "+guidePriceforHalfDay);
         System.out.println(RFQAppCommonCode.OK);
 
         //Сохраняем цену за Транспорт
@@ -281,14 +281,38 @@ public class BaseScenario1 {
         double transportPriceHourly18 = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                 + "//tbody//tr[@data-max-load=\"18\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]"
                 + "/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
-        //System.out.println(transportPriceHourly18);
+        //System.out.println("transportPriceHourly18 "+transportPriceHourly18);
         System.out.println(RFQAppCommonCode.OK);
 
         System.out.print("[-] Сохраняем сумму за 1 час для автобуса до 44 человек:");
         double transportPriceHourly44 = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                 + "//tbody//tr[@data-max-load=\"44\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]"
                 + "/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
-        //System.out.println(transportPriceHourly44);
+        //System.out.println("transportPriceHourly44"+ transportPriceHourly44);
+        System.out.println(RFQAppCommonCode.OK);
+
+        //Получаем цену за завтрак Hotel 4* central
+        System.out.println("[-] Получаем цену за завтрак Hotel 4* central:");
+        $(By.id("meal")).click();
+        System.out.println(RFQAppCommonCode.OK);
+
+        //Открываем Москву
+        System.out.print("    Открываем Москву");
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(RFQAppCommonCode.OK);
+
+        //Открываем текущий год
+        System.out.print("    Открываем текущий год");
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(RFQAppCommonCode.OK);
+
+        System.out.print("    Сохраняем цену");
+        String breakfast4Central = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                    + "//tbody//tr[@data-name=\"BREAKFAST AT THE HOTEL\"]//td[@data-restaurant-type=\"Hotel 4*\"]"
+                    + "//table//tbody/tr/td[@class=\"editable editable-service-price price number\"]")).getText();
+        System.out.println("breakfast4Central "+breakfast4Central);
         System.out.println(RFQAppCommonCode.OK);
 
         //Выходим из Prices
@@ -522,13 +546,16 @@ public class BaseScenario1 {
                 + 3000.0/15.0 + 3000.0/15.0;*/
         double hotelsWE15 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/15.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf((new BigDecimal(transportPriceHourly18/15.0*4.0).setScale(0, RoundingMode.DOWN).floatValue()));
+                + Double.valueOf((new BigDecimal(transportPriceHourly18/15.0*4.0).setScale(0, RoundingMode.DOWN).floatValue()))
+                + Double.valueOf(breakfast4Central);
         double hotelsWE20 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/20.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf((new BigDecimal(transportPriceHourly44/20.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()));
+                + Double.valueOf((new BigDecimal(transportPriceHourly44/20.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()))
+                + Double.valueOf(breakfast4Central);
         double hotelsWE25 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/25.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf((new BigDecimal(transportPriceHourly44/25.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()));
+                + Double.valueOf((new BigDecimal(transportPriceHourly44/25.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()))
+                + Double.valueOf(breakfast4Central);
 
         //hotelsWE = Double.valueOf(new BigDecimal(hotelsWE).setScale(0, RoundingMode.DOWN).floatValue());
         //hotelsWE = hotelsWE / rubEur;
