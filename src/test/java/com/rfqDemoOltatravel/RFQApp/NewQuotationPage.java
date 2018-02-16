@@ -74,12 +74,22 @@ public class NewQuotationPage extends QuotationListPage{
     }
 
     public final static String accommodationsArea = "#accommodationsBlock";
+    public final static String accommodationsAreaXP = "//div[@id=\"accommodationsBlock\"]";
     public static class Accommodations{
 
         public final static String cityAddButton = accommodationsArea+ " div[class=\"top-row\"] div[class=\"add-btn\"]";
         public final static String cityList = cityAddButton + " div[class=\"check-wrapper city-selector\"]";
         public final static String moscowButton = cityList + " div[class=\"check-list jspScrollable\"] div[class=\"jspContainer\"]" +
                 " div[class=\"jspPane\"] div[class=\"check-wrap\"] span";
+        public final static String addCityToLastPossiblePositionControlXP = accommodationsAreaXP+"//div[@class=\"info-row empty-accommodation\"]//div[@class=\"info-col\"]/h5";
+        public final static String cityNameXP = "//div[@data-key=\"cityName\"]//span[@class=\"data-info\"]";
+        public final static String cityNightXP = "//div[@data-key=\"nights\"]//span[@class=\"data-info\"]";
+        public final static String cityHotelTypeXP = "//div[@data-key=\"hotelTypeId\"]//span[@class=\"data-info\"]";
+
+
+        public static String CityByNumberXP(int cityNumber){
+            return String.valueOf(accommodationsAreaXP+"//div[@class=\"info-row\"]["+cityNumber+"]");
+        }
 
     }
 
@@ -122,6 +132,22 @@ public class NewQuotationPage extends QuotationListPage{
     public static class Results{
 
         public static final String calculateButton = resultsAreaXP + "//button[@id=\"execute\"]";
+        public static final String totalsWE = resultsAreaXP + "//div[@id=\"result\"]//table[@id=\"table-result-totals\"]/tbody";
+        public static final String totalsWD = resultsAreaXP + "//div[@id=\"result\"]//table[@id=\"table-result-totals-wd\"]/tbody";
+
+        public static String PeriodByNumber(int number){
+            return String.valueOf("//tr["+ (number+1) +"]");
+        }
+
+        public static String DatesOfPeriodByNumber(int number){
+            return String.valueOf("//tr["+ (number+1) +"]/td");
+        }
+
+        public static String GroupByNumber(int number){
+            return String.valueOf("//td["+ (number+1) +"]");
+        }
+
+
     }
 
 

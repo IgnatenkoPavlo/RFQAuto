@@ -32,6 +32,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.confirm;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static com.rfqDemoOltatravel.RFQApp.NewQuotationPage.*;
 
 public class BaseScenario1 {
 
@@ -345,15 +346,15 @@ public class BaseScenario1 {
         RFQAppCommonCode.WaitForProgruzkaSilent();
 
         //Получаем Id новой квотации
-        String newQuotationID = $(By.cssSelector(NewQuotationPage.quotationId)).getText();
+        String newQuotationID = $(By.cssSelector(quotationId)).getText();
         newQuotationID = newQuotationID.substring(1, newQuotationID.length());
         System.out.println(RFQAppCommonCode.ANSI_GREEN+newQuotationID+RFQAppCommonCode.ANSI_RESET);
 
         //Выставляем имя клиента
         System.out.print("[-] Выставляем имя клиента, как "+"Test Client: ");
-        $(By.cssSelector(NewQuotationPage.clientName)).click();
-        $(By.cssSelector(NewQuotationPage.chooseClientNamePopup)).shouldBe(Condition.visible);
-        $(By.cssSelector(NewQuotationPage.ChooseClientNamePopup.searchField)).sendKeys("test client");
+        $(By.cssSelector(clientName)).click();
+        $(By.cssSelector(chooseClientNamePopup)).shouldBe(Condition.visible);
+        $(By.cssSelector(ChooseClientNamePopup.searchField)).sendKeys("test client");
         /*try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -362,7 +363,7 @@ public class BaseScenario1 {
         /*$(By.cssSelector(NewQuotationPage.chooseClientNamePopup
                 + " div[class=\"check-list scroll-pane\"] div[class=\"jspContainer\"] div[class=\"jspPane\"]"
                 + " div[group-value=\"T\"] div[class=\"check-wrap\"] span")).scrollTo().click();*/
-        $(By.xpath(NewQuotationPage.chooseClientNamePopupXP
+        $(By.xpath(chooseClientNamePopupXP
                 + "//div[@class=\"check-list scroll-pane\"]//div[@class=\"jspContainer\"]//div[@class=\"jspPane\"]"
                 + "//div[@group-value=\"T\"]//div[@class=\"check-wrap\"]//span[text()=\"Test Client\"]")).shouldBe(Condition.visible).hover().click();
         /*$(By.xpath(NewQuotationPage.chooseClientNamePopupXP
@@ -373,28 +374,28 @@ public class BaseScenario1 {
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
-        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
-        $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible).click();
-        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldBe(Condition.visible).hover().click();
+        $(By.cssSelector(Options.currencyButton)).scrollTo().click();
+        $(By.cssSelector(Options.currencySelectors)).shouldBe(Condition.visible).click();
+        $(By.xpath(Options.currencyRUBXP)).shouldBe(Condition.visible).hover().click();
         //if(isWindows){$(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();}
-        $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldNotBe(Condition.visible);
+        $(By.xpath(Options.currencyRUBXP)).shouldNotBe(Condition.visible);
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Выставляем Nights
         System.out.print("[-] Выставляем 1 ночь: ");
-        $(By.xpath(NewQuotationPage.Options.nightsButtonXP)).scrollTo().click();
-        $(By.xpath(NewQuotationPage.Options.nightsInputXP)).shouldBe(Condition.visible);
-        $(By.xpath(NewQuotationPage.Options.nightsInputXP)).setValue("1");
+        $(By.xpath(Options.nightsButtonXP)).scrollTo().click();
+        $(By.xpath(Options.nightsInputXP)).shouldBe(Condition.visible);
+        $(By.xpath(Options.nightsInputXP)).setValue("1");
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Выбираем Present Meal Service
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).scrollTo().click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).hover().click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServiceFullBoard)).click();
+        $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
+        $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
+        $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(Options.presentMealServiceFullBoard)).click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
@@ -427,42 +428,42 @@ public class BaseScenario1 {
         //Заполняем даты
         System.out.print("[-] Заполняем дату From: " +formatForDate.format(nowDate)+ " ");
         //Кликаем на поле для ввода даты
-        $(By.cssSelector(NewQuotationPage.Dates.firstIntervalFromInput)).click();
+        $(By.cssSelector(DatesPeriods.firstIntervalFromInput)).click();
 
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
-        $(By.cssSelector(NewQuotationPage.Dates.firstIntervalFromInput)).setValue(formatForDate.format(nowDate)).pressEnter();
+        $(By.cssSelector(DatesPeriods.firstIntervalFromInput)).setValue(formatForDate.format(nowDate)).pressEnter();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //Выбираем Москву
         System.out.print("[-] Добавляем размещение - Москва: ");
-        $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]")).scrollTo().click();
+        $(By.xpath(Accommodations.addCityToLastPossiblePositionControlXP)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
-        $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]")).shouldBe(Condition.visible);
-        $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]/div/div/div/div/div")).click();
+        $(By.xpath(accommodationsAreaXP+"//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]")).shouldBe(Condition.visible);
+        $(By.xpath(accommodationsAreaXP+"//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]/div/div/div/div/div")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         //В первый день добавить экскурсию Бункер-42
         System.out.print("[-] В первый день добавляем экскурсию - Бункер-42: ");
-        $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1,1)
-                + NewQuotationPage.Itinerary.ServiceAddButton)).scrollTo().click();
-        $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1,1)
-                + NewQuotationPage.Itinerary.ServiceAddButton
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.ServiceAddButton)).scrollTo().click();
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.ServiceAddButton
                 + "/div/div[@class=\"icons-block\"]")).shouldBe(Condition.visible);
-        $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1,1)
-                + NewQuotationPage.Itinerary.ServiceAddButton
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.ServiceAddButton
                 + "/div/div[@class=\"icons-block\"]//div[@data-service-type-id=\"3\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
-        $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1,1)
-                + NewQuotationPage.Itinerary.serviceByNumberXP(4)
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.serviceByNumberXP(4)
                 + "//div[@class=\"click-service-area\"]")).scrollTo().click();
-        $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1,1)
-                + NewQuotationPage.Itinerary.serviceByNumberXP(4)
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.serviceByNumberXP(4)
                 + "//div[@class=\"service-names-list check-wrapper\"]")).shouldBe(Condition.visible);
-        $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1,1)
-                + NewQuotationPage.Itinerary.serviceByNumberXP(4)
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.serviceByNumberXP(4)
                 + "//div[@class=\"service-names-list check-wrapper\"]"
                 + "//div[@class=\"check-list scroll-pane jspScrollable\"]/div[@class=\"jspContainer\"]"
                 + "//div[@group-value=\"B\"]//div[@data-value=\"BUNKER-42\"]")).click();
@@ -510,7 +511,7 @@ public class BaseScenario1 {
 
         //Запускаем расчёт
         System.out.print("[-] Запускаем расчёт: ");
-        $(By.xpath(NewQuotationPage.Results.calculateButton)).scrollTo().click();
+        $(By.xpath(Results.calculateButton)).scrollTo().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
         /*
@@ -568,7 +569,10 @@ public class BaseScenario1 {
         String priceDBLDSSS = String.valueOf((int) new BigDecimal(hotelsWESS).setScale(0, RoundingMode.HALF_UP).floatValue());
 
         //Проверяем для группы 15 человек
-        result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(2)")).getText();
+        //result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(2)")).getText();
+        result = $(By.xpath(Results.totalsWE
+                + Results.PeriodByNumber(1)
+                + Results.GroupByNumber(1))).getText();
         result = result.substring(0, result.indexOf(' '));
         //System.out.println("Из Prices получили:"+priceDBLDS15+" в Totals:"+ result);
         if (result.equals(priceDBLDS15)){
@@ -582,7 +586,9 @@ public class BaseScenario1 {
         }
 
         //Проверяем для группы 20 человек
-        result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(3)")).getText();
+        result = $(By.xpath(Results.totalsWE
+                + Results.PeriodByNumber(1)
+                + Results.GroupByNumber(2))).getText();
         result = result.substring(0, result.indexOf(' '));
         //System.out.println("Из Prices получили:"+priceDBLDS20+" в Totals:"+ result);
         if (result.equals(priceDBLDS20)){
@@ -596,7 +602,9 @@ public class BaseScenario1 {
         }
 
         //Проверяем для группы 25 человек
-        result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(4)")).getText();
+        result = $(By.xpath(Results.totalsWE
+                + Results.PeriodByNumber(1)
+                + Results.GroupByNumber(3))).getText();
         result = result.substring(0, result.indexOf(' '));
         //System.out.println("Из Prices получили:"+priceDBLDS25+" в Totals:"+ result);
         if (result.equals(priceDBLDS25)){
@@ -610,7 +618,9 @@ public class BaseScenario1 {
         }
 
         //Проверяем для SS
-        result = $(By.cssSelector("table#table-result-totals tbody tr:nth-of-type(2) td:nth-of-type(5)")).getText();
+        result = $(By.xpath(Results.totalsWE
+                + Results.PeriodByNumber(1)
+                + Results.GroupByNumber(4))).getText();
         result = result.substring(0, result.indexOf(' '));
         //System.out.println("Из Prices получили:"+priceDBLDS+" в Totals:"+ result);
         if (result.equals(priceDBLDSSS)){

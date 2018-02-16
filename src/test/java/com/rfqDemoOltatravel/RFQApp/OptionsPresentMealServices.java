@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.url;
+import static com.rfqDemoOltatravel.RFQApp.NewQuotationPage.*;
 
 public class OptionsPresentMealServices {
 
@@ -82,7 +83,7 @@ public class OptionsPresentMealServices {
         RFQAppCommonCode.WaitForProgruzkaSilent();
 
         //Получаем Id новой квотации
-        String newQuotationID = $(By.cssSelector(NewQuotationPage.quotationId)).getText();
+        String newQuotationID = $(By.cssSelector(quotationId)).getText();
         newQuotationID = newQuotationID.substring(1, newQuotationID.length());
         System.out.println(RFQAppCommonCode.ANSI_GREEN+newQuotationID+RFQAppCommonCode.ANSI_RESET);
 
@@ -99,17 +100,17 @@ public class OptionsPresentMealServices {
 
         //Выставляем Nights
         System.out.print("[-] Выставляем 1 ночь: ");
-        $(By.xpath(NewQuotationPage.Options.nightsButtonXP)).click();
-        $(By.xpath(NewQuotationPage.Options.nightsInputXP)).shouldBe(Condition.visible);
-        $(By.xpath(NewQuotationPage.Options.nightsInputXP)).setValue("1");
+        $(By.xpath(Options.nightsButtonXP)).click();
+        $(By.xpath(Options.nightsInputXP)).shouldBe(Condition.visible);
+        $(By.xpath(Options.nightsInputXP)).setValue("1");
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServiceFullBoard)).click();
+        $(By.cssSelector(Options.presentMealServicesButton)).click();
+        $(By.cssSelector(Options.presentMealServicesButton)).click();
+        $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(Options.presentMealServiceFullBoard)).click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
@@ -120,11 +121,11 @@ public class OptionsPresentMealServices {
         LocalDate nowDate = LocalDate.now();
         System.out.print("[-] Заполняем дату From: " +formatForDate.format(nowDate)+ " ");
         //Кликаем на поле для ввода даты
-        $(By.cssSelector(NewQuotationPage.Dates.firstIntervalFromInput)).click();
+        $(By.cssSelector(DatesPeriods.firstIntervalFromInput)).click();
 
         //System.out.println("Текущая дата: " + formatForDateNow.format(nowDate));
         //Вводим дату в поле
-        $(By.cssSelector(NewQuotationPage.Dates.firstIntervalFromInput)).setValue(formatForDate.format(nowDate)).pressEnter();
+        $(By.cssSelector(DatesPeriods.firstIntervalFromInput)).setValue(formatForDate.format(nowDate)).pressEnter();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
@@ -139,22 +140,22 @@ public class OptionsPresentMealServices {
             errorText = "none";
             //Выбираем Present Meal Service
             System.out.println("[-] Выставляем Preset Meal Services - "+presentMealServices[i]+": ");
-            $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).scrollTo().click();
-            $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).click();
-            $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-            $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors+ " div[data-value=\""+presentMealServices[i]+"\"]")).click();
+            $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
+            $(By.cssSelector(Options.presentMealServicesButton)).click();
+            $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
+            $(By.cssSelector(Options.presentMealServicesSelectors+ " div[data-value=\""+presentMealServices[i]+"\"]")).click();
             //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
             RFQAppCommonCode.WaitForProgruzkaSilent();
             //System.out.println(RFQAppCommonCode.OK);
 
             //Выбираем Москву
             //System.out.print("[-] Добавляем размещение - Москва: ");
-            $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]")).click();
+            $(By.xpath(Accommodations.addCityToLastPossiblePositionControlXP)).scrollTo().click();
             //$(By.cssSelector(NewQuotationPage.Accommodations.cityAddButton)).click();
             RFQAppCommonCode.WaitForProgruzkaSilent();
-            $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]")).shouldBe(Condition.visible);
+            $(By.xpath(accommodationsAreaXP+"//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]")).shouldBe(Condition.visible);
             //$(By.cssSelector(NewQuotationPage.Accommodations.cityList)).shouldBe(Condition.visible);
-            $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]/div/div/div/div/div")).click();
+            $(By.xpath(accommodationsAreaXP+"//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]/div/div/div/div/div")).click();
             //$(By.cssSelector(NewQuotationPage.Accommodations.moscowButton)).click();
             errorText = rfqAppCommonCode.GetJSErrorText(driver);
             //System.out.println(errorText);
@@ -165,10 +166,10 @@ public class OptionsPresentMealServices {
 
                 int servicesCount1=0;
                 int servicesCount2=0;
-                servicesCount1 = $$(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(1, 1)
+                servicesCount1 = $$(By.xpath(Itinerary.DayCityByNumberXP(1, 1)
                         +"//div[2]//div[@class=\"dayCityServices ui-sortable\"]/div")).size();
                 //System.out.println(servicesCount1);
-                servicesCount2 = $$(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(2, 1)
+                servicesCount2 = $$(By.xpath(Itinerary.DayCityByNumberXP(2, 1)
                         +"//div[2]//div[@class=\"dayCityServices ui-sortable\"]/div")).size();
                 //System.out.println(servicesCount2);
 
@@ -222,8 +223,8 @@ public class OptionsPresentMealServices {
                 }
 
                 //Удаляем город из Accomodations
-                $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row\"][1]")).scrollTo().hover();
-                $(By.xpath("//div[@id=\"accommodationsBlock\"]//div[@class=\"info-row\"][1]//div[@class=\"delete-btn\"]")).hover().click();
+                $(By.xpath(Accommodations.CityByNumberXP(1))).scrollTo().hover();
+                $(By.xpath(Accommodations.CityByNumberXP(1)+"//div[@class=\"delete-btn\"]")).hover().click();
                 confirm();
                 RFQAppCommonCode.WaitForProgruzkaSilent();
 
