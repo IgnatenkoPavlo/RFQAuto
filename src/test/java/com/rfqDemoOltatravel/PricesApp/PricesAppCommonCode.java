@@ -37,6 +37,10 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
             return String.valueOf("//tbody//tr"+"["+number+"]");
         }
 
+        public static final String ServiceStringByName(String name){
+            return String.valueOf("//tbody//tr[@data-name=\""+name+"\"]");
+        }
+
 
 
     }
@@ -71,23 +75,23 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
     public List<PeriodsCollection> SavePeriodsForACityAndHotelType(String cityName, String hotelType) {
 
         //Выбираем город
-        System.out.print("[-] Выбираем город - "+cityName);
+        System.out.print("            Выбираем город - "+cityName);
         //$(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-city\"] button[data-switch-value=\""+cityName+"\"]")).scrollTo().click();
         $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\""+cityName+"\"]")).click();
         WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(OK);
 
         //Открываем текущий год
-        System.out.print("[-] Открываем текущий год");
+        System.out.print("            Открываем текущий год");
         $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
         com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();
-        System.out.println(com.rfqDemoOltatravel.CommonCode.OK);
+        System.out.println(OK);
 
         //Выбираем тип отеля
-        System.out.print("[-] Выбираем "+hotelType);
+        System.out.print("            Выбираем "+hotelType);
         $(By.xpath("//div[@id=\"filters-bar\"]//div[@id=\"switch-hotel-type\"]//button[contains(text(),'"+hotelType+"')]")).scrollTo().click();
         WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(OK);
 
         DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
@@ -132,7 +136,7 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         LocalDate dateToNext = LocalDate.of(Integer.valueOf(dateTo.substring(6,dateTo.length())), Integer.valueOf(dateTo.substring(3,5)), Integer.valueOf(dateTo.substring(0,2))).plusDays(1);
 
         //Проходим по всем периодам и сохраняем значения в список
-        System.out.print("[-] Проходим по всем периодам и сохраняем значения в список");
+        System.out.print("            Проходим по всем периодам и сохраняем значения в список");
         while(!dateTo.equals("31-12-2018")){
             $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2018\"]" +
                     "//div//table//tbody//tr" +
@@ -166,30 +170,30 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
             dateToNext = LocalDate.of(Integer.valueOf(dateTo.substring(6,dateTo.length())), Integer.valueOf(dateTo.substring(3,5)), Integer.valueOf(dateTo.substring(0,2))).plusDays(1);
 
         }
-        System.out.println(" - готово");
+        System.out.println(OK);
         return result;
     }
 
     public List<PeriodsCollection> SavePeriodsForACityAndHotelTypeIndividualAveragePrices(String cityName, String hotelType) {
 
         //Выбираем город
-        System.out.print("[-] Выбираем город - "+cityName);
+        System.out.print("            Выбираем город - "+cityName);
         //$(By.cssSelector("div[id=\"title-bar\"] div[id=\"switch-city\"] button[data-switch-value=\""+cityName+"\"]")).scrollTo().click();
         $(By.xpath("//div[@id=\"switch-city\"]//button[@data-switch-value=\""+cityName+"\"]")).click();
         WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(OK);
 
         //Открываем текущий год
-        System.out.print("[-] Открываем текущий год");
+        System.out.print("            Открываем текущий год");
         $(By.xpath("//div[@id=\"switch-year\"]//button[contains(text(),'2018')]")).click();
         com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();
-        System.out.println(com.rfqDemoOltatravel.CommonCode.OK);
+        System.out.println(OK);
 
         //Выбираем тип отеля
-        System.out.print("[-] Выбираем "+hotelType);
+        System.out.print("            Выбираем "+hotelType);
         $(By.xpath("//div[@id=\"filters-bar\"]//div[@id=\"switch-hotel-type\"]//button[contains(text(),'"+hotelType+"')]")).scrollTo().click();
         WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(OK);
 
         DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
@@ -234,7 +238,7 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         LocalDate dateToNext = LocalDate.of(Integer.valueOf(dateTo.substring(6,dateTo.length())), Integer.valueOf(dateTo.substring(3,5)), Integer.valueOf(dateTo.substring(0,2))).plusDays(1);
 
         //Проходим по всем периодам и сохраняем значения в список
-        System.out.print("[-] Проходим по всем периодам и сохраняем значения в список");
+        System.out.print("            Проходим по всем периодам и сохраняем значения в список");
         while(!dateTo.equals("31-12-2018")){
             $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2018\"]" +
                     "//div//table//tbody//tr" +
@@ -268,7 +272,7 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
             dateToNext = LocalDate.of(Integer.valueOf(dateTo.substring(6,dateTo.length())), Integer.valueOf(dateTo.substring(3,5)), Integer.valueOf(dateTo.substring(0,2))).plusDays(1);
 
         }
-        System.out.println(" - готово");
+        System.out.println(OK);
         return result;
     }
 

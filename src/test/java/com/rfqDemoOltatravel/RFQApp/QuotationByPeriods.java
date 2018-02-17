@@ -87,7 +87,7 @@ public class QuotationByPeriods {
         //Ждём пока загрузится страница и проподёт "Loading..."
         rfqAppCommonCode.WaitForPageToLoad(driver);
         RFQAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(RFQAppCommonCode.OK);
+        System.out.println(PricesAppCommonCode.OK);
 
         //Открываем групповые цены
         System.out.print("[-] Открываем групповые цены");
@@ -95,7 +95,7 @@ public class QuotationByPeriods {
         /*System.out.print("[-] Открываем средне-индивидуальные цены");
         $(By.cssSelector("li[id=\"individualAverage\"]")).click();*/
         QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(PricesAppCommonCode.OK);
 
         //Открываем текущий день
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
@@ -106,7 +106,7 @@ public class QuotationByPeriods {
         //System.out.println(ldt.format(formatForDate));
         //System.out.println(ldt.format(formatForPrices));
 
-        System.out.println("[-] Сохраняем значения для периодов для SPB, Hotel 4* central");
+        System.out.println("        Сохраняем значения для периодов для SPB, Hotel 4* central");
         List<PricesAppCommonCode.PeriodsCollection> periodsListSPB
                 = pricesAppCommonCode.SavePeriodsForACityAndHotelType("SPB", "Hotel 4* central");
 
@@ -115,17 +115,44 @@ public class QuotationByPeriods {
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(" - готово");*/
 
-        System.out.println("[-] Сохраняем значения для периодов для MSK, Hotel 4* central");
+        System.out.println("        Сохраняем значения для периодов для MSK, Hotel 4* central");
         List<PricesAppCommonCode.PeriodsCollection> periodsListMSK
                 = pricesAppCommonCode.SavePeriodsForACityAndHotelType("MSK", "Hotel 4* central");
 
+        //Открываем цены на поезда
+        System.out.print("[-] Получаем цену на поезда MSK - SPB");
+        $(By.cssSelector("li[id=\"train-tickets\"]")).click();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(PricesAppCommonCode.OK);
 
+        String trainTicketsRegular = "none";
+
+        //Выбираем город - MSK
+        System.out.print("        Выбираем город - MSK");
+        $(By.cssSelector(PricesAppCommonCode.CitiesSelection.MSKButton)).scrollTo().click();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(PricesAppCommonCode.OK);
+
+        //Выбираем год - 2018
+        System.out.print("        Выбираем год - 2018");
+        $(By.xpath(PricesAppCommonCode.YearSelection.year2018XP)).scrollTo().click();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(PricesAppCommonCode.OK);
+
+        //Сохраняем Train Tickets с типом питания - кухни мира
+        System.out.print("        Сохраняем Train Tickets с типом Night Train ");
+        trainTicketsRegular = "SAPSAN TRAIN MOSCOW - SAINT PETERSBURG";
+        trainTicketsRegular = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                    + PricesAppCommonCode.ServicesPriceTable.ServiceStringByName("SAPSAN TRAIN MOSCOW - SAINT PETERSBURG")
+                    + "//td[@data-class=\"2nd\"]/table/tbody/tr/td")).getText();
+        //System.out.println(trainTicketsRegular);
+        System.out.println(PricesAppCommonCode.OK);
 
         //Выходим из Prices
         System.out.print("[-] Выходим из Prices");
         $(By.xpath("//div[@id=\"profile\"]")).click();
         $(By.xpath("//button[@id=\"btn-logout\"]")).shouldBe(Condition.visible).click();
-        System.out.println(RFQAppCommonCode.OK);
+        System.out.println(PricesAppCommonCode.OK);
 
         //Открываем клиентский RFQ
         System.out.print("[-] Открываем URL: "+props.getProperty("baseURL")+"/application/rfq.rfq");
@@ -228,7 +255,7 @@ public class QuotationByPeriods {
                 +NewQuotationPage.Accommodations.cityNightXP)).scrollTo().setValue("1").pressEnter();
         confirm();
         QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - Готово");
+        System.out.println(RFQAppCommonCode.OK);
 
         //Добавляем город
         System.out.print("[-] Добавляем город: SPB");
@@ -239,7 +266,7 @@ public class QuotationByPeriods {
         //Кликаем по кнопке с SPB
         $(By.xpath(NewQuotationPage.accommodationsAreaXP+"//div[@class=\"info-row empty-accommodation\"]//div[@class=\"check-wrapper city-selector\"]/div/div/div//div[2]/div")).click();
         QuotationAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(" - готово");
+        System.out.println(RFQAppCommonCode.OK);
 
         //Запускаем расчёт
         System.out.print("[-] Запускаем расчёт: ");
@@ -302,10 +329,12 @@ public class QuotationByPeriods {
         System.out.println("[-] Проверяем, что цены в Hotels (WE) верные:");
         for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
 
-            System.out.println(periodsCounter+" priceDBLWE "+periodsListSPB.get(periodsCounter-1).priceDBLWE);
-            System.out.println(periodsCounter+" priceDBLWE "+periodsListMSK.get(0).priceDBLWE);
-            priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0/0.85
-                    +Double.valueOf(235)+Double.valueOf(periodsListMSK.get(0).priceDBLWE)/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue());
+            priceDBLDS = String.valueOf(
+                    (int) new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBLWE/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
+                            + (int) new BigDecimal(200/0.85).setScale(0, RoundingMode.DOWN).floatValue()
+                            + (int) new BigDecimal(periodsListMSK.get(0).priceDBLWE/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
+                            + (int) new BigDecimal(Double.valueOf(trainTicketsRegular)/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
+            );
 
             //priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0/0.85+200.0).setScale(0, RoundingMode.HALF_UP).floatValue());
 
@@ -336,7 +365,12 @@ public class QuotationByPeriods {
             /*priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0/0.85
                     +Double.valueOf(235)+Double.valueOf(periodsListMSK.get(0).priceDBL)/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue());*/
 
-            priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0/0.85+200.0).setScale(0, RoundingMode.HALF_UP).floatValue());
+            priceDBLDS = String.valueOf(
+                    (int) new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBL/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
+                            + (int) new BigDecimal(200/0.85).setScale(0, RoundingMode.DOWN).floatValue()
+                            + (int) new BigDecimal(periodsListMSK.get(0).priceDBL/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
+                            + (int) new BigDecimal(Double.valueOf(trainTicketsRegular)/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
+            );
             result = $(By.xpath(NewQuotationPage.Results.totalsWD
                     + NewQuotationPage.Results.PeriodByNumber(periodsCounter)
                     + NewQuotationPage.Results.GroupByNumber(1))).getText();
