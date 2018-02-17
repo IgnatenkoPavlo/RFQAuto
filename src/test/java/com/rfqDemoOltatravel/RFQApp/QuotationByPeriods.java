@@ -325,16 +325,21 @@ public class QuotationByPeriods {
         }
 
         //Проверяем, что цены в Hotels (WE) w/o margin верные
+        double hotelsWEMSK;
+        double hotelsWESPB;
+        double hotelsWE;
         String priceDBLDS;
         System.out.println("[-] Проверяем, что цены в Hotels (WE) верные:");
         for(int periodsCounter=1; periodsCounter <= periodsListSPB.size(); periodsCounter++){
 
-            priceDBLDS = String.valueOf(
-                    (int) new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBLWE/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
-                            + (int) new BigDecimal(200/0.85).setScale(0, RoundingMode.DOWN).floatValue()
-                            + (int) new BigDecimal(periodsListMSK.get(0).priceDBLWE/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
-                            + (int) new BigDecimal(Double.valueOf(trainTicketsRegular)/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
-            );
+            hotelsWESPB = new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBLWE/2.0).setScale(0, RoundingMode.DOWN).floatValue();
+            hotelsWEMSK = new BigDecimal(periodsListMSK.get(0).priceDBLWE/2.0).setScale(0, RoundingMode.DOWN).floatValue();
+
+            hotelsWE = hotelsWESPB + hotelsWEMSK + 200.0 + Double.valueOf(trainTicketsRegular);
+
+            hotelsWE = hotelsWE / 0.85;
+
+            priceDBLDS = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
 
             //priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBLWE)/2.0/0.85+200.0).setScale(0, RoundingMode.HALF_UP).floatValue());
 
@@ -365,12 +370,14 @@ public class QuotationByPeriods {
             /*priceDBLDS = String.valueOf((int) new BigDecimal(Double.valueOf(periodsListSPB.get(periodsCounter-1).priceDBL)/2.0/0.85
                     +Double.valueOf(235)+Double.valueOf(periodsListMSK.get(0).priceDBL)/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue());*/
 
-            priceDBLDS = String.valueOf(
-                    (int) new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBL/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
-                            + (int) new BigDecimal(200/0.85).setScale(0, RoundingMode.DOWN).floatValue()
-                            + (int) new BigDecimal(periodsListMSK.get(0).priceDBL/2.0/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
-                            + (int) new BigDecimal(Double.valueOf(trainTicketsRegular)/0.85).setScale(0, RoundingMode.HALF_UP).floatValue()
-            );
+            hotelsWESPB = new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBL/2.0).setScale(0, RoundingMode.DOWN).floatValue();
+            hotelsWEMSK = new BigDecimal(periodsListMSK.get(0).priceDBL/2.0).setScale(0, RoundingMode.DOWN).floatValue();
+
+            hotelsWE = hotelsWESPB + hotelsWEMSK + 200.0 + Double.valueOf(trainTicketsRegular);
+
+            hotelsWE = hotelsWE / 0.85;
+
+            priceDBLDS = String.valueOf((int) new BigDecimal(hotelsWE).setScale(0, RoundingMode.HALF_UP).floatValue());
             result = $(By.xpath(NewQuotationPage.Results.totalsWD
                     + NewQuotationPage.Results.PeriodByNumber(periodsCounter)
                     + NewQuotationPage.Results.GroupByNumber(1))).getText();
