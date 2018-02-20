@@ -101,7 +101,7 @@ public class TestOfPeriodsInDates {
         //Открываем текущий день
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy.MM.dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
 
         //System.out.println(ldt.format(formatForDate));

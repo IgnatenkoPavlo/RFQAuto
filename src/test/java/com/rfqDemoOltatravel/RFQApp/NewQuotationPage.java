@@ -39,6 +39,11 @@ public class NewQuotationPage extends QuotationListPage{
         public final static String presentMealServiceFullBoard = presentMealServicesSelectors+ " div[data-value=\"FB\"]";
         public final static String presentMealServiceNO = presentMealServicesSelectors+ " div[data-value=\"NO\"]";
 
+        public final static String presentMenuButton = optionsArea+ ":nth-child(4) div:nth-child(2)";
+        public final static String presentMenuSelectors = presentMenuButton+ " div[class=\"check-list country-list\"]";
+        public final static String presentMenuIndian = presentMenuSelectors+ " div[data-value=\"Indian\"]";
+        public final static String presentMenuRussian = presentMenuIndian+ " div[data-value=\"Russian\"]";
+
         public final static String additionalServicesButton = optionsArea+ ":nth-child(5) div";
         public final static String additionalServicesSelectors = additionalServicesButton+" div[class=\"radio-list\"]";
         public final static String additionalServicesHeadphones = additionalServicesSelectors+" div[class=\"radio-row\"] div[title=\"Headphones\"]";
@@ -119,7 +124,7 @@ public class NewQuotationPage extends QuotationListPage{
             return "//div[@id=\"quotationdaycities"+GetDataIdOfDayByNumber(dayCounter)+"\"]//div["+String.valueOf(cityCounter)+"]";
         }
 
-        public static final String ServiceAddButton = "//div[2]/div[@class=\"dayCityServices ui-sortable\"]"
+        public static final String ServiceAddButtonXP = "//div[2]/div[@class=\"dayCityServices ui-sortable\"]"
                 +"//div[@class=\"hover-area\"]/div[@class=\"add-btn has-hover-block\"]";
 
         public static String serviceByNumberXP(int serviceCounter){

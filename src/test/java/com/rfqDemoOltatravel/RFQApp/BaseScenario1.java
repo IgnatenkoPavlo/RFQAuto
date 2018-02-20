@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.FileInputStream;
@@ -23,7 +22,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -130,7 +128,7 @@ public class BaseScenario1 {
         //Открываем текущий день
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy.MM.dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         LocalDate nowDate = LocalDate.now();
         LocalDate tommorrow = nowDate.plus(1, ChronoUnit.DAYS);
@@ -392,10 +390,20 @@ public class BaseScenario1 {
 
         //Выбираем Present Meal Service
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
+        $(By.cssSelector(Options.presentMenuButton)).scrollTo().click();
+        $(By.cssSelector(Options.presentMenuButton)).hover().click();
+        $(By.cssSelector(Options.presentMenuSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(Options.presentMenuIndian)).hover().click();
+        //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(RFQAppCommonCode.OK);
+
+        //Выбираем Present Menu
+        System.out.print("[-] Выставляем Preset Menu - Indian: ");
         $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
         $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
         $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-        $(By.cssSelector(Options.presentMealServiceFullBoard)).click();
+        $(By.cssSelector(Options.presentMealServiceFullBoard)).hover().click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
@@ -447,13 +455,14 @@ public class BaseScenario1 {
 
         //В первый день добавить экскурсию Бункер-42
         System.out.print("[-] В первый день добавляем экскурсию - Бункер-42: ");
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1))).scrollTo().hover();
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.ServiceAddButton)).scrollTo().click();
+                + Itinerary.ServiceAddButtonXP)).shouldBe(Condition.visible).click();
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.ServiceAddButton
+                + Itinerary.ServiceAddButtonXP
                 + "/div/div[@class=\"icons-block\"]")).shouldBe(Condition.visible);
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.ServiceAddButton
+                + Itinerary.ServiceAddButtonXP
                 + "/div/div[@class=\"icons-block\"]//div[@data-service-type-id=\"3\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
@@ -473,12 +482,12 @@ public class BaseScenario1 {
         //В второй день добавить экскурсию Большой театр
         /*System.out.print("[-] Во второй день добавляем экскурсию - Большой Театр: ");
         $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(2,1)
-                + NewQuotationPage.Itinerary.ServiceAddButton)).scrollTo().click();
+                + NewQuotationPage.Itinerary.ServiceAddButtonXP)).scrollTo().click();
         $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(2,1)
-                + NewQuotationPage.Itinerary.ServiceAddButton
+                + NewQuotationPage.Itinerary.ServiceAddButtonXP
                 + "/div/div[@class=\"icons-block\"]")).shouldBe(Condition.visible);
         $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(2,1)
-                + NewQuotationPage.Itinerary.ServiceAddButton
+                + NewQuotationPage.Itinerary.ServiceAddButtonXP
                 + "/div/div[@class=\"icons-block\"]//div[@data-service-type-id=\"7\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         $(By.xpath(NewQuotationPage.Itinerary.DayCityByNumberXP(2,1)
