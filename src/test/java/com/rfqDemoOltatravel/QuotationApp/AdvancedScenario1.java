@@ -168,12 +168,12 @@ public class AdvancedScenario1 {
         System.out.println(QuotationAppCommonCode.OK);
 
         //Удаляем завтрак в SPB
-        System.out.print("[-] Удаляем завтрак в SPB");
+        /*System.out.print("[-] Удаляем завтрак в SPB");
         $(By.xpath(ProgrammSection.GetADayByNumberREG(3) + ProgrammSection.GetACityByNumberREG(2) +
                 ProgrammSection.GetMainServiceByNumberREG(1) + "//td[@class=\"actions\"]//a[@class=\"qbtn qbtn-delete\"]")).click();
         confirm();
         com.rfqDemoOltatravel.CommonCode.WaitForProgruzkaSilent();
-        System.out.println(QuotationAppCommonCode.OK);
+        System.out.println(QuotationAppCommonCode.OK);*/
 
         //Считаем суммы для проверки
         System.out.print("[-] Считаваем поле Sum в столбце Price DBL");
