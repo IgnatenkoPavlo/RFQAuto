@@ -311,6 +311,12 @@ public class BaseScenario1 {
         String breakfast4Central = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP
                     + "//tbody//tr[@data-name=\"BREAKFAST AT THE HOTEL\"]//td[@data-restaurant-type=\"Hotel 4*\"]"
                     + "//table//tbody/tr/td[@class=\"editable editable-service-price price number\"]")).getText();
+        String lunch4Central = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                + "//tbody//tr[@data-name=\"LUNCH AT THE HOTEL\"]//td[@data-restaurant-type=\"Hotel 4*\"]"
+                + "//table//tbody/tr/td[@class=\"editable editable-service-price price number\"]")).getText();
+        String dinner4Central = $(By.xpath(PricesAppCommonCode.servicesPriceTableXP
+                + "//tbody//tr[@data-name=\"DINNER AT THE HOTEL\"]//td[@data-restaurant-type=\"Hotel 4*\"]"
+                + "//table//tbody/tr/td[@class=\"editable editable-service-price price number\"]")).getText();
         //System.out.println("breakfast4Central "+breakfast4Central);
         System.out.println(RFQAppCommonCode.OK);
 
@@ -390,6 +396,16 @@ public class BaseScenario1 {
 
         //Выбираем Present Meal Service
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
+        $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
+        $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
+        $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(Options.presentMealServiceFullBoard)).hover().click();
+        //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(RFQAppCommonCode.OK);
+
+        //Выбираем Present Menu
+        System.out.print("[-] Выставляем Preset Menu - Indian: ");
         $(By.cssSelector(Options.presentMenuButton)).scrollTo().click();
         $(By.cssSelector(Options.presentMenuButton)).hover().click();
         $(By.cssSelector(Options.presentMenuSelectors)).shouldBe(Condition.visible);
@@ -398,15 +414,7 @@ public class BaseScenario1 {
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
-        //Выбираем Present Menu
-        System.out.print("[-] Выставляем Preset Menu - Indian: ");
-        $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
-        $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
-        $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-        $(By.cssSelector(Options.presentMealServiceFullBoard)).hover().click();
-        //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
-        RFQAppCommonCode.WaitForProgruzkaSilent();
-        System.out.println(RFQAppCommonCode.OK);
+
 
         //Выбираем Additional Service
         /*System.out.print("[-] Выставляем Additional Service - Headphones: ");
@@ -455,24 +463,21 @@ public class BaseScenario1 {
 
         //В первый день добавить экскурсию Бункер-42
         System.out.print("[-] В первый день добавляем экскурсию - Бункер-42: ");
-        $(By.xpath(Itinerary.DayCityByNumberXP(1,1))).scrollTo().hover();
-        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.ServiceAddButtonXP)).shouldBe(Condition.visible).click();
-        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.ServiceAddButtonXP
-                + "/div/div[@class=\"icons-block\"]")).shouldBe(Condition.visible);
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)+Itinerary.ServiceByNumberXP(3))).hover();
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)+Itinerary.ServiceByNumberXP(3) + Itinerary.ServiceAddButtonXP)).shouldBe(Condition.visible).click();
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1) + Itinerary.ServiceAddButtonXP + "//div/div[@class=\"icons-block\"]")).shouldBe(Condition.visible);
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
                 + Itinerary.ServiceAddButtonXP
                 + "/div/div[@class=\"icons-block\"]//div[@data-service-type-id=\"3\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.serviceByNumberXP(4)
+                + Itinerary.ServiceByNumberXP(4)
                 + "//div[@class=\"click-service-area\"]")).scrollTo().click();
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.serviceByNumberXP(4)
+                + Itinerary.ServiceByNumberXP(4)
                 + "//div[@class=\"service-names-list check-wrapper\"]")).shouldBe(Condition.visible);
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.serviceByNumberXP(4)
+                + Itinerary.ServiceByNumberXP(4)
                 + "//div[@class=\"service-names-list check-wrapper\"]"
                 + "//div[@class=\"check-list scroll-pane jspScrollable\"]/div[@class=\"jspContainer\"]"
                 + "//div[@group-value=\"B\"]//div[@data-value=\"BUNKER-42\"]")).click();
@@ -556,15 +561,22 @@ public class BaseScenario1 {
         double hotelsWE15 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/15.0).setScale(0, RoundingMode.DOWN).floatValue()))
                 + Double.valueOf((new BigDecimal(transportPriceHourly18/15.0*4.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf(breakfast4Central);
+                + Double.valueOf(breakfast4Central)
+                + Double.valueOf(lunch4Central)*2.0
+                + Double.valueOf(dinner4Central)*2.0;
+
         double hotelsWE20 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/20.0).setScale(0, RoundingMode.DOWN).floatValue()))
                 + Double.valueOf((new BigDecimal(transportPriceHourly44/20.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf(breakfast4Central);
+                + Double.valueOf(breakfast4Central)
+                + Double.valueOf(lunch4Central)*2.0
+                + Double.valueOf(dinner4Central)*2.0;
         double hotelsWE25 = hotelsWE + Double.valueOf(priceForBunker42)
                 + Double.valueOf((new BigDecimal(guidePriceforHalfDay/25.0).setScale(0, RoundingMode.DOWN).floatValue()))
                 + Double.valueOf((new BigDecimal(transportPriceHourly44/25.0*6.0).setScale(0, RoundingMode.DOWN).floatValue()))
-                + Double.valueOf(breakfast4Central);
+                + Double.valueOf(breakfast4Central)
+                + Double.valueOf(lunch4Central)*2.0
+                + Double.valueOf(dinner4Central)*2.0;
 
         //hotelsWE = Double.valueOf(new BigDecimal(hotelsWE).setScale(0, RoundingMode.DOWN).floatValue());
         //hotelsWE = hotelsWE / rubEur;

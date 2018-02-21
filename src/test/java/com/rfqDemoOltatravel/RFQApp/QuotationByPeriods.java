@@ -222,10 +222,10 @@ public class QuotationByPeriods {
 
         //Выбираем Present Menu
         System.out.print("[-] Выставляем Preset Menu - Indian: ");
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).scrollTo().click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).hover().click();
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-        $(By.cssSelector(NewQuotationPage.Options.presentMealServiceFullBoard)).hover().click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMenuButton)).scrollTo().click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMenuButton)).hover().click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMenuSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(NewQuotationPage.Options.presentMenuIndian)).hover().click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
@@ -263,7 +263,7 @@ public class QuotationByPeriods {
         System.out.print("[-] Меняем для MSK к-во ночей на 1");
         $(By.xpath(NewQuotationPage.Accommodations.CityByNumberXP(1)
                 +NewQuotationPage.Accommodations.cityNightXP)).scrollTo().setValue("1").pressEnter();
-        confirm();
+        //confirm();
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 

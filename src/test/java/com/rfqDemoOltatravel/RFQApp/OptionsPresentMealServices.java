@@ -117,10 +117,10 @@ public class OptionsPresentMealServices {
 
         //Выбираем Present Menu
         System.out.print("[-] Выставляем Preset Menu - Indian: ");
-        $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
-        $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
-        $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
-        $(By.cssSelector(Options.presentMealServiceFullBoard)).hover().click();
+        $(By.cssSelector(Options.presentMenuButton)).scrollTo().click();
+        $(By.cssSelector(Options.presentMenuButton)).hover().click();
+        $(By.cssSelector(Options.presentMenuSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(Options.presentMenuIndian)).hover().click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);

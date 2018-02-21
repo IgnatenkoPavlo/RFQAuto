@@ -121,15 +121,14 @@ public class NewQuotationPage extends QuotationListPage{
 
         public static String DayCityByNumberXP(int dayCounter, int cityCounter){
 
-            return "//div[@id=\"quotationdaycities"+GetDataIdOfDayByNumber(dayCounter)+"\"]//div["+String.valueOf(cityCounter)+"]";
+            return "//div[@id=\"quotationdaycities"+GetDataIdOfDayByNumber(dayCounter)+"\"]/div["+String.valueOf(cityCounter)+"]";
         }
 
-        public static final String ServiceAddButtonXP = "//div[2]/div[@class=\"dayCityServices ui-sortable\"]"
-                +"//div[@class=\"hover-area\"]/div[@class=\"add-btn has-hover-block\"]";
+        public static final String ServiceAddButtonXP = "//div[@class=\"insert-after-btn\"]";
 
-        public static String serviceByNumberXP(int serviceCounter){
+        public static String ServiceByNumberXP(int serviceCounter){
 
-            return "//div[2]//div[@class=\"dayCityServices ui-sortable\"]//div["+String.valueOf(serviceCounter)+"]";
+            return "/div[2]//div[@class=\"dayCityServices ui-sortable\"]/div["+String.valueOf(serviceCounter)+"]";
         }
     }
 
