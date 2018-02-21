@@ -115,6 +115,16 @@ public class OptionsPresentMealServices {
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
+        //Выбираем Present Menu
+        System.out.print("[-] Выставляем Preset Menu - Indian: ");
+        $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
+        $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
+        $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(Options.presentMealServiceFullBoard)).hover().click();
+        //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(RFQAppCommonCode.OK);
+
         //Заполняем даты
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
@@ -147,6 +157,7 @@ public class OptionsPresentMealServices {
             //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
             RFQAppCommonCode.WaitForProgruzkaSilent();
             //System.out.println(RFQAppCommonCode.OK);
+
 
             //Выбираем Москву
             //System.out.print("[-] Добавляем размещение - Москва: ");

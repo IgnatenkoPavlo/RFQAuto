@@ -220,6 +220,16 @@ public class QuotationByPeriods {
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 
+        //Выбираем Present Menu
+        System.out.print("[-] Выставляем Preset Menu - Indian: ");
+        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).scrollTo().click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesButton)).hover().click();
+        $(By.cssSelector(NewQuotationPage.Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
+        $(By.cssSelector(NewQuotationPage.Options.presentMealServiceFullBoard)).hover().click();
+        //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(RFQAppCommonCode.OK);
+
         //Переключаемся на периоды
         System.out.print("[-] Переключаемся на периоды");
         $(By.xpath(NewQuotationPage.DatesPeriods.periodsSwitchButton)).scrollTo().hover().click();
