@@ -278,7 +278,7 @@ public class TestOfHotelPriceTypeInOptions {
         System.out.print("[-] Проверяем, что можно выставить отель");
         $(By.xpath(AccomodationsTable.CityByNumberREG(1)
                 + "//td[@class=\"hotel visibility-individual\"]"
-                + "//select[@class=\"hotel\"]")).selectOptionContainingText("COSMOS Hotel");
+                + "//select[@class=\"hotel\"]")).selectOptionContainingText("COSMOS");
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.ANSI_GREEN+ QuotationAppCommonCode.OK+ QuotationAppCommonCode.ANSI_RESET);
 
