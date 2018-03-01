@@ -238,11 +238,11 @@ public class TestOfPeriodsInDates {
         System.out.println(" - готово");
 
         //Выбор первого класса для поезда Москва->Питер
-        $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(2)
+        /*$(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(2)
                 + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(4)
                 + "//td[@class=\"criteria\"]//select[@name=\"class\"]")).scrollTo().selectOptionByValue("1st");
-        QuotationAppCommonCode.WaitForProgruzkaSilent();
+        QuotationAppCommonCode.WaitForProgruzkaSilent();*/
 
         System.out.print("[-] Запускаем расчёт ");
         $(By.id("qbtn-execute")).scrollTo().click();
