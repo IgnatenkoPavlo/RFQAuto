@@ -93,14 +93,16 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         WaitForProgruzkaSilent();
         System.out.println(OK);
 
-        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        DateTimeFormatter formatForHTML = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
+        DateTimeFormatter formatForCalendar = DateTimeFormatter.ofPattern("yyyy.MM.dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
 
         $(By.xpath("//div[@id=\"content\"]//center[contains(text(),'2018')]")).scrollTo();
         //Откраваем 01-01-2018
         $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2018\"]" +
                 "//div//table//tbody//tr" +
-                "//td[@data-date=\"2018.01.01\"]")).click();
+                "//td[@data-date=\"2018-01-01\"]")).click();
         WaitForProgruzkaSilent();
 
 
@@ -133,7 +135,7 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         while(!dateTo.equals("31.12.2018")){
             $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2018\"]" +
                     "//div//table//tbody//tr" +
-                    "//td[@data-date=\""+dateToNext.format(formatForPrices)+"\"]")).scrollTo().click();
+                    "//td[@data-date=\""+dateToNext.format(formatForHTML)+"\"]")).scrollTo().click();
 
             $(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldBe(visible);
             //$(By.xpath("//div[@id=\"modal-edit-individual-average-hotel-price\"]//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldBe(visible);
@@ -179,14 +181,16 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         WaitForProgruzkaSilent();
         System.out.println(OK);
 
-        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        DateTimeFormatter formatForHTML = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
+        DateTimeFormatter formatForCalendar = DateTimeFormatter.ofPattern("yyyy.MM.dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
 
         $(By.xpath("//div[@id=\"content\"]//center[contains(text(),'2018')]")).scrollTo();
         //Откраваем 01-01-2018
         $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2018\"]" +
                 "//div//table//tbody//tr" +
-                "//td[@data-date=\"2018.01.01\"]")).click();
+                "//td[@data-date=\"2018-01-01\"]")).click();
         WaitForProgruzkaSilent();
 
 
@@ -226,7 +230,7 @@ public class PricesAppCommonCode extends com.rfqDemoOltatravel.CommonCode {
         while(!dateTo.equals("31.12.2018")){
             $(By.xpath("//div[@id=\"content\"]//div[@id=\"hotel-calendar\"]//div[@data-year=\"2018\"]" +
                     "//div//table//tbody//tr" +
-                    "//td[@data-date=\""+dateToNext.format(formatForPrices)+"\"]")).scrollTo().click();
+                    "//td[@data-date=\""+dateToNext.format(formatForHTML)+"\"]")).scrollTo().click();
 
             //$(By.xpath("//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldBe(visible);
             $(By.xpath("//div[@id=\"modal-edit-individual-average-hotel-price\"]//div[@class=\"modal-dialog\"]//div[@class=\"modal-content\"]")).shouldBe(visible);
