@@ -345,7 +345,7 @@ public class QuotationByPeriods {
             hotelsWESPB = new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBLWE/2.0).setScale(0, RoundingMode.DOWN).floatValue();
             hotelsWEMSK = new BigDecimal(periodsListMSK.get(0).priceDBLWE/2.0).setScale(0, RoundingMode.DOWN).floatValue();
 
-            hotelsWE = hotelsWESPB + hotelsWEMSK + 200.0 + Double.valueOf(trainTicketsRegular);
+            hotelsWE = hotelsWESPB + hotelsWEMSK + 300.0 + Double.valueOf(trainTicketsRegular);
 
             hotelsWE = hotelsWE / 0.85;
 
@@ -383,7 +383,7 @@ public class QuotationByPeriods {
             hotelsWESPB = new BigDecimal(periodsListSPB.get(periodsCounter-1).priceDBL/2.0).setScale(0, RoundingMode.DOWN).floatValue();
             hotelsWEMSK = new BigDecimal(periodsListMSK.get(0).priceDBL/2.0).setScale(0, RoundingMode.DOWN).floatValue();
 
-            hotelsWE = hotelsWESPB + hotelsWEMSK + 200.0 + Double.valueOf(trainTicketsRegular);
+            hotelsWE = hotelsWESPB + hotelsWEMSK + 300.0 + Double.valueOf(trainTicketsRegular);
 
             hotelsWE = hotelsWE / 0.85;
 
