@@ -236,11 +236,11 @@ public class TestOfAccommodations {
         }
 
         //Выставляем имя отеля в размещении 1
-        System.out.print("[-] Выставляем отель Alfa для первого размещения:");
+        System.out.print("[-] Выставляем отель AEROSTAR для первого размещения:");
         $(By.xpath(AccomodationsTable.CityByNumberREG(1)
                 + AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
         $(By.xpath(AccomodationsTable.CityByNumberREG(1)
-                +AccomodationsTable.hotelSelectionDropDownREG)).scrollTo().selectOptionContainingText("Alfa");
+                +AccomodationsTable.hotelSelectionDropDownREG)).scrollTo().selectOptionContainingText("AEROSTAR");
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -280,11 +280,11 @@ public class TestOfAccommodations {
         }
 
         //Выставляем имя отеля2
-        System.out.print("[-] Выставляем отель Park Inn Beresta для второго размещения:");
+        System.out.print("[-] Выставляем отель PARK INN BERESTA для второго размещения:");
         $(By.xpath(AccomodationsTable.CityByNumberREG(2)
                 + AccomodationsTable.togglePricesOfCityREG)).scrollTo().click();
         $(By.xpath(AccomodationsTable.CityByNumberREG(2)
-                +AccomodationsTable.hotelSelectionDropDownREG)).scrollTo().selectOptionContainingText("Park Inn Beresta");
+                +AccomodationsTable.hotelSelectionDropDownREG)).scrollTo().selectOptionContainingText("PARK INN BERESTA");
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
@@ -505,7 +505,7 @@ public class TestOfAccommodations {
                 }
             }
         }
-        //Удаляем первый в MSK отель
+        //Удаляем первый в VNG отель
         System.out.println("[-] Удаляем VNG: ");
         $(By.xpath(AccomodationsTable.CityByNumberREG(1)
                 + AccomodationsTable.deleteOfCityREG)).scrollTo().click();
@@ -514,14 +514,14 @@ public class TestOfAccommodations {
         confirm();
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         if ($(By.xpath(AccomodationsTable.CityByNumberREG(1)
-                +AccomodationsTable.hotelSelectionDropDownREG)).getValue().equals("131")){
+                +AccomodationsTable.hotelSelectionDropDownREG)).getValue().equals("134")){
             System.out.println(QuotationAppCommonCode.ANSI_GREEN+"      Ошибки нет, день удалён + "
                     + QuotationAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat($(By.xpath(AccomodationsTable.CityByNumberREG(1)
                     +AccomodationsTable.hotelSelectionDropDownREG)).getValue())
                     .as("Check that day is deleted")
-                    .isEqualTo("131");
+                    .isEqualTo("134");
             System.out.println(QuotationAppCommonCode.ANSI_RED +"      День не удалён: "
                     + QuotationAppCommonCode.ANSI_RESET+ $(By.xpath(AccomodationsTable.CityByNumberREG(1)
                     +AccomodationsTable.hotelSelectionDropDownREG)).getValue());

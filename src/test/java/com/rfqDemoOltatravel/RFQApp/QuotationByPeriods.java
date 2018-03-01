@@ -98,7 +98,7 @@ public class QuotationByPeriods {
         System.out.println(PricesAppCommonCode.OK);
 
         //Открываем текущий день
-        DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);

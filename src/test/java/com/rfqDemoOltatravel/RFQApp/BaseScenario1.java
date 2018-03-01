@@ -128,7 +128,7 @@ public class BaseScenario1 {
         //Открываем текущий день
         DateTimeFormatter formatForDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
-        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        DateTimeFormatter formatForPrices = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 .withLocale(Locale.UK).withZone(ZoneOffset.UTC);
         LocalDate nowDate = LocalDate.now();
         LocalDate tommorrow = nowDate.plus(1, ChronoUnit.DAYS);
