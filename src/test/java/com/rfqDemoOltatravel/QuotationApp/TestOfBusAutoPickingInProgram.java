@@ -201,7 +201,7 @@ public class TestOfBusAutoPickingInProgram {
         //System.out.println(numberToCount);
         int numberOfPeople;
         /*int numberOfBuses;*/
-        final int bus1MaxLoad = 44;
+        final int bus1MaxLoad = 46;
         final int bus2MaxLoad = 57;
         int temp1bus1; int temp2bus1;
         int temp1bus2; int temp2bus2;
@@ -230,14 +230,14 @@ public class TestOfBusAutoPickingInProgram {
                 temp2bus2 = bus2MaxLoad*temp1bus2 - numberOfPeople;
             }
 
-            busType="Bus-ДТР-44";
-            if (temp1bus1 < temp1bus2 & temp2bus1>=0) { busType = "Bus-ДТР-44"; }
+            busType="Bus-ДТР-46";
+            if (temp1bus1 < temp1bus2 & temp2bus1>=0) { busType = "Bus-ДТР-46"; }
             if (temp1bus1 == temp1bus2) {
                 if ((temp2bus1 > temp2bus2 | temp2bus1 < 0) & temp2bus2 >= 0) { busType = "Bus-КЭБМЕН-57"; }
                 }
             if(temp1bus1 > temp1bus2 & temp2bus2>=0){ busType = "Bus-КЭБМЕН-57"; }
 
-            if(numberOfPeople<=bus1MaxLoad){busType="Bus-ДТР-44";}
+            if(numberOfPeople<=bus1MaxLoad){busType="Bus-ДТР-46";}
             if(bus1MaxLoad<numberOfPeople & numberOfPeople<=bus2MaxLoad){busType="Bus-КЭБМЕН-57";}
 
             //System.out.println(temp1bus1+" "+temp2bus1+" "+temp1bus2+" "+temp2bus2+" res - "+busType);
