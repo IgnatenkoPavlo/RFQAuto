@@ -131,7 +131,7 @@ public class TestOfBusAutoPickingInProgram {
         QuotationAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(QuotationAppCommonCode.OK);
 
-        int[] groupsToAdd = {44, 45, 52, 57, 58, 78, 88, 89, 104, 114, 115, 124, 132, 133, 155, 171, 172, 174, 176, 193, 220, 228, 229, 333, 464};
+        int[] groupsToAdd = {45, 46, 52, 57, 58, 78, 88, 89, 104, 114, 115, 124, 132, 133, 155, 171, 172, 174, 176, 193, 220, 228, 229, 333, 464};
 
         //Добавляем группы из массива groupsToAdd
         for(int groupsCounter=0; groupsCounter<groupsToAdd.length; groupsCounter++){
