@@ -283,9 +283,9 @@ public class BaseScenario1 {
         //System.out.println("transportPriceHourly18 "+transportPriceHourly18);
         System.out.println(RFQAppCommonCode.OK);
 
-        System.out.print("[-] Сохраняем сумму за 1 час для автобуса до 44 человек:");
+        System.out.print("[-] Сохраняем сумму за 1 час для автобуса до 46 человек:");
         double transportPriceHourly44 = Double.valueOf($(By.xpath(PricesAppCommonCode.servicesPriceTableXP
-                + "//tbody//tr[@data-max-load=\"44\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]"
+                + "//tbody//tr[@data-max-load=\"46\"]//td[@class=\"prices\"]/table/tbody//tr/td[@class=\"service-name\"]"
                 + "/span[contains(text(),'HOURLY')]/../..//td[2]")).getText());
         //System.out.println("transportPriceHourly44"+ transportPriceHourly44);
         System.out.println(RFQAppCommonCode.OK);
@@ -463,24 +463,36 @@ public class BaseScenario1 {
 
         //В первый день добавить экскурсию Бункер-42
         System.out.print("[-] В первый день добавляем экскурсию - Бункер-42: ");
-        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)+Itinerary.ServiceByNumberXP(3))).hover();
-        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)+Itinerary.ServiceByNumberXP(3) + Itinerary.ServiceAddButtonXP)).shouldBe(Condition.visible).click();
-        $(By.xpath(Itinerary.DayCityByNumberXP(1,1) + Itinerary.ServiceAddButtonXP + "//div/div[@class=\"icons-block\"]")).shouldBe(Condition.visible);
+        //$(By.xpath(Itinerary.DayCityByNumberXP(1,1)+Itinerary.ServiceByNumberXP(3))).hover();
+        //$(By.xpath(Itinerary.DayCityByNumberXP(1,1)+Itinerary.ServiceByNumberXP(3) + Itinerary.ServiceAddButtonXP)).shouldBe(Condition.visible).click();
+        //$(By.xpath(Itinerary.DayCityByNumberXP(1,1) + Itinerary.ServiceAddButtonXP)).shouldBe(Condition.visible);
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.ServiceAddButtonXP)).hover().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
                 + Itinerary.ServiceAddButtonXP
-                + "/div/div[@class=\"icons-block\"]//div[@data-service-type-id=\"3\"]")).click();
+                + "//div//div[@id=\"add-service\"]")).shouldBe(Condition.visible);
+
+        $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
+                + Itinerary.ServiceAddButtonXP
+                + "//div//div[@id=\"add-service\"]//div[@data-service-type-id=\"3\"]")).click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
+
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
                 + Itinerary.ServiceByNumberXP(4)
-                + "//div[@class=\"click-service-area\"]")).scrollTo().click();
+                + "//div[@class=\"click-service-area\"]")).hover().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
+
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
-                + Itinerary.ServiceByNumberXP(4)
-                + "//div[@class=\"service-names-list check-wrapper\"]")).shouldBe(Condition.visible);
+                        + Itinerary.ServiceByNumberXP(4)
+                        + "//div[@class=\"service-names-list check-wrapper\"]//div[@class=\"check-list-top-row\"]/form/input")).sendKeys("BUNKER-42");
+
         $(By.xpath(Itinerary.DayCityByNumberXP(1,1)
                 + Itinerary.ServiceByNumberXP(4)
                 + "//div[@class=\"service-names-list check-wrapper\"]"
-                + "//div[@class=\"check-list scroll-pane jspScrollable\"]/div[@class=\"jspContainer\"]"
-                + "//div[@group-value=\"B\"]//div[@data-value=\"BUNKER-42\"]")).click();
+                + "//div[@class=\"check-list scroll-pane\"]/div[@class=\"jspContainer\"]/div[@class=\"jspPane\"]"
+                + "//div[@group-value=\"B\"]//div[@data-value=\"BUNKER-42 (MUSEUM OF COLD WAR)\"]/span")).hover().click();
         RFQAppCommonCode.WaitForProgruzkaSilent();
         System.out.println(RFQAppCommonCode.OK);
 

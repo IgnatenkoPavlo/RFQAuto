@@ -98,7 +98,7 @@
                 <quotationAppPassword>password</quotationAppPassword>
                 <pricesAppLogin>alexkudrya91@gmail.com</pricesAppLogin>
                 <pricesAppPassword>password</pricesAppPassword>
-                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppLogin>test2@test.com</rfqAppLogin>
                 <rfqAppPassword>password</rfqAppPassword>
             </properties>
             <activation>
@@ -113,7 +113,7 @@
                 <quotationAppPassword>password</quotationAppPassword>
                 <pricesAppLogin></pricesAppLogin>
                 <pricesAppPassword>password</pricesAppPassword>
-                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppLogin>test2@test.com</rfqAppLogin>
                 <rfqAppPassword>password</rfqAppPassword>
             </properties>
         </profile>
@@ -125,7 +125,7 @@
                 <quotationAppPassword>password</quotationAppPassword>
                 <pricesAppLogin>alexander.babayev@oltatravel.ru</pricesAppLogin>
                 <pricesAppPassword>password</pricesAppPassword>
-                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppLogin>test2@test.com</rfqAppLogin>
                 <rfqAppPassword>password</rfqAppPassword>
             </properties>
         </profile>
@@ -137,7 +137,7 @@
                 <quotationAppPassword>password</quotationAppPassword>
                 <pricesAppLogin></pricesAppLogin>
                 <pricesAppPassword>password</pricesAppPassword>
-                <rfqAppLogin>test1@test.com</rfqAppLogin>
+                <rfqAppLogin>test2@test.com</rfqAppLogin>
                 <rfqAppPassword>password</rfqAppPassword>
             </properties>
         </profile>

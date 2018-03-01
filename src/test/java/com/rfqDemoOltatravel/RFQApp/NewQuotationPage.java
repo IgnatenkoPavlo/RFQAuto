@@ -124,7 +124,7 @@ public class NewQuotationPage extends QuotationListPage{
             return "//div[@id=\"quotationdaycities"+GetDataIdOfDayByNumber(dayCounter)+"\"]/div["+String.valueOf(cityCounter)+"]";
         }
 
-        public static final String ServiceAddButtonXP = "//div[@class=\"insert-after-btn\"]";
+        public static final String ServiceAddButtonXP = "//div[@class=\"hover-area\"]//div[@class=\"add-btn has-hover-block\"]";
 
         public static String ServiceByNumberXP(int serviceCounter){
 
