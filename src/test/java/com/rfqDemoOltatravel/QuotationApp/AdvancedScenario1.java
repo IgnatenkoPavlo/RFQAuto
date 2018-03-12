@@ -192,11 +192,13 @@ public class AdvancedScenario1 {
         System.out.println(QuotationAppCommonCode.OK);
 
         //Выбор первого класса для поезда Москва->Питер
+        /*System.out.print("[-] Выбор первого класса для поезда Москва->Питер");
         $(By.xpath(NewQuotationPage.ProgrammSection.GetADayByNumberREG(3)
                 + NewQuotationPage.ProgrammSection.GetACityByNumberREG(1)
                 + NewQuotationPage.ProgrammSection.GetMainServiceByNumberREG(2)
                 + "//td[@class=\"criteria\"]//select[@name=\"class\"]")).scrollTo().selectOptionByValue("1st");
         QuotationAppCommonCode.WaitForProgruzkaSilent();
+        System.out.println(QuotationAppCommonCode.OK);*/
 
         //Выставляем суммы для 3-х групп: 15, 20, 25
        quotationAppCommonCode.SetValuesForServicesInProgram(250, 200, 150);
