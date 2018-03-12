@@ -704,19 +704,19 @@ public class BaseScenario1 {
         confirm();
         result = rfqAppCommonCode.GetJSErrorText(driver);
         /*Quotation has been submitted for approval. Your manager will contact you soon.*/
-        if (result.equals("Quotation has been submitted for approval. Your manager will contact you soon.")){
+        if (result.equals("Thank you! We received the Quotation and will contact you soon.")){
             System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Попап появился + "+RFQAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(result)
-                    .as("Check that popup with text \"Quotation has been submitted for approval. Your manager will contact you soon.\" appears.")
+                    .as("Check that popup with text \"Thank you! We received the Quotation and will contact you soon.\" appears.")
                     .isEqualTo(priceDBLDSSS);
             System.out.println(RFQAppCommonCode.ANSI_RED +"      - Появлся не тот попап: " + RFQAppCommonCode.ANSI_RESET
                     + result + " -");
         }
         //Проверяем что у квотации появился статус
         System.out.println("[-] Проверяем что у квотации появился статус submitted: ");
-        result=$(By.xpath("//div[@id=\"content\"]/div[@class=\"submited-info\"]")).scrollTo().getText();
-        if (result.equals("This program has been submitted for approval. Our manager will contact you soon.")){
+        result=$(By.xpath("//div[@id=\"content\"]//div[@class=\"submited-info\"]")).scrollTo().getText();
+        if (result.equals("Waiting for approval")){
             System.out.println(RFQAppCommonCode.ANSI_GREEN+"      - Статус появился + "+RFQAppCommonCode.ANSI_RESET);
         } else {
             softAssertions.assertThat(result)
