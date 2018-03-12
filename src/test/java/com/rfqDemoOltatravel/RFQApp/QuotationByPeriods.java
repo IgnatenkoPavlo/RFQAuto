@@ -195,7 +195,7 @@ public class QuotationByPeriods {
 
         //Выбираем Currency
         System.out.print("[-] Выставляем валюту - RUB: ");
-        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).scrollTo().click();
+        $(By.cssSelector(NewQuotationPage.Options.currencyButton)).click();
         $(By.cssSelector(NewQuotationPage.Options.currencySelectors)).shouldBe(Condition.visible).click();
         $(By.xpath(NewQuotationPage.Options.currencyRUBXP)).shouldBe(Condition.visible).hover().click();
         //if(isWindows){$(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();}
