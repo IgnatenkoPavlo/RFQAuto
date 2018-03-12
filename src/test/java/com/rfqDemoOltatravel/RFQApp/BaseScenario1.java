@@ -380,6 +380,7 @@ public class BaseScenario1 {
         System.out.print("[-] Выставляем валюту - RUB: ");
         $(By.cssSelector(Options.currencyButton)).scrollTo().click();
         $(By.cssSelector(Options.currencySelectors)).shouldBe(Condition.visible).click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
         $(By.xpath(Options.currencyRUBXP)).shouldBe(Condition.visible).hover().click();
         //if(isWindows){$(By.xpath(NewQuotationPage.Options.currencyRUBXP)).click();}
         $(By.xpath(Options.currencyRUBXP)).shouldNotBe(Condition.visible);
