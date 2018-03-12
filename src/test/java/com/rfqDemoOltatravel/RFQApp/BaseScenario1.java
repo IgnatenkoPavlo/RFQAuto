@@ -398,6 +398,7 @@ public class BaseScenario1 {
         System.out.print("[-] Выставляем Preset Meal Services - FB: ");
         $(By.cssSelector(Options.presentMealServicesButton)).scrollTo().click();
         $(By.cssSelector(Options.presentMealServicesButton)).hover().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(Options.presentMealServicesSelectors)).shouldBe(Condition.visible);
         $(By.cssSelector(Options.presentMealServiceFullBoard)).hover().click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
@@ -408,6 +409,7 @@ public class BaseScenario1 {
         System.out.print("[-] Выставляем Preset Menu - Indian: ");
         $(By.cssSelector(Options.presentMenuButton)).scrollTo().click();
         $(By.cssSelector(Options.presentMenuButton)).hover().click();
+        RFQAppCommonCode.WaitForProgruzkaSilent();
         $(By.cssSelector(Options.presentMenuSelectors)).shouldBe(Condition.visible);
         $(By.cssSelector(Options.presentMenuIndian)).hover().click();
         //$(By.cssSelector(NewQuotationPage.Options.presentMealServiceNO)).click();
